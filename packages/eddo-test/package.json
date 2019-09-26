@@ -1,0 +1,30 @@
+{
+  "name": "eddo-test",
+  "version": "1.0.0",
+  "author": "incognito",
+  "main": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddo81/eddotest.git"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --mode production"
+  },
+  "bin": {
+    "eddo-test": "./test-setup.js"
+  },
+  "dependencies": {
+    "replace-in-file": "^3.4.2",
+    "file-loader": "^2.0.0",
+    "chalk": "^2.4.1",
+    "cross-env": "^5.2.0",
+    "generate-password": "^1.4.1",
+    "node-emoji": "^1.8.1",
+    "ora": "^3.0.0",
+    "promisify-child-process": "^2.1.2",
+    "prompt-sync": "^4.1.6",
+    "fs-extra": "^7.0.1",
+    "minimist": "^1.2.0"
+  }
+}
