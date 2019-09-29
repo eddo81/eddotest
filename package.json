@@ -10,7 +10,10 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --mode production",
-    "start": "node ./create-nova-theme.js"
+    "start": "node ./create-nova-theme.js",
+    "withgit": "node ./create-nova-theme.js --git",
+    "withinstall": "node ./create-nova-theme.js --install",
+    "withall": "node ./create-nova-theme.js --git --install"
   },
   "bin": {
     "create-nova-theme": "./create-nova-theme.js"
@@ -24,7 +27,8 @@
     "minimist": "^1.2.0",
     "ora": "^3.0.0",
     "promisify-child-process": "^2.1.2",
-    "prompts": "^2.2.1"
+    "prompts": "^2.2.1",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {}
 }

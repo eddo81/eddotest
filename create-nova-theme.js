@@ -10,8 +10,11 @@ const { exec } = require("promisify-child-process");
 const write = require("./src/utils/write.js");
 const format = require("./src/utils/format.js");
 const copyTpl = require("./src/utils/copyTemplateFile.js");
+const argv = require("yargs").argv;
+
 let fullThemePath = "";
 let theme = {};
+let counter = 1;
 
 // Handle optional parameter args
 const scriptArgs = require("minimist")(process.argv.slice(2));
@@ -22,18 +25,18 @@ const scriptArgs = require("minimist")(process.argv.slice(2));
  */
 const preFlightChecklist = async () => {
   // Make sure the user has called the script from wp-content/themes folder.
-  // if (path.basename(process.cwd()) !== "themes") {
-  //   throw new Error(
-  //     'Expected script to be called from WordPress\'s "themes" folder.'
-  //   );
-  // }
+  if (path.basename(process.cwd()) !== "themes") {
+    throw new Error(
+      'Expected script to be called from WordPress\'s "themes" folder.'
+    );
+  }
 
   // Make sure this is in fact a WordPress install
-  // if (path.basename(path.join(process.cwd(), "..")) !== "wp-content") {
-  //   throw new Error(
-  //     'This doesn\'t seem to be a WordPress install. Please call the script from "wp-content/themes" folder.'
-  //   );
-  // }
+  if (path.basename(path.join(process.cwd(), "..")) !== "wp-content") {
+    throw new Error(
+      'This doesn\'t seem to be a WordPress install. Please call the script from "wp-content/themes" folder.'
+    );
+  }
 
   // WARNING - Check if composer is installed.
   await exec("composer --version")
@@ -157,7 +160,7 @@ const run = async () => {
   // -----------------------------
 
   if (scriptArgs.skipChecklist) {
-    ora("1. Skipping Pre-flight checklist")
+    ora(`${counter}. Skipping Pre-flight checklist`)
       .start()
       .succeed();
   } else {
@@ -165,6 +168,7 @@ const run = async () => {
     await preFlightChecklist()
       .then(() => {
         spinnerChecklist.succeed();
+        counter += 1;
       })
       .catch(exception => {
         spinnerChecklist.fail();
@@ -179,10 +183,11 @@ const run = async () => {
 
   const gitUrl = `https://github.com/eddo81/create-nova-theme.git`;
 
-  const spinnerClone = ora("2. Cloning theme repo").start();
+  const spinnerClone = ora(`${counter}. Cloning theme repo`).start();
   await exec(`git clone ${gitUrl} ${theme["Folder name"]}/temp`)
     .then(() => {
       spinnerClone.succeed();
+      counter += 1;
     })
     .catch(exception => {
       spinnerClone.fail();
@@ -194,10 +199,11 @@ const run = async () => {
   //  3. Copy files
   // -----------------------------
 
-  const spinnerCopy = ora("3. Copying flies from temp folder").start();
+  const spinnerCopy = ora(`${counter}. Copying files from temp folder`).start();
   await exec(`cd "${theme["Folder name"]}"`)
     .then(() => {
       spinnerCopy.succeed();
+      counter += 1;
 
       fs.copySync(
         `./${theme["Folder name"]}/temp/src/templates/copy`,
@@ -212,13 +218,15 @@ const run = async () => {
         }
       );
 
-      copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
-        `./${theme["Folder name"]}/README.md`,
-        {
-          themeName: theme["Theme name"]
-        }
-      );
+      if (argv.git) {
+        copyTpl(
+          `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
+          `./${theme["Folder name"]}/README.md`,
+          {
+            themeName: theme["Theme name"]
+          }
+        );
+      }
 
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_composer.json`,
@@ -252,10 +260,11 @@ const run = async () => {
   //  4. Cleanup
   // -----------------------------
 
-  const spinnerCleanup = ora("4. Cleaning up temp folder").start();
+  const spinnerCleanup = ora(`${counter}. Cleaning project folder`).start();
   await cleanup()
     .then(() => {
       spinnerCleanup.succeed();
+      counter += 1;
     })
     .catch(exception => {
       spinnerCleanup.fail();
@@ -267,46 +276,59 @@ const run = async () => {
   //  5. Install Composer dependencies
   // ---------------------------------
 
-  const spinnerComposer = ora("5. Installing Composer dependencies").start();
-  await exec(`cd "${fullThemePath}" && composer install --ignore-platform-reqs`)
-    .then(() => {
-      spinnerComposer.succeed();
-    })
-    .catch(exception => {
-      spinnerComposer.fail();
-      write.error(exception);
-      process.exit();
-    });
+  if (argv.install) {
+    const spinnerComposer = ora(
+      `${counter}. Installing Composer dependencies`
+    ).start();
+    await exec(
+      `cd "${fullThemePath}" && composer install --ignore-platform-reqs`
+    )
+      .then(() => {
+        spinnerComposer.succeed();
+        counter += 1;
+      })
+      .catch(exception => {
+        spinnerComposer.fail();
+        write.error(exception);
+        process.exit();
+      });
+  }
 
   // -----------------------------
-  //  6. Update node dependencies
+  //  6. Install node dependencies
   // -----------------------------
 
-  const spinnerNode = ora("6. Installing Node dependencies").start();
-  await exec(`cd "${fullThemePath}" && npm install`)
-    .then(() => {
-      spinnerNode.succeed();
-    })
-    .catch(exception => {
-      spinnerNode.fail();
-      write.error(exception);
-      process.exit();
-    });
+  if (argv.install) {
+    const spinnerNode = ora(`${counter}. Installing Node dependencies`).start();
+    await exec(`cd "${fullThemePath}" && npm install`)
+      .then(() => {
+        spinnerNode.succeed();
+        counter += 1;
+      })
+      .catch(exception => {
+        spinnerNode.fail();
+        write.error(exception);
+        process.exit();
+      });
+  }
 
   // -----------------------------
   //  7. Init git repo
   // -----------------------------
 
-  const spinnerInit = ora("7. Init git repo").start();
-  await exec(`cd "${fullThemePath}" && git init`)
-    .then(() => {
-      spinnerInit.succeed();
-    })
-    .catch(exception => {
-      spinnerInit.fail();
-      write.error(exception);
-      process.exit();
-    });
+  if (argv.git) {
+    const spinnerInit = ora(`${counter}. Initializing git repo`).start();
+    await exec(`cd "${fullThemePath}" && git init`)
+      .then(() => {
+        spinnerInit.succeed();
+        counter += 1;
+      })
+      .catch(exception => {
+        spinnerInit.fail();
+        write.error(exception);
+        process.exit();
+      });
+  }
 
   // -----------------------------
   //  7. Success
