@@ -1,5 +1,5 @@
 /*
-  Theme Name:         <%= themeName %>
+  Theme Name:         <%= theme["Theme name"] %>
   Theme URI:
   Description:        A modern WordPress starter theme.
   Version:            1.0.0

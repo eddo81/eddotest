@@ -1,5 +1,5 @@
 {
-	"name": "nova",
+	"name": "<%= theme[\"Package name\"] %>",
 	"version": "1.0.0",
 	"description": "A webpack boilerplate for building wordpress themes",
 	"author": "eddo81 <eduardo_jonnerstig@live.com>",

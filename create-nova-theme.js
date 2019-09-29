@@ -14,6 +14,7 @@ const argv = require("yargs").argv;
 
 let fullThemePath = "";
 let theme = {};
+let templateData = {};
 let counter = 1;
 
 // Handle optional parameter args
@@ -25,7 +26,7 @@ const scriptArgs = require("minimist")(process.argv.slice(2));
  */
 const preFlightChecklist = async () => {
   // Make sure the user has called the script from wp-content/themes folder.
-  if (path.basename(process.cwd()) !== "themes") {
+  /*if (path.basename(process.cwd()) !== "themes") {
     throw new Error(
       'Expected script to be called from WordPress\'s "themes" folder.'
     );
@@ -36,7 +37,7 @@ const preFlightChecklist = async () => {
     throw new Error(
       'This doesn\'t seem to be a WordPress install. Please call the script from "wp-content/themes" folder.'
     );
-  }
+  }*/
 
   // WARNING - Check if composer is installed.
   await exec("composer --version")
@@ -128,6 +129,9 @@ const run = async () => {
     theme["Theme prefix"] = format.prefix(theme["Theme name"]);
     theme["Namespace"] = format.capcase(theme["Package name"]);
 
+    templateData.theme = theme;
+    templateData.server = answers.server ? answers.dev_url : false;
+
     // Globally save the package (because it's also our folder name)
     fullThemePath = path.join(process.cwd(), theme["Folder name"]);
 
@@ -213,41 +217,33 @@ const run = async () => {
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_style.css`,
         `./${theme["Folder name"]}/style.css`,
-        {
-          themeName: theme["Theme name"]
-        }
+        templateData
       );
 
       if (argv.git) {
         copyTpl(
           `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
           `./${theme["Folder name"]}/README.md`,
-          {
-            themeName: theme["Theme name"]
-          }
+          templateData
         );
       }
 
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_composer.json`,
         `./${theme["Folder name"]}/composer.json`,
-        {
-          themeName: theme["Theme name"]
-        }
+        templateData
       );
 
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_package.json`,
         `./${theme["Folder name"]}/package.json`,
-        {
-          themeName: theme["Theme name"]
-        }
+        templateData
       );
 
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_buildConfig.js`,
         `./${theme["Folder name"]}/build/tools/config/index.js`,
-        {}
+        templateData
       );
     })
     .catch(exception => {

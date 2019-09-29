@@ -1,5 +1,5 @@
 {
-  "name": "nova",
+  "name": "<%= theme[\"Package name\"] %>",
   "type": "wordpress-theme",
   "license": "MIT",
   "description": "A WordPress starter theme",

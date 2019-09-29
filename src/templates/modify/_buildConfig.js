@@ -46,6 +46,7 @@ const _DIRECTORIES = {
 	})()
 };
 
+<% if(server !== false) { %>
 const _SERVER = new (function() {
 	this.theme_dir_name = _PATH.basename(
 		_PATH.dirname(_RESOLVE(_DIRECTORIES.entry.build))
@@ -53,9 +54,10 @@ const _SERVER = new (function() {
 	this.autoOpenBrowser = false;
 	this.port = 3000;
 	this.host = `http://localhost:${this.port}`;
-	this.dev_url = `http://dev.nova.bozzanova.net`;
+	this.dev_url = `<%= server %>`;
 	this.public_path = `${_ENV.debug ? this.dev_url : ``}/wp-content/themes/${this.theme_dir_name}/${_DIRECTORIES.output.assets}`;
 })();
+<% } %>
 
 const _CONFIG = {
 	env: _ENV,
@@ -63,7 +65,7 @@ const _CONFIG = {
 	filename: `webpack.${_ENV.debug ? 'dev' : 'prod'}.conf.js`,
 	extensions: _EXTENSIONS,
 	package: _PKG,
-	server: _SERVER,
+	<% if(server !== false) { %>server: _SERVER,<% } %>
 	resolve: _RESOLVE
 };
 
