@@ -1,12 +1,12 @@
 {
   "name": "create-nova-theme",
   "version": "1.0.0",
-  "author": "incognito",
+  "author": "eddo81 <eduardo_jonnerstig@live.com>",
   "main": "",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eddo81/eddotest.git"
+    "url": "git+https://github.com/eddo81/create-nova-theme.git"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --mode production",
