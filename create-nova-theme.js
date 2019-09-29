@@ -224,6 +224,14 @@ const run = async () => {
         templateData
       );
 
+      if (templateData.server !== false) {
+        copyTpl(
+          `./${theme["Folder name"]}/temp/src/templates/modify/_serve.js`,
+          `./${theme["Folder name"]}/build/tools/serve.js`,
+          templateData
+        );
+      }
+
       if (argv.git) {
         copyTpl(
           `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
