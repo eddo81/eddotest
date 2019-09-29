@@ -1,5 +1,5 @@
 {
-  "name": "<%= theme[\"Package name\"] %>",
+  "name": "<%= packageName %>",
   "type": "wordpress-theme",
   "license": "MIT",
   "description": "A WordPress starter theme",

@@ -129,7 +129,11 @@ const run = async () => {
     theme["Theme prefix"] = format.prefix(theme["Theme name"]);
     theme["Namespace"] = format.capcase(theme["Package name"]);
 
-    templateData.theme = theme;
+    templateData.themeName = theme["Theme name"];
+    templateData.folderName = theme["Folder name"];
+    templateData.packageName = theme["Package name"];
+    templateData.prefix = theme["Theme prefix"];
+    templateData.namespace = theme["Namespace"];
     templateData.server = answers.server ? answers.dev_url : false;
 
     // Globally save the package (because it's also our folder name)

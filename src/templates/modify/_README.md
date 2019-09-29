@@ -1,1 +1,1 @@
-# <%= theme["Theme name"] %>
+# <%= themeName %>
