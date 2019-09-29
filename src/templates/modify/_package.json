@@ -5,7 +5,7 @@
 	"author": "eddo81 <eduardo_jonnerstig@live.com>",
 	"private": true,
 	"scripts": {
-		"start": <% if(server !== false) { %>"npm run serve"<% } %><% else{ %>"npm run watch"<% } %>,
+		"start": <% if(server !== false) { %>"npm run serve"<% } else { %>"npm run watch"<% } %>,
 		"watch": "cross-env NODE_ENV=development node build/tools/build.js",
 		"prewatch": "npm run clean",<% if(server !== false) { %>
 		"serve": "cross-env NODE_ENV=development webpack-dev-server --config=build/tools/serve.js",
