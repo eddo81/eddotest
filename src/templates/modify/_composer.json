@@ -1,0 +1,28 @@
+{
+  "name": "nova",
+  "type": "wordpress-theme",
+  "license": "MIT",
+  "description": "A WordPress starter theme",
+  "keywords": ["wordpress"],
+  "autoload": {
+    "psr-4": {
+      "App\\": ["inc"]
+    }
+  },
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "require": {
+    "php": ">=7",
+    "eddo81/nova": "0.0.4"
+  },
+  "scripts": {
+    "test": ["phpcs"]
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.4",
+    "wp-coding-standards/wpcs": "^2.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+  }
+}

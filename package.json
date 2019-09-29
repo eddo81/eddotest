@@ -1,5 +1,5 @@
 {
-  "name": "eddo-test",
+  "name": "create-nova-theme",
   "version": "1.0.0",
   "author": "incognito",
   "main": "",
@@ -9,22 +9,22 @@
     "url": "git+https://github.com/eddo81/eddotest.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --progress --mode production"
+    "build": "cross-env NODE_ENV=production webpack --progress --mode production",
+    "start": "node ./create-nova-theme.js"
   },
   "bin": {
-    "eddo-test": "./test-setup.js"
+    "create-nova-theme": "./create-nova-theme.js"
   },
   "dependencies": {
-    "replace-in-file": "^3.4.2",
-    "file-loader": "^2.0.0",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
-    "generate-password": "^1.4.1",
-    "node-emoji": "^1.8.1",
+    "ejs": "^2.7.1",
+    "figlet": "^1.2.4",
+    "fs-extra": "^7.0.1",
+    "minimist": "^1.2.0",
     "ora": "^3.0.0",
     "promisify-child-process": "^2.1.2",
-    "prompt-sync": "^4.1.6",
-    "fs-extra": "^7.0.1",
-    "minimist": "^1.2.0"
-  }
+    "prompts": "^2.2.1"
+  },
+  "devDependencies": {}
 }

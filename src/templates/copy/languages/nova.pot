@@ -1,0 +1,86 @@
+# Copyright (C) 2019 Nova
+# This file is distributed under the same license as the Nova package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Nova\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../404.php:16
+msgid "Page not found"
+msgstr ""
+
+#: ../404.php:19
+msgid "Return home?"
+msgstr ""
+
+#: ../functions.php:30
+msgid "PHP version error"
+msgstr ""
+
+#: ../functions.php:38
+msgid "Wordpress version error"
+msgstr ""
+
+#: ../functions.php:47
+msgid "Dependency management error"
+msgstr ""
+
+#: ../functions.php:67
+msgid "Theme error"
+msgstr ""
+
+#: ../header.php:26
+msgid "This page requires JavaScript, please enable it in your browser to access the content."
+msgstr ""
+
+#: ../search.php:15
+msgid "%s Search Results for "
+msgstr ""
+
+#: ../inc/registry.php:38
+msgid "Primary Navigation"
+msgstr ""
+
+#: ../inc/registry.php:39
+msgid "Footer Navigation"
+msgstr ""
+
+#: ../inc/Admin/ThemeSupport.php:16
+msgid "Bozzanova Support"
+msgstr ""
+
+#: ../inc/Admin/ThemeSupport.php:17
+msgid "Support"
+msgstr ""
+
+#: ../inc/Admin/ThemeSupport.php:32
+msgid "Developed by"
+msgstr ""
+
+#: ../inc/Admin/ThemeSupport.php:34
+msgid "Bozzanova Reklambyrå"
+msgstr ""
+
+#: ../inc/Admin/ThemeSupport.php:49
+msgid "Vardagstips från Bozzanova"
+msgstr ""
+
+#: ../inc/Admin/templates/theme-settings-page.php:51
+msgid "Remote Connection Issue Detected"
+msgstr ""
+
+#: ../inc/Admin/templates/theme-settings-page.php:52
+msgid "There seems to be a temporary problem retrieving the complete support guide."
+msgstr ""
+
+#: ../inc/Admin/templates/theme-settings-page.php:54
+msgid "Read it directly on our website"
+msgstr ""
