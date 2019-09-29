@@ -48,15 +48,10 @@ const preFlightChecklist = async () => {
 };
 
 /**
- * Performns a cleanup after a successfull install.
+ * Performns a cleanup of temporary files.
  */
 const cleanup = async () => {
-  /*const packagesPath = path.join(fullThemePath, "packages");
-  const hiddenGitPath = path.join(fullThemePath, ".git");
-  const hiddenGithubPath = path.join(fullThemePath, ".github");
-  await fs.remove(packagesPath);
-  await fs.remove(hiddenGitPath);
-  await fs.remove(hiddenGithubPath);*/
+  await fs.remove(path.join(fullThemePath, "temp"));
 };
 
 const run = async () => {
@@ -179,53 +174,15 @@ const run = async () => {
   }
 
   // -----------------------------
-  //  2. Copy theme files
+  //  2. Clone repo
   // -----------------------------
 
-  const spinnerClone = ora("2. Copying theme flies").start();
-  await exec(`mkdir "${theme["Folder name"]}"`)
+  const gitUrl = `https://github.com/eddo81/create-nova-theme.git`;
+
+  const spinnerClone = ora("2. Cloning theme repo").start();
+  await exec(`git clone ${gitUrl} ${theme["Folder name"]}/temp`)
     .then(() => {
       spinnerClone.succeed();
-
-      fs.copySync("./src/templates/copy", `./${theme["Folder name"]}`);
-
-      copyTpl(
-        "./src/templates/modify/_style.css",
-        `./${theme["Folder name"]}/style.css`,
-        {
-          themeName: theme["Theme name"]
-        }
-      );
-
-      copyTpl(
-        "./src/templates/modify/_README.md",
-        `./${theme["Folder name"]}/README.md`,
-        {
-          themeName: theme["Theme name"]
-        }
-      );
-
-      copyTpl(
-        "./src/templates/modify/_composer.json",
-        `./${theme["Folder name"]}/composer.json`,
-        {
-          themeName: theme["Theme name"]
-        }
-      );
-
-      copyTpl(
-        "./src/templates/modify/_package.json",
-        `./${theme["Folder name"]}/package.json`,
-        {
-          themeName: theme["Theme name"]
-        }
-      );
-
-      copyTpl(
-        "./src/templates/modify/_buildConfig.js",
-        `./${theme["Folder name"]}/build/tools/config/index.js`,
-        {}
-      );
     })
     .catch(exception => {
       spinnerClone.fail();
@@ -234,25 +191,83 @@ const run = async () => {
     });
 
   // -----------------------------
-  //  3. Update node dependencies
+  //  3. Copy files
   // -----------------------------
 
-  const spinnerNode = ora("3. Installing Node dependencies").start();
-  await exec(`cd "${fullThemePath}" && npm install`)
+  const spinnerCopy = ora("3. Copying flies from temp folder").start();
+  await exec(`cd "${theme["Folder name"]}"`)
     .then(() => {
-      spinnerNode.succeed();
+      spinnerCopy.succeed();
+
+      fs.copySync(
+        `./${theme["Folder name"]}/temp/src/templates/copy`,
+        `./${theme["Folder name"]}`
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_style.css`,
+        `./${theme["Folder name"]}/style.css`,
+        {
+          themeName: theme["Theme name"]
+        }
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
+        `./${theme["Folder name"]}/README.md`,
+        {
+          themeName: theme["Theme name"]
+        }
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_composer.json`,
+        `./${theme["Folder name"]}/composer.json`,
+        {
+          themeName: theme["Theme name"]
+        }
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_package.json`,
+        `./${theme["Folder name"]}/package.json`,
+        {
+          themeName: theme["Theme name"]
+        }
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_buildConfig.js`,
+        `./${theme["Folder name"]}/build/tools/config/index.js`,
+        {}
+      );
     })
     .catch(exception => {
-      spinnerNode.fail();
+      spinnerCopy.fail();
       write.error(exception);
       process.exit();
     });
 
   // -----------------------------
-  //  4. Update Composer dependencies
+  //  4. Cleanup
   // -----------------------------
 
-  const spinnerComposer = ora("4. Installing Composer dependencies").start();
+  const spinnerCleanup = ora("4. Cleaning up temp folder").start();
+  await cleanup()
+    .then(() => {
+      spinnerCleanup.succeed();
+    })
+    .catch(exception => {
+      spinnerCleanup.fail();
+      write.error(exception);
+      process.exit();
+    });
+
+  // ---------------------------------
+  //  5. Install Composer dependencies
+  // ---------------------------------
+
+  const spinnerComposer = ora("5. Installing Composer dependencies").start();
   await exec(`cd "${fullThemePath}" && composer install --ignore-platform-reqs`)
     .then(() => {
       spinnerComposer.succeed();
@@ -264,22 +279,37 @@ const run = async () => {
     });
 
   // -----------------------------
-  //  8. Cleanup
+  //  6. Update node dependencies
   // -----------------------------
 
-  const spinnerCleanup = ora("8. Cleaning up").start();
-  await cleanup()
+  const spinnerNode = ora("6. Installing Node dependencies").start();
+  await exec(`cd "${fullThemePath}" && npm install`)
     .then(() => {
-      spinnerCleanup.succeed();
+      spinnerNode.succeed();
     })
     .catch(exception => {
-      spinnerCleanup.fail();
+      spinnerNode.fail();
       write.error(exception);
       process.exit();
     });
 
   // -----------------------------
-  //  9. Success
+  //  7. Init git repo
+  // -----------------------------
+
+  const spinnerInit = ora("7. Init git repo").start();
+  await exec(`cd "${fullThemePath}" && git init`)
+    .then(() => {
+      spinnerInit.succeed();
+    })
+    .catch(exception => {
+      spinnerInit.fail();
+      write.error(exception);
+      process.exit();
+    });
+
+  // -----------------------------
+  //  7. Success
   // -----------------------------
   write.outro(theme["Package name"]);
 };
