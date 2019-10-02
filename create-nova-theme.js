@@ -85,6 +85,23 @@ const run = async () => {
         },
 
         {
+          type: "multiselect",
+          name: "features",
+          message: "Select project features:",
+          choices: [
+            { title: "SASS/SCSS", value: "scss", selected: true },
+            {
+              title: "Webpack dev server",
+              value: "server",
+              selected: true
+            },
+            { title: "PHPCS", value: "phpcs", selected: true }
+          ],
+          instructions: false,
+          hint: "- Space to select. Return to submit."
+        },
+
+        /*{
           type: "toggle",
           name: "server",
           message:
@@ -92,10 +109,10 @@ const run = async () => {
           initial: true,
           active: "yes",
           inactive: "no"
-        },
+        },*/
 
         {
-          type: prev => (prev === true ? "text" : null),
+          type: prev => (prev.includes("server") === true ? "text" : null),
           name: "dev_url",
           message:
             "Please enter a theme development url (e.g. dev.wordpress.com):",
@@ -111,9 +128,9 @@ const run = async () => {
           name: "dependencies",
           message: "Select front-end dependencies:",
           choices: [
+            { title: "jQuery", value: "jquery", selected: true },
             { title: "Vue", value: "vue" },
-            { title: "jQuery", value: "jquery" },
-            { title: "Bootstrap", value: "bootstrap", selected: true }
+            { title: "Tailwind CSS", value: "tailwind" }
           ],
           instructions: false,
           hint: "- Space to select. Return to submit."
@@ -134,7 +151,11 @@ const run = async () => {
     templateData.packageName = theme["Package name"];
     templateData.prefix = theme["Theme prefix"];
     templateData.namespace = theme["Namespace"];
-    templateData.server = answers.server ? answers.dev_url : false;
+    templateData.server = answers.features.includes("server")
+      ? answers.dev_url
+      : false;
+    templateData.phpcs = answers.features.includes("phpcs");
+    templateData.scss = answers.features.includes("scss");
 
     // Globally save the package (because it's also our folder name)
     fullThemePath = path.join(process.cwd(), theme["Folder name"]);
@@ -148,8 +169,8 @@ const run = async () => {
         name: "continue",
         message: "Confirm settings to continue...",
         initial: true,
-        active: "yes",
-        inactive: "no"
+        active: "confirm",
+        inactive: "cancel"
       },
       { onCancel }
     );
@@ -232,6 +253,14 @@ const run = async () => {
         );
       }
 
+      if (templateData.phpcs !== false) {
+        copyTpl(
+          `./${theme["Folder name"]}/temp/src/templates/modify/_phpcs.xml`,
+          `./${theme["Folder name"]}/phpcs.xml`,
+          templateData
+        );
+      }
+
       if (argv.git) {
         copyTpl(
           `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
@@ -255,6 +284,34 @@ const run = async () => {
       copyTpl(
         `./${theme["Folder name"]}/temp/src/templates/modify/_buildConfig.js`,
         `./${theme["Folder name"]}/build/tools/config/index.js`,
+        templateData
+      );
+
+      copyTpl(
+        `./${
+          theme["Folder name"]
+        }/temp/src/templates/modify/_webpack.base.conf`,
+        `./${
+          theme["Folder name"]
+        }/build/tools/config/webpack/_webpack.base.conf`,
+        templateData
+      );
+
+      copyTpl(
+        `./${theme["Folder name"]}/temp/src/templates/modify/_webpack.dev.conf`,
+        `./${
+          theme["Folder name"]
+        }/build/tools/config/webpack/_webpack.dev.conf`,
+        templateData
+      );
+
+      copyTpl(
+        `./${
+          theme["Folder name"]
+        }/temp/src/templates/modify/_webpack.prod.conf`,
+        `./${
+          theme["Folder name"]
+        }/build/tools/config/webpack/_webpack.prod.conf`,
         templateData
       );
     })

@@ -1,4 +1,5 @@
 function capcase(string) {
+  string = cleanChars(string);
   return string
     .replace(/\W+/g, "_")
     .split("_")
@@ -7,6 +8,7 @@ function capcase(string) {
 }
 
 function underscore(string) {
+  string = cleanChars(string);
   return string
     .toLowerCase()
     .split(" ")
@@ -14,10 +16,19 @@ function underscore(string) {
 }
 
 function dash(string) {
+  string = cleanChars(string);
   return string
     .toLowerCase()
     .split(" ")
     .join("-");
+}
+
+function cleanChars(string) {
+  return string
+    .replace(/(å|ä)/g, "a")
+    .replace(/(Å|Ä)/g, "A")
+    .replace(/ö/g, "o")
+    .replace(/Ö/g, "O");
 }
 
 function prefix(string) {
@@ -37,7 +48,7 @@ function prefix(string) {
     )}`.toUpperCase();
   }
 
-  return prefix;
+  return cleanChars(prefix);
 }
 
 module.exports = {

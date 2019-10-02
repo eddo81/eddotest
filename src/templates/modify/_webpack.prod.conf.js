@@ -1,9 +1,9 @@
 const _CONFIG = require('../config');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf');
+const TerserPlugin = require('terser-webpack-plugin');<% if(scss !== false) { %>
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const safeParser = require('postcss-safe-parser');
+const safeParser = require('postcss-safe-parser');<% } %>
 
 let webpackConfig = merge(baseWebpackConfig, {
 	devtool: 'source-map',
@@ -37,7 +37,7 @@ let webpackConfig = merge(baseWebpackConfig, {
 					compress: { warnings: false, drop_console: true },
 					mangle: { reserved: ['$', 'exports', 'require'] }
 				}
-			}),
+			})<% if(scss !== false) { %>,
 
 			new OptimizeCSSAssetsPlugin({
 				cssProcessorOptions: {
@@ -46,7 +46,7 @@ let webpackConfig = merge(baseWebpackConfig, {
 						removeAll: true
 					}
 				}
-			})
+			})<% } %>
 		],
 
 		noEmitOnErrors: true

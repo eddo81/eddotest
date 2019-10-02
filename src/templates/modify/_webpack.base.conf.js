@@ -1,17 +1,17 @@
 const _CONFIG = require('../config');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const SortAssetsPlugin = require('./plugins/sort-assets-plugin');
-const Sass = require('sass');
+const SortAssetsPlugin = require('./plugins/sort-assets-plugin');<% if(scss !== false) { %>
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Sass = require('sass');<% } %>
 
 let baseConfig = {
 	mode: JSON.parse(_CONFIG.env.mode),
 
 	entry: {
 		theme: [
-			_CONFIG.resolve(`${_CONFIG.directories.entry.scripts}/`),
-			_CONFIG.resolve(`${_CONFIG.directories.entry.scss}/`)
+			_CONFIG.resolve(`${_CONFIG.directories.entry.scripts}/`)<% if(scss !== false) { %>,
+			_CONFIG.resolve(`${_CONFIG.directories.entry.scss}/`)<% } %>
 		]
 	},
 
@@ -24,7 +24,7 @@ let baseConfig = {
 	},
 
 	resolve: {
-		extensions: ['.css', '.scss', '.js', '.json'],
+		extensions: [<% if(scss !== false) { %>'.css', '.scss',<% } %> '.js', '.json'],
 		alias: {
 			assets: _CONFIG.resolve(_CONFIG.directories.entry.build)
 		}
@@ -41,7 +41,7 @@ let baseConfig = {
 
 			{
 				test: new RegExp(
-					`${_CONFIG.extensions.js.source}|${_CONFIG.extensions.scss.source}`
+					`${_CONFIG.extensions.js.source}<% if(scss !== false) { %>|${_CONFIG.extensions.scss.source}<% } %>`
 				),
 				loader: 'import-glob',
 				enforce: 'pre',
@@ -80,7 +80,7 @@ let baseConfig = {
 					limit: 10000,
 					name: `${_CONFIG.directories.output.fonts}[name].[ext]`
 				}
-			},
+			},<% if(scss !== false) { %>
 
 			{
 				test: new RegExp(
@@ -108,7 +108,7 @@ let baseConfig = {
 						}
 					}
 				]
-			}
+			}<% } %>
 		]
 	},
 

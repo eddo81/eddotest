@@ -16,13 +16,13 @@
     "php": ">=7",
     "eddo81/nova": "0.0.4"
   },
-  "scripts": {
-    "test": ["phpcs"]
+  "scripts": {<% if(phpcs !== false) { %>
+    "test": ["phpcs"]<% } %>
   },
-  "require-dev": {
+  "require-dev": {<% if(phpcs !== false) { %>
     "squizlabs/php_codesniffer": "^3.4",
     "wp-coding-standards/wpcs": "^2.1",
     "phpcompatibility/phpcompatibility-wp": "^2.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"<% } %>
   }
 }

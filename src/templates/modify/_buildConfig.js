@@ -27,8 +27,8 @@ const _DIRECTORIES = {
 		this.images = `${this.build}images/`;
 		this.media = `${this.build}media/`;
 		this.fonts = `${this.build}fonts/`;
-		this.scripts = `${this.build}scripts/`;
-		this.scss = `${this.build}scss/`;
+		this.scripts = `${this.build}scripts/`;<% if(scss !== false) { %>
+		this.scss = `${this.build}scss/`;<% } %>
 		this.static = `${this.build}static/`;
 		this.icons = `${this.static}img/icons/`;
 	})(),
@@ -44,9 +44,8 @@ const _DIRECTORIES = {
 		this.images = `img/`;
 		this.icons = `${this.images}icons/`;
 	})()
-};
+};<% if(server !== false) { %>
 
-<% if(server !== false) { %>
 const _SERVER = new (function() {
 	this.theme_dir_name = _PATH.basename(
 		_PATH.dirname(_RESOLVE(_DIRECTORIES.entry.build))
@@ -56,16 +55,15 @@ const _SERVER = new (function() {
 	this.host = `http://localhost:${this.port}`;
 	this.dev_url = `<%= server %>`;
 	this.public_path = `${_ENV.debug ? this.dev_url : ``}/wp-content/themes/${this.theme_dir_name}/${_DIRECTORIES.output.assets}`;
-})();
-<% } %>
+})();<% } %>
 
 const _CONFIG = {
 	env: _ENV,
 	directories: _DIRECTORIES,
 	filename: `webpack.${_ENV.debug ? 'dev' : 'prod'}.conf.js`,
 	extensions: _EXTENSIONS,
-	package: _PKG,
-	<% if(server !== false) { %>server: _SERVER,<% } %>
+  package: _PKG,<% if(server !== false) { %>
+  server: _SERVER,<% } %>
 	resolve: _RESOLVE
 };
 
