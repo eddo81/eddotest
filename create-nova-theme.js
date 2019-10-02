@@ -290,28 +290,30 @@ const run = async () => {
       copyTpl(
         `./${
           theme["Folder name"]
-        }/temp/src/templates/modify/_webpack.base.conf`,
+        }/temp/src/templates/modify/_webpack.base.conf.js`,
         `./${
           theme["Folder name"]
-        }/build/tools/config/webpack/_webpack.base.conf`,
-        templateData
-      );
-
-      copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_webpack.dev.conf`,
-        `./${
-          theme["Folder name"]
-        }/build/tools/config/webpack/_webpack.dev.conf`,
+        }/build/tools/config/webpack/webpack.base.conf.js`,
         templateData
       );
 
       copyTpl(
         `./${
           theme["Folder name"]
-        }/temp/src/templates/modify/_webpack.prod.conf`,
+        }/temp/src/templates/modify/_webpack.dev.conf.js`,
         `./${
           theme["Folder name"]
-        }/build/tools/config/webpack/_webpack.prod.conf`,
+        }/build/tools/config/webpack/webpack.dev.conf.js`,
+        templateData
+      );
+
+      copyTpl(
+        `./${
+          theme["Folder name"]
+        }/temp/src/templates/modify/_webpack.prod.conf.js`,
+        `./${
+          theme["Folder name"]
+        }/build/tools/config/webpack/webpack.prod.conf.js`,
         templateData
       );
     })
