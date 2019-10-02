@@ -24,7 +24,7 @@ let baseConfig = {
 	},
 
 	resolve: {
-		extensions: [<% if(scss !== false) { %>'.css', '.scss',<% } %> '.js', '.json'],
+		extensions: [<% if(scss !== false) { %>'.css','.scss',<% } %>'.js','.json'],
 		alias: {
 			assets: _CONFIG.resolve(_CONFIG.directories.entry.build)
 		}
@@ -126,14 +126,14 @@ let baseConfig = {
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery',
 			Popper: 'popper.js/dist/umd/popper.js'
-		}),
+		}),<% if(scss !== false) { %>
 
 		new MiniCssExtractPlugin({
 			filename: `${_CONFIG.directories.output.css}[name]${
 				_CONFIG.env.debug ? '' : '.[contenthash]'
 			}.css`,
 			chunkFilename: '[id].[contenthash].css'
-		}),
+		}),<% } %>
 
 		new CopyWebpackPlugin([
 			{
