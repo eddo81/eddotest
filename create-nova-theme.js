@@ -291,9 +291,7 @@ const run = async () => {
         `./${
           theme["Folder name"]
         }/temp/src/templates/modify/_webpack.base.conf.js`,
-        `./${
-          theme["Folder name"]
-        }/build/tools/config/webpack/webpack.base.conf.js`,
+        `./${theme["Folder name"]}/build/tools/webpack/webpack.base.conf.js`,
         templateData
       );
 
@@ -301,9 +299,7 @@ const run = async () => {
         `./${
           theme["Folder name"]
         }/temp/src/templates/modify/_webpack.dev.conf.js`,
-        `./${
-          theme["Folder name"]
-        }/build/tools/config/webpack/webpack.dev.conf.js`,
+        `./${theme["Folder name"]}/build/tools/webpack/webpack.dev.conf.js`,
         templateData
       );
 
@@ -311,9 +307,7 @@ const run = async () => {
         `./${
           theme["Folder name"]
         }/temp/src/templates/modify/_webpack.prod.conf.js`,
-        `./${
-          theme["Folder name"]
-        }/build/tools/config/webpack/webpack.prod.conf.js`,
+        `./${theme["Folder name"]}/build/tools/webpack/webpack.prod.conf.js`,
         templateData
       );
     })
