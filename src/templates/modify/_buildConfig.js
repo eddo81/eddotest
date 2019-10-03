@@ -1,7 +1,7 @@
-const _PATH = require('path');
 const _RESOLVE = require('../utils/resolve');
 const _PKG = require(`../../../package.json`);
-const _EXTENSIONS = require('./extensions');
+const _EXTENSIONS = require('./extensions');<% if(server !== false) { %>
+const _PATH = require('path');<% } %>
 const _ENV = new (function() {
 	this.debug =
 		(process.env.NODE_ENV || 'development').trim().toLowerCase() !==
