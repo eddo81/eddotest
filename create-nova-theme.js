@@ -251,6 +251,14 @@ const run = async () => {
 				);
 			}
 
+			if (templateData.scss !== false) {
+				copyTpl(
+					`./${theme["Folder name"]}/temp/src/templates/modify/_scss`,
+					`./${theme["Folder name"]}/build/scss`,
+					templateData
+				);
+			}
+
 			if (argv.git) {
 				copyTpl(
 					`./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
