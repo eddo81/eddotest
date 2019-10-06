@@ -250,9 +250,14 @@ const run = async () => {
       }
 
       if (templateData.scss !== false) {
-        copyTpl(
+        fs.copySync(
           `./${theme["Folder name"]}/temp/src/templates/modify/_scss`,
-          `./${theme["Folder name"]}/build/scss`,
+          `./${theme["Folder name"]}/build/scss`
+        );
+
+        copyTpl(
+          `./${theme["Folder name"]}/temp/src/templates/modify/_index.scss`,
+          `./${theme["Folder name"]}/build/scss/index.scss`,
           templateData
         );
       }
