@@ -30,8 +30,7 @@ if ( function_exists( 'nova_theme_error' ) === false ) {
 	 * @param string $message The error message body.
 	 * @param string $heading The error message heading.
 	 * @param string $title The page title.
-	 * @param array  $options Optinal arguments array.
-	 *
+	 * @param array  $options Optional arguments array.
 	 */
 	function nova_theme_error( $message, $heading = '', $title = '', $options = array() ) {
 		$title   = $title ?: __( 'Theme error', 'nova' );
@@ -48,4 +47,4 @@ if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_
 }
 
 // Setup autoloader.
-include_once THEME_ROOT_URI . '/inc/autoloader.php';
+require THEME_ROOT_URI . '/inc/autoloader.php';

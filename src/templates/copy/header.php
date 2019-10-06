@@ -22,6 +22,7 @@
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
+		<?php wp_body_open(); ?>
 		<noscript id="noscript">
 			<p><?= __( 'This page requires JavaScript, please enable it in your browser to access the content.', 'nova' ); ?></p>
 		</noscript>
