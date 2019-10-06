@@ -23,6 +23,24 @@ define( 'THEME_STYLE_URI', THEME_ASSETS_URI . DIRECTORY_SEPARATOR . 'css' );
 // Disable theme editor in admin.
 define( 'DISALLOW_FILE_EDIT', true );
 
+if ( function_exists( 'nova_theme_error' ) === false ) {
+	/**
+	 * Helper function for prettying up errors.
+	 *
+	 * @param string $message The error message body.
+	 * @param string $heading The error message heading.
+	 * @param string $title The page title.
+	 * @param array  $options Optinal arguments array.
+	 *
+	 */
+	function nova_theme_error( $message, $heading = '', $title = '', $options = array() ) {
+		$title   = $title ?: __( 'Theme error', 'nova' );
+		$heading = ( $heading ) ? $heading : $title;
+		$message = "<h1>{$heading}</h1><br><br>{$message}";
+		wp_die($message, $title, $options);
+	};
+}
+
 // Theme compatibility check, bail early if requirements are not met.
 if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_compare( MIN_WP_VERSION, get_bloginfo('version'), '>=' ) === true ) {
 	require THEME_ROOT_URI . '/inc/compatibility.php';

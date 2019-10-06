@@ -24,7 +24,6 @@
     "ejs": "^2.7.1",
     "figlet": "^1.2.4",
     "fs-extra": "^7.0.1",
-    "minimist": "^1.2.0",
     "ora": "^3.0.0",
     "promisify-child-process": "^2.1.2",
     "prompts": "^2.2.1",
