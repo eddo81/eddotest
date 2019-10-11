@@ -1,5 +1,5 @@
 {
-  "name": "<%= packageName %>",
+  "name": "bozzanova/<%= packageName %>",
   "type": "wordpress-theme",
   "license": "MIT",
   "description": "A WordPress starter theme",
