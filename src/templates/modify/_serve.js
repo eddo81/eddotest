@@ -1,6 +1,6 @@
 /* eslint default-case:0 */
 const _CONFIG = require('./config');
-const getDirectories = require('./utils/get-directories');
+const chokidar = require('chokidar');
 let webpackConfig = require(`./webpack/${_CONFIG.filename}`);
 
 webpackConfig.devServer = {
@@ -9,11 +9,6 @@ webpackConfig.devServer = {
 	inline: true,
 	hot: false,
 	clientLogLevel: 'none',
-	contentBase: [_CONFIG.resolve()].concat(
-		getDirectories(_CONFIG.resolve(_CONFIG.directories.output.includes)),
-		getDirectories(_CONFIG.resolve(_CONFIG.directories.output.templates))
-	),
-	watchContentBase: true,
 	headers: {
 		'Access-Control-Allow-Origin': '*'
 	},
@@ -26,6 +21,23 @@ webpackConfig.devServer = {
 			changeOrigin: false,
 			secure: false
 		}
+	},
+	before(app, server) {
+	const files = ['**/*.php'];
+
+	chokidar
+		.watch(files, {
+			alwaysStat: true,
+			atomic: false,
+			followSymlinks: false,
+			ignoreInitial: true,
+			ignorePermissionErrors: true,
+			persistent: true,
+			usePolling: true
+		})
+		.on('all', () => {
+			server.sockWrite(server.sockets, 'content-changed');
+		});
 	}
 };
 
