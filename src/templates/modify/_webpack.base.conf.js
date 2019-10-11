@@ -11,7 +11,7 @@ let baseConfig = {
 	entry: {
 		theme: [
 			_CONFIG.resolve(`${_CONFIG.directories.entry.scripts}/`)<% if(scss !== false) { %>,
-			_CONFIG.resolve(`${_CONFIG.directories.entry.scss}/`)<% } %>
+			_CONFIG.resolve(`${_CONFIG.directories.entry.scss}/index.scss`)<% } %>
 		]
 	},
 
