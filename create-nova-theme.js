@@ -403,7 +403,7 @@ const run = async () => {
   // -----------------------------
   //  7. Success
   // -----------------------------
-  write.outro(theme["Package name"]);
+  write.outro(theme["Package name"], argv.install);
 };
 
 try {
