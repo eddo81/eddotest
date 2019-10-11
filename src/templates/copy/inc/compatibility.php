@@ -22,14 +22,17 @@ function nova_get_requirements_message() {
 	$incorrect_php_version = version_compare( MIN_PHP_VERSION, phpversion(), '>=' );
 
 	if ( $incorrect_wp_version && $incorrect_php_version ) {
+		/* translators: 1: theme name, 2: required WP version number, 3: required PHP version number, 4: available WP version number, 5: available PHP version number */
 		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
 	}
 
 	if ( $incorrect_wp_version ) {
+		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
 		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, get_bloginfo('version') );
 	}
 
 	if ( $incorrect_php_version ) {
+		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
 		return sprintf( __( 'The theme %1$s requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_PHP_VERSION, phpversion() );
 	}
 
@@ -38,6 +41,8 @@ function nova_get_requirements_message() {
 
 /**
  * Render theme error message.
+ *
+ * @param array $options The error message body.
  */
 function nova_render_compatibility_error( $options = array() ) {
 	$message = esc_html( nova_get_requirements_message() );
@@ -56,6 +61,7 @@ function nova_switch_theme() {
 }
 add_action( 'after_switch_theme', 'nova_switch_theme' );
 
+
 /**
  * Adds a message for unsuccessful theme switch.
  *
@@ -70,7 +76,7 @@ function nova_upgrade_notice() {
  * Prevents the Customizer / Front-end from being loaded when requirements are not met.
  */
 function nova_customize() {
-	$options = 	array( 'back_link' => true, );
+	$options = array( 'back_link' => true );
 	nova_render_compatibility_error( $options );
 }
 add_action( 'load-customize.php', 'nova_customize' );
@@ -84,3 +90,22 @@ function nova_preview() {
 	}
 }
 add_action( 'template_redirect', 'nova_preview' );
+
+
+/**
+ * Deactivate current theme when requirements are not met, falls back to the default theme.
+ */
+function nova_init_theme() {
+
+	if ( is_admin() ) {
+		$options = array( 'back_link' => true );
+		nova_switch_theme();
+		nova_render_compatibility_error( $options );
+	} else {
+		$title   = __( 'Compatibility error', 'nova' );
+		$message = __( 'There is a compatibility issue which is preventing this page from rendering properly.', 'nova' );
+		nova_theme_error( $message, $title );
+	}
+
+}
+add_action( 'init', 'nova_init_theme' );
