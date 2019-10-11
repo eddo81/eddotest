@@ -22,18 +22,15 @@ function nova_get_requirements_message() {
 	$incorrect_php_version = version_compare( MIN_PHP_VERSION, phpversion(), '>=' );
 
 	if ( $incorrect_wp_version && $incorrect_php_version ) {
-		/* translators: 1: required WP version number, 2: required PHP version number, 3: available WP version number, 4: available PHP version number */
-		return sprintf( __( 'This theme requires at least WordPress version %1$s and PHP version %2$s. You are running versions %3$s and %3$s respectively. Please update and try again.', 'nova' ), MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
+		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
 	}
 
 	if ( $incorrect_wp_version ) {
-		/* translators: 1: required WP version number, 2: available WP version number */
-		return sprintf( __( 'This theme requires at least WordPress version %1$s. You are running version %2$s. Please update and try again.', 'nova' ), MIN_WP_VERSION, get_bloginfo('version') );
+		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, get_bloginfo('version') );
 	}
 
 	if ( $incorrect_php_version ) {
-		/* translators: 1: required PHP version number, 2: available PHP version number */
-		return sprintf( __( 'This theme requires at least PHP version %1$s. You are running version %2$s. Please update and try again.', 'nova' ), MIN_PHP_VERSION, phpversion() );
+		return sprintf( __( 'The theme %1$s requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_PHP_VERSION, phpversion() );
 	}
 
 	return '';
@@ -53,7 +50,7 @@ function nova_render_compatibility_error( $options = array() ) {
  * Prevents switching to the theme when requirements are not met, falls back to the default theme.
  */
 function nova_switch_theme() {
-	nova_switch_theme( WP_DEFAULT_THEME );
+	switch_theme( WP_DEFAULT_THEME );
 	unset( $_GET['activated'] );
 	add_action( 'admin_notices', 'nova_upgrade_notice' );
 }
@@ -77,7 +74,6 @@ function nova_customize() {
 	nova_render_compatibility_error( $options );
 }
 add_action( 'load-customize.php', 'nova_customize' );
-add_action( 'after_setup_theme', 'nova_customize' );
 
 /**
  * Prevents the Theme Preview from being loaded when requirements are not met.

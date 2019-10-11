@@ -12,6 +12,7 @@
 // Define theme wide control variables.
 define( 'MIN_PHP_VERSION', '7.1' );
 define( 'MIN_WP_VERSION', '4.7.0' );
+define( 'THEME_NAME', '<%= themeName %>' );
 
 // Define theme wide paths.
 define( 'THEME_ROOT_URL', get_template_directory_uri() );
