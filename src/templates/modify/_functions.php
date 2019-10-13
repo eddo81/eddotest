@@ -11,7 +11,7 @@
 
 // Define theme wide control variables.
 define( 'MIN_PHP_VERSION', '7.1' );
-define( 'MIN_WP_VERSION', '4.7.0' );
+define( 'MIN_WP_VERSION', '5.2.0' );
 define( 'THEME_NAME', '<%= themeName %>' );
 
 // Define theme wide paths.

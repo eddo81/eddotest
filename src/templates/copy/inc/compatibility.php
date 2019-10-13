@@ -23,17 +23,17 @@ function nova_get_requirements_message() {
 
 	if ( $incorrect_wp_version && $incorrect_php_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: required PHP version number, 4: available WP version number, 5: available PHP version number */
-		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
+		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
 	}
 
 	if ( $incorrect_wp_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
-		return sprintf( __( 'The theme %1$s requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, get_bloginfo('version') );
+		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_WP_VERSION, get_bloginfo('version') );
 	}
 
 	if ( $incorrect_php_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
-		return sprintf( __( 'The theme %1$s requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_PHP_VERSION, phpversion() );
+		return sprintf( __( 'The theme "%1$s" requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', 'nova' ), THEME_NAME, MIN_PHP_VERSION, phpversion() );
 	}
 
 	return '';
