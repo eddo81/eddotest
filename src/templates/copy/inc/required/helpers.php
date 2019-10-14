@@ -12,19 +12,6 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
-if ( function_exists( 'uri_to_url' ) === false ) {
-	/**
-	 * Convert theme uri to a url.
-	 *
-	 * @param string $uri Uri to convert.
-	 *
-	 * @return string
-	 */
-	function uri_to_url( string $uri ) : string {
-		return str_replace(THEME_ROOT_URI, THEME_ROOT_URL, $uri);
-	}
-}
-
 if ( function_exists( 'render_template' ) === false ) {
 	/**
 	 * Like ***get_template_part()*** but lets you pass args to the template file.
