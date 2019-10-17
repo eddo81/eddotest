@@ -9,6 +9,3 @@
 		</ul>
 	<?php endif; ?>
 </nav>
-
-<?php $logo = get_logo(); ?>
-<img src="<?= $logo['src']; ?>" alt="<?= $logo['alt']; ?>" width="<?= $logo['width']; ?>" height="<?= $logo['height']; ?>" />

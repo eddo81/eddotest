@@ -13,9 +13,16 @@ const copyTpl = require("./src/utils/copyTemplateFile.js");
 const argv = require("yargs").argv;
 
 let fullThemePath = "";
-let theme = {};
 let templateData = {};
 let counter = 1;
+let theme = {
+	args: {
+		verbose: (argv.verbose || argv.v) ? true : false,
+		skip: (argv.skip || argv.s) ? true : false,
+		install: (argv.install || argv.i) ? true : false,
+		git: (argv.git || argv.g) ? true : false,
+	}
+};
 
 /**
  * Runs before the setup for some sanity checks. (Are we in the right folder + is Composer
@@ -46,6 +53,20 @@ const preFlightChecklist = async () => {
 				'Unable to check Composer\'s version ("composer --version"), please make sure Composer is installed and globally available before running this script.'
 			);
 		});
+
+	if (argv.git) {
+		// WARNING - Check if git is installed.
+		await exec("git --version")
+		.then(() => {
+			// all good.
+		})
+		.catch(() => {
+			throw new Error(
+				'Unable to check Git\'s version ("git --version"), please make sure Git is installed and globally available before running this script.'
+			);
+		});
+	}
+
 };
 
 /**
@@ -68,6 +89,7 @@ const run = async () => {
 	};
 
 	do {
+
 		// Prompt user for all user data.
 		const answers = await prompts(
 			[
@@ -117,7 +139,7 @@ const run = async () => {
 					choices: [
 						{ title: "jQuery", value: "jquery", selected: true },
 						{ title: "Vue", value: "vue" },
-						{ title: "Tailwind CSS", value: "tailwind" }
+						{ title: "Tailwind CSS", value: "tailwind", disabled: (!prev.includes("scss")) }
 					],
 					instructions: false,
 					hint: "- Space to select. Return to submit."
@@ -143,6 +165,7 @@ const run = async () => {
 			: false;
 		templateData.phpcs = answers.features.includes("phpcs");
 		templateData.scss = answers.features.includes("scss");
+		templateData.tailwind = answers.features.includes("tailwind");
 
 		// Globally save the package (because it's also our folder name)
 		fullThemePath = path.join(process.cwd(), theme["Folder name"]);
@@ -175,7 +198,7 @@ const run = async () => {
 	//  1. Preflight checklist
 	// -----------------------------
 
-	if (argv.skip) {
+	if (theme.args.skip) {
 		ora(`${counter}. Skipping Pre-flight checklist`)
 			.start()
 			.succeed();
@@ -268,7 +291,7 @@ const run = async () => {
 				);
 			}
 
-			if (argv.git) {
+			if (theme.args.git) {
 				copyTpl(
 					`./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
 					`./${theme["Folder name"]}/README.md`,
@@ -352,7 +375,7 @@ const run = async () => {
 	//  5. Install Composer dependencies
 	// ---------------------------------
 
-	if (argv.install) {
+	if (theme.args.install) {
 		const spinnerComposer = ora(
 			`${counter}. Installing Composer dependencies`
 		).start();
@@ -374,7 +397,7 @@ const run = async () => {
 	//  6. Install node dependencies
 	// -----------------------------
 
-	if (argv.install) {
+	if (theme.args.install) {
 		const spinnerNode = ora(`${counter}. Installing Node dependencies`).start();
 		await exec(`cd "${fullThemePath}" && npm install`)
 			.then(() => {
@@ -392,7 +415,7 @@ const run = async () => {
 	//  7. Init git repo
 	// -----------------------------
 
-	if (argv.git) {
+	if (theme.args.git) {
 		const spinnerInit = ora(`${counter}. Initializing git repo`).start();
 		await exec(`cd "${fullThemePath}" && git init`)
 			.then(() => {
@@ -409,7 +432,7 @@ const run = async () => {
 	// -----------------------------
 	//  7. Success
 	// -----------------------------
-	write.outro(theme["Package name"], argv.install);
+	write.outro(theme["Package name"], theme.args.install);
 };
 
 try {

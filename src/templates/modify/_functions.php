@@ -43,9 +43,9 @@ if ( function_exists( 'nova_theme_error' ) === false ) {
 
 // Theme compatibility check, bail early if requirements are not met.
 if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_compare( MIN_WP_VERSION, get_bloginfo('version'), '>=' ) === true ) {
-	require THEME_ROOT_URI . '/inc/compatibility.php';
+	require THEME_ROOT_URI . '/inc/back-compat.php';
 	return;
 }
 
 // Setup autoloader.
-require THEME_ROOT_URI . '/inc/autoloader.php';
+require THEME_ROOT_URI . '/inc/theme-autoloader.php';

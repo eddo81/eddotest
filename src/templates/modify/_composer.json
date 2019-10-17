@@ -14,7 +14,7 @@
   },
   "require": {
     "php": ">=7",
-    "eddo81/nova": "0.0.4"
+    "eddo81/nova": "0.0.6"
   },
   "scripts": {<% if(phpcs !== false) { %>
     "test": ["phpcs"]<% } %>

@@ -12,6 +12,21 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
+if ( function_exists( 'get_template' ) === false ) {
+	/**
+	 * Returns the template file as a string. Data is bound to the template via the optional ***$vars*** array.
+	 * Each key of the associative ***$vars*** array will correspond to a variable that will be available in the template.
+	 *
+	 * @param string $template_path Path to the template file.
+	 * @param array  $vars Optional template variables.
+	 *
+	 * @return void
+	 */
+	function get_template( $template_path, array $vars = [] ) : void {
+		registry_get( 'template' )->get( $template_path, $vars );
+	}
+}
+
 if ( function_exists( 'render_template' ) === false ) {
 	/**
 	 * Like ***get_template_part()*** but lets you pass args to the template file.
@@ -25,30 +40,5 @@ if ( function_exists( 'render_template' ) === false ) {
 	 */
 	function render_template( $template_path, array $vars = [] ) : void {
 		registry_get( 'template' )->render( $template_path, $vars );
-	}
-}
-
-if ( function_exists( 'get_theme_menu' ) === false ) {
-	/**
-	 * Get an object containing all menu items of a given menu location.
-	 *
-	 * @param string $menu_location Name of the menu.
-	 * @param int    $limit Limit the number of menu items, defaults to 0.
-	 *
-	 * @return array
-	 */
-	function get_theme_menu( string $menu_location, int $limit = 0 ) : array {
-		return registry_get( 'theme_menu' )->get_menu_by_location( $menu_location, $limit );
-	}
-}
-
-if ( function_exists( 'get_logo' ) === false ) {
-	/**
-	 * Get an object containing the attributes for the custom logo.
-	 *
-	 * @return array
-	 */
-	function get_logo() : array {
-		return registry_get( 'logo' )->get_custom_logo();
 	}
 }

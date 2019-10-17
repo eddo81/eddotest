@@ -13,6 +13,18 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
+use Nova\Core\AssetManager;
+use Nova\Core\Template;
+use Nova\Optimization\ImageSizer;
+use Nova\Optimization\CleanWp;
+
+new CleanWp();
+new ImageSizer();
+
+// Register theme dependencies.
+registry_set( 'asset_manager', new AssetManager( THEME_ASSETS_URI . '/asset_manifest.json' ) );
+registry_set( 'template', new Template( THEME_ROOT_URI . '/' ) );
+
 /**
  * Theme setup
  *
@@ -40,7 +52,6 @@ add_action('after_setup_theme', function () {
 	if ( is_admin() === false ) {
 		add_action( 'wp_head', function() {
 			render_template( 'template-parts/partials/critical/inline-scripts' );
-			render_template( 'template-parts/partials/critical/inline-styles' );
 		});
 	}
 
@@ -77,18 +88,20 @@ add_action('after_setup_theme', function () {
 	add_theme_support( 'disable-asset-versioning' );
 
 	/**
-	 * Enable custom logo.
-	 *
-	 * @link https://developer.wordpress.org/themes/functionality/custom-logo/
-	 */
-	registry_get( 'logo' )->register_logo();
-
-	/**
 	 * Enable plugins to manage the document title.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
 	 */
 	add_theme_support( 'title-tag' );
+
+	/**
+	 * Register navigation menus.
+	 *
+	 * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
+	 */
+	register_nav_menus([
+		'primary' => __( 'Primary Navigation', 'nova' )
+	]);
 
 	/**
 	 * Enable post thumbnails.

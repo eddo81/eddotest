@@ -27,5 +27,5 @@
 			<p><?= __( 'This page requires JavaScript, please enable it in your browser to access the content.', 'nova' ); ?></p>
 		</noscript>
 		<!--[if lte IE 9]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.'</p><![endif]-->
-		<?php render_template( 'template-parts/partials/navbar', ['primary_menu' => get_theme_menu( 'primary' )] ); ?>
+		<?php render_template( 'template-parts/partials/navbar' ); ?>
 		<main role="main">

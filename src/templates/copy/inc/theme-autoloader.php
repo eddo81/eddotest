@@ -87,5 +87,5 @@ array_map(
 			);
 		}
 	},
-	['helpers', 'registry', 'setup', 'filters', 'admin']
+	['helpers', 'setup', 'filters', 'admin']
 );
