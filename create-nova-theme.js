@@ -54,7 +54,7 @@ const preFlightChecklist = async () => {
       );
     });
 
-  if (argv.git) {
+  if (theme.args.git) {
     // WARNING - Check if git is installed.
     await exec("git --version")
       .then(() => {
@@ -76,7 +76,7 @@ const cleanup = async () => {
 };
 
 const run = async () => {
-  theme = {};
+  //theme = {};
   let confirmed = false;
 
   write.intro();
