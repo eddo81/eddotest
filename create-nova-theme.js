@@ -141,7 +141,7 @@ const run = async () => {
             {
               title: "Tailwind CSS",
               value: "tailwind",
-              disabled: !values.featuresincludes("scss")
+              disabled: !values.features.includes("scss")
             }
           ],
           instructions: false,
