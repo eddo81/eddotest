@@ -435,7 +435,7 @@ const run = async () => {
   // -----------------------------
   //  7. Success
   // -----------------------------
-  write.outro(theme["Package name"], args.install);
+  write.outro(theme["Folder name"], args.install);
 };
 
 try {
