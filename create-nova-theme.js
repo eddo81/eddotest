@@ -135,10 +135,14 @@ const run = async () => {
           type: "multiselect",
           name: "dependencies",
           message: "Select front-end dependencies:",
-          choices: [
+          choices: (prev, values) => [
             { title: "jQuery", value: "jquery", selected: true },
             { title: "Vue", value: "vue" },
-            { title: "Tailwind CSS", value: "tailwind", disabled: true }
+            {
+              title: "Tailwind CSS",
+              value: "tailwind",
+              disabled: !values.featuresincludes("scss")
+            }
           ],
           instructions: false,
           hint: "- Space to select. Return to submit."
