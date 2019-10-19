@@ -17,23 +17,27 @@ function outro(package, hasInstalled = false) {
   console.log("");
   console.log(`Your theme is now ready!`);
   console.log("");
-  
-  if(hasInstalled === true) {
+
+  if (hasInstalled === true) {
     console.log(
-      `Please go to theme's folder (${chalk.green(
-        `cd ${package}`
+      `Please ${chalk.green("cd")} into the theme folder: (${chalk.green(
+        `${package}`
       )}) and run ${chalk.green("npm start")} to start developing.`
     );
   }
-  
-  if(hasInstalled === false) {
+
+  if (hasInstalled === false) {
     console.log(
-      `Please go to theme's folder (${chalk.green(
-        `cd ${package}`
-      )}) and run ${chalk.green("composer install")} and then run ${chalk.green("npm install")}. After the required dependencies have been installed run ${chalk.green("npm start")} to start developing.`
+      `Please ${chalk.green("cd")} into the theme folder: (${chalk.green(
+        `${package}`
+      )}) and run ${chalk.green("composer install")} and ${chalk.green(
+        "npm install"
+      )}. \n After the required dependencies have been installed run ${chalk.green(
+        "npm start"
+      )} to start developing.`
     );
   }
-  
+
   console.log("");
 }
 
