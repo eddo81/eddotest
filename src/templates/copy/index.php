@@ -8,7 +8,9 @@
  * E.g., it puts together the home page when no home.php file exists.
  *
  * @package Nova
- * @author  "Eduardo Jönnerstig <eduardo_jonnerstig@live.com>"
+ * @author  "Daniel Andersson <daniel@bozzanova.se>"
+ * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
+ * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://codex.wordpress.org/Template_Hierarchy
  * @since   1.0.0

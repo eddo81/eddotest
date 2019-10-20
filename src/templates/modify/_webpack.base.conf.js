@@ -112,8 +112,8 @@ let baseConfig = {
 		]
 	},
 
-	externals: {
-		jquery: 'jQuery'
+	externals: {<% if(jquery !== false) { %>
+		jquery: 'jQuery'<% } %>
 	},
 
 	plugins: [
@@ -121,10 +121,10 @@ let baseConfig = {
 			'process.env': { NODE_ENV: _CONFIG.env.mode }
 		}),
 
-		new webpack.ProvidePlugin({
+		new webpack.ProvidePlugin({<% if(jquery !== false) { %>
 			$: 'jquery',
 			jQuery: 'jquery',
-			'window.jQuery': 'jquery',
+			'window.jQuery': 'jquery',<% } %>
 			Popper: 'popper.js/dist/umd/popper.js'
 		}),<% if(scss !== false) { %>
 

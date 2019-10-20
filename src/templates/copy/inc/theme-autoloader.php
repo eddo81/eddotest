@@ -3,9 +3,11 @@
  * This file handles the autoloading of theme dependencies via composer.
  *
  * @package Nova
- * @author  "Eduardo Jönnerstig <eduardo_jonnerstig@live.com>"
+ * @author  "Daniel Andersson <daniel@bozzanova.se>"
+ * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
+ * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
- * @link https://getcomposer.org/doc/
+ * @link    https://getcomposer.org/doc/
  * @since   1.0.0
  */
 
@@ -87,5 +89,5 @@ array_map(
 			);
 		}
 	},
-	['helpers', 'setup', 'filters', 'admin']
+	['shims', 'helpers', 'setup', 'filters', 'admin']
 );

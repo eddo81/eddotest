@@ -1,8 +1,13 @@
 {
 	"name": "<%= packageName %>",
-	"version": "1.0.0",
-	"description": "A webpack boilerplate for building wordpress themes",
-	"author": "eddo81 <eduardo_jonnerstig@live.com>",
+	"version": "<%= version %>",
+	"description": "<%= description %>",
+  "author": "Bozzanova <info@bozzanova.se> (https://www.bozzanova.se/)",
+  "contributors": [
+    "Daniel Andersson <daniel@bozzanova.se>",
+    "Eduardo Jönnerstig <eduardo@bozzanova.se>",
+    "Jon Täng <jon@bozzanova.se>"
+  ],
 	"private": true,
 	"scripts": {
 		"start": <% if(server !== false) { %>"npm run serve"<% } else { %>"npm run watch"<% } %>,
@@ -15,8 +20,8 @@
 		"clean": "node build/tools/clean.js",
 		"i18n": "node build/tools/i18n/generate-pot.js"
 	},
-	"dependencies": {
-		"jquery": "^3.3.1",
+	"dependencies": {<% if(jquery !== false) { %>
+		"jquery": "^3.3.1",<% } %>
 		"normalize.css": "^8.0.1",
 		"object-fit-images": "^3.2.4"
 	},

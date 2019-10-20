@@ -3,15 +3,17 @@
  * Theme functions and definitions, this file must be parseable by PHP 5.2.
  *
  * @package Nova
- * @author  "Eduardo Jönnerstig <eduardo_jonnerstig@live.com>"
+ * @author  "Daniel Andersson <daniel@bozzanova.se>"
+ * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
+ * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://developer.wordpress.org/themes/basics/theme-functions/
  * @since   1.0.0
  */
 
 // Define theme wide control variables.
-define( 'MIN_PHP_VERSION', '7.1' );
-define( 'MIN_WP_VERSION', '5.2.0' );
+define( 'MIN_PHP_VERSION', '<%= minPhpVersion %>' );
+define( 'MIN_WP_VERSION', '<%= minWpVersion %>' );
 define( 'THEME_NAME', '<%= themeName %>' );
 
 // Define theme wide paths.

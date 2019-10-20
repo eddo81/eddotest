@@ -3,7 +3,9 @@
  * Backward-compatibility functions for when theme requirements are not met, this file must be parseable by PHP 5.2.
  *
  * @package Nova
- * @author  "Eduardo Jönnerstig <eduardo_jonnerstig@live.com>"
+ * @author  "Daniel Andersson <daniel@bozzanova.se>"
+ * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
+ * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @since   1.0.0
  */

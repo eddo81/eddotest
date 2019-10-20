@@ -5,7 +5,9 @@
  * Contains the closing of the main-tag.
  *
  * @package Nova
- * @author  "Eduardo Jönnerstig <eduardo_jonnerstig@live.com>"
+ * @author  "Daniel Andersson <daniel@bozzanova.se>"
+ * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
+ * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://developer.wordpress.org/themes/basics/template-files/#template-partials
  * @since   1.0.0

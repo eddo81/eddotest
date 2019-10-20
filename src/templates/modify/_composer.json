@@ -2,7 +2,7 @@
   "name": "bozzanova/<%= packageName %>",
   "type": "wordpress-theme",
   "license": "MIT",
-  "description": "A WordPress starter theme",
+  "description": "<%= description %>",
   "keywords": ["wordpress"],
   "autoload": {
     "psr-4": {

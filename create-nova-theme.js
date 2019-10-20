@@ -104,6 +104,12 @@ const run = async () => {
 
         {
           type: args.verbose === true ? "text" : null,
+          name: "uri",
+          message: "Enter the theme's URI:"
+        },
+
+        {
+          type: args.verbose === true ? "text" : null,
           name: "description",
           message: "Enter a theme's description:"
         },
@@ -117,6 +123,14 @@ const run = async () => {
             /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(value) === false
               ? `Invalid version format, must be sequence of either single or doubble digits followed by a period.`
               : true
+        },
+
+        {
+          type: args.verbose === true ? "list" : null,
+          name: "tags",
+          message: "Enter them keywords/tags:",
+          initial: "",
+          separator: ","
         },
 
         {
@@ -168,14 +182,18 @@ const run = async () => {
       { onCancel }
     );
 
-    // Build package name from theme name
+    theme.minWpVersion = "4.7.0";
+    theme.minPhpVersion = "7.1";
     theme.themeName = answers.name;
     theme.folderName = format.dash(theme.themeName);
     theme.packageName = format.underscore(theme.themeName);
     theme.prefix = format.prefix(theme.themeName);
     theme.namespace = format.capcase(theme.packageName);
     theme.version = answers.version ? answers.version : "1.0.0";
+    theme.uri = answers.uri ? answers.uri : "";
     theme.description = answers.description ? answers.description : "";
+    theme.tags = answers.tags ? answers.tags : "";
+    theme.year = new Date().getFullYear();
     theme.server = answers.features.includes("server")
       ? answers.dev_url
       : false;
@@ -191,8 +209,8 @@ const run = async () => {
       "Package name": theme.packageName,
       "Theme version": args.verbose ? theme.version : undefined,
       "Theme description": args.verbose ? theme.description : undefined,
-      "Theme features": answers.features,
-      "Theme dependencies": answers.dependencies
+      "Project features": answers.features,
+      "Front-end dependencies": answers.dependencies
     };
 
     // Display summery
@@ -284,6 +302,12 @@ const run = async () => {
       copyTpl(
         `./${theme.folderName}/temp/src/templates/modify/_functions.php`,
         `./${theme.folderName}/functions.php`,
+        theme
+      );
+
+      copyTpl(
+        `./${theme.folderName}/temp/src/templates/modify/_MIT.txt`,
+        `./${theme.folderName}/LICENSE.txt`,
         theme
       );
 

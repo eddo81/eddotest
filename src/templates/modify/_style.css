@@ -1,10 +1,11 @@
 /*
   Theme Name:         <%= themeName %>
-  Theme URI:
+  Theme URI:          <%= uri %>
   Description:        <%= description %>
+  Tags:               <%= tags %>
   Version:            <%= version %>
-  Author:
-  Author URI:
+  Author:             Bozzanova
+  Author URI:         https://www.bozzanova.se/
   Text Domain:        nova
 
   License:            MIT License
