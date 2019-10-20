@@ -114,9 +114,9 @@ const run = async () => {
           message: "Enter the theme's version number:",
           initial: `1.0.0`,
           validate: value =>
-            /^[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}$/.test(value) === false
+            /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(value) === false
               ? `Invalid version format, must be sequence of either single or doubble digits followed by a period.`
-              : value
+              : true
         },
 
         {
