@@ -32,7 +32,7 @@ function outro(folderName, hasInstalled = false) {
         `${folderName}`
       )} folder and run ${chalk.green("composer install")} and ${chalk.green(
         "npm install"
-      )}.\n After the required dependencies have been installed run ${chalk.green(
+      )}.\nAfter the required dependencies have been installed run ${chalk.green(
         "npm start"
       )} to start developing.`
     );
@@ -59,11 +59,13 @@ function success(msg) {
   console.log(`${chalk.bgGreen(chalk.black(msg))}`);
 }
 
-function summary(answers) {
+function summary(summery) {
   success("");
-  success("Your details will be:");
-  Object.keys(answers).forEach(key => {
-    console.log(`${chalk(key)}: ${chalk.green(answers[key])}`);
+  success("The theme details are as follows:");
+  Object.keys(summery).forEach(key => {
+    if (summery[key]) {
+      console.log(`${chalk(key)}: ${chalk.green(summery[key])}`);
+    }
   });
   success("");
 }

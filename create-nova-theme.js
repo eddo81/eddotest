@@ -20,9 +20,9 @@ let args = {
 };
 
 let fullThemePath = "";
-let templateData = {};
 let counter = 1;
 let theme;
+let summery;
 
 /**
  * Runs before the setup for some sanity checks. (Are we in the right folder + is Composer
@@ -103,6 +103,23 @@ const run = async () => {
         },
 
         {
+          type: args.verbose === true ? "text" : null,
+          name: "description",
+          message: "Enter a theme's description:"
+        },
+
+        {
+          type: args.verbose === true ? "text" : null,
+          name: "version",
+          message: "Enter the theme's version number:",
+          initial: `1.0.0`,
+          validate: value =>
+            /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(value) === false
+              ? `Invalid version format, must be sequence of either single or doubble digits followed by a period.`
+              : value
+        },
+
+        {
           type: "multiselect",
           name: "features",
           message: "Select project features:",
@@ -152,29 +169,34 @@ const run = async () => {
     );
 
     // Build package name from theme name
-    theme["Theme name"] = answers.name;
-    theme["Folder name"] = format.dash(theme["Theme name"]);
-    theme["Package name"] = format.underscore(theme["Theme name"]);
-    theme["Theme prefix"] = format.prefix(theme["Theme name"]);
-    theme["Namespace"] = format.capcase(theme["Package name"]);
-
-    templateData.themeName = theme["Theme name"];
-    templateData.folderName = theme["Folder name"];
-    templateData.packageName = theme["Package name"];
-    templateData.prefix = theme["Theme prefix"];
-    templateData.namespace = theme["Namespace"];
-    templateData.server = answers.features.includes("server")
+    theme.themeName = answers.name;
+    theme.folderName = format.dash(theme.themeName);
+    theme.packageName = format.underscore(theme.themeName);
+    theme.prefix = format.prefix(theme.themeName);
+    theme.namespace = format.capcase(theme.packageName);
+    theme.version = answers.version ? answers.version : "1.0.0";
+    theme.description = answers.description ? answers.description : "";
+    theme.server = answers.features.includes("server")
       ? answers.dev_url
       : false;
-    templateData.phpcs = answers.features.includes("phpcs");
-    templateData.scss = answers.features.includes("scss");
-    templateData.tailwind = answers.features.includes("tailwind");
+    theme.phpcs = answers.features.includes("phpcs");
+    theme.scss = answers.features.includes("scss");
+    theme.tailwind = answers.features.includes("tailwind");
 
     // Globally save the package (because it's also our folder name)
-    fullThemePath = path.join(process.cwd(), theme["Folder name"]);
+    fullThemePath = path.join(process.cwd(), theme.folderName);
+
+    summery = {
+      "Theme name": theme.themeName,
+      "Package name": theme.packageName,
+      "Theme version": args.verbose ? theme.version : undefined,
+      "Theme description": args.verbose ? theme.description : undefined,
+      "Theme features": answers.features,
+      "Theme dependencies": answers.dependencies
+    };
 
     // Display summery
-    write.summary(theme);
+    write.summary(summery);
 
     const confirm = await prompts(
       {
@@ -227,7 +249,7 @@ const run = async () => {
   const gitUrl = `https://github.com/eddo81/create-nova-theme.git`;
 
   const spinnerClone = ora(`${counter}. Cloning theme repo`).start();
-  await exec(`git clone ${gitUrl} ${theme["Folder name"]}/temp`)
+  await exec(`git clone ${gitUrl} ${theme.folderName}/temp`)
     .then(() => {
       spinnerClone.succeed();
       counter += 1;
@@ -243,113 +265,105 @@ const run = async () => {
   // -----------------------------
 
   const spinnerCopy = ora(`${counter}. Copying files from temp folder`).start();
-  await exec(`cd "${theme["Folder name"]}"`)
+  await exec(`cd "${theme.folderName}"`)
     .then(() => {
       spinnerCopy.succeed();
       counter += 1;
 
       fs.copySync(
-        `./${theme["Folder name"]}/temp/src/templates/copy`,
-        `./${theme["Folder name"]}`
+        `./${theme.folderName}/temp/src/templates/copy`,
+        `./${theme.folderName}`
       );
 
       copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_style.css`,
-        `./${theme["Folder name"]}/style.css`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_style.css`,
+        `./${theme.folderName}/style.css`,
+        theme
       );
 
       copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_functions.php`,
-        `./${theme["Folder name"]}/functions.php`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_functions.php`,
+        `./${theme.folderName}/functions.php`,
+        theme
       );
 
-      if (templateData.server !== false) {
+      if (theme.server !== false) {
         copyTpl(
-          `./${theme["Folder name"]}/temp/src/templates/modify/_serve.js`,
-          `./${theme["Folder name"]}/build/tools/serve.js`,
-          templateData
+          `./${theme.folderName}/temp/src/templates/modify/_serve.js`,
+          `./${theme.folderName}/build/tools/serve.js`,
+          theme
         );
       }
 
-      if (templateData.phpcs !== false) {
+      if (theme.phpcs !== false) {
         copyTpl(
-          `./${theme["Folder name"]}/temp/src/templates/modify/_phpcs.xml`,
-          `./${theme["Folder name"]}/phpcs.xml`,
-          templateData
+          `./${theme.folderName}/temp/src/templates/modify/_phpcs.xml`,
+          `./${theme.folderName}/phpcs.xml`,
+          theme
         );
       }
 
-      if (templateData.scss !== false) {
+      if (theme.scss !== false) {
         fs.copySync(
-          `./${theme["Folder name"]}/temp/src/templates/modify/_scss`,
-          `./${theme["Folder name"]}/build/scss`
+          `./${theme.folderName}/temp/src/templates/modify/_scss`,
+          `./${theme.folderName}/build/scss`
         );
 
         copyTpl(
-          `./${theme["Folder name"]}/temp/src/templates/modify/_index.scss`,
-          `./${theme["Folder name"]}/build/scss/index.scss`,
-          templateData
+          `./${theme.folderName}/temp/src/templates/modify/_index.scss`,
+          `./${theme.folderName}/build/scss/index.scss`,
+          theme
         );
       }
 
       if (args.git) {
         copyTpl(
-          `./${theme["Folder name"]}/temp/src/templates/modify/_README.md`,
-          `./${theme["Folder name"]}/README.md`,
-          templateData
+          `./${theme.folderName}/temp/src/templates/modify/_README.md`,
+          `./${theme.folderName}/README.md`,
+          theme
         );
       }
 
       copyTpl(
-        `./${
-          theme["Folder name"]
-        }/temp/src/templates/modify/_vsCodeSettings.json`,
-        `./${theme["Folder name"]}/.vscode/settings.json`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_vsCodeSettings.json`,
+        `./${theme.folderName}/.vscode/settings.json`,
+        theme
       );
 
       copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_composer.json`,
-        `./${theme["Folder name"]}/composer.json`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_composer.json`,
+        `./${theme.folderName}/composer.json`,
+        theme
       );
 
       copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_package.json`,
-        `./${theme["Folder name"]}/package.json`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_package.json`,
+        `./${theme.folderName}/package.json`,
+        theme
       );
 
       copyTpl(
-        `./${theme["Folder name"]}/temp/src/templates/modify/_buildConfig.js`,
-        `./${theme["Folder name"]}/build/tools/config/index.js`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_buildConfig.js`,
+        `./${theme.folderName}/build/tools/config/index.js`,
+        theme
       );
 
       copyTpl(
-        `./${
-          theme["Folder name"]
-        }/temp/src/templates/modify/_webpack.base.conf.js`,
-        `./${theme["Folder name"]}/build/tools/webpack/webpack.base.conf.js`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_webpack.base.conf.js`,
+        `./${theme.folderName}/build/tools/webpack/webpack.base.conf.js`,
+        theme
       );
 
       copyTpl(
-        `./${
-          theme["Folder name"]
-        }/temp/src/templates/modify/_webpack.dev.conf.js`,
-        `./${theme["Folder name"]}/build/tools/webpack/webpack.dev.conf.js`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_webpack.dev.conf.js`,
+        `./${theme.folderName}/build/tools/webpack/webpack.dev.conf.js`,
+        theme
       );
 
       copyTpl(
-        `./${
-          theme["Folder name"]
-        }/temp/src/templates/modify/_webpack.prod.conf.js`,
-        `./${theme["Folder name"]}/build/tools/webpack/webpack.prod.conf.js`,
-        templateData
+        `./${theme.folderName}/temp/src/templates/modify/_webpack.prod.conf.js`,
+        `./${theme.folderName}/build/tools/webpack/webpack.prod.conf.js`,
+        theme
       );
     })
     .catch(exception => {
@@ -435,7 +449,7 @@ const run = async () => {
   // -----------------------------
   //  7. Success
   // -----------------------------
-  write.outro(theme["Folder name"], args.install);
+  write.outro(theme.folderName, args.install);
 };
 
 try {
