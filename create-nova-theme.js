@@ -199,7 +199,8 @@ const run = async () => {
       : false;
     theme.phpcs = answers.features.includes("phpcs");
     theme.scss = answers.features.includes("scss");
-    theme.tailwind = answers.features.includes("tailwind");
+    theme.jquery = answers.dependencies.includes("jquery");
+    theme.tailwind = answers.dependencies.includes("tailwind");
 
     // Globally save the package (because it's also our folder name)
     fullThemePath = path.join(process.cwd(), theme.folderName);
