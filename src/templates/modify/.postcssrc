@@ -1,0 +1,7 @@
+{
+	"plugins": {
+		"autoprefixer": {},
+		"postcss-object-fit-images": {}<% if(tailwind !== false) { %>,
+    "tailwindcss": "./build/tools/config/tailwind.js"<% } %>
+	}
+}

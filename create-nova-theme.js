@@ -312,6 +312,26 @@ const run = async () => {
         theme
       );
 
+      copyTpl(
+        `./${theme.folderName}/temp/src/templates/modify/.eslintrc`,
+        `./${theme.folderName}/.eslintrc`,
+        theme
+      );
+
+      copyTpl(
+        `./${theme.folderName}/temp/src/templates/modify/.postcssrc`,
+        `./${theme.folderName}/.postcssrc`,
+        theme
+      );
+
+      if (theme.tailwind !== false) {
+        copyTpl(
+          `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
+          `./${theme.folderName}/build/tools/config/tailwind.js`,
+          theme
+        );
+      }
+
       if (theme.server !== false) {
         copyTpl(
           `./${theme.folderName}/temp/src/templates/modify/_serve.js`,

@@ -21,8 +21,8 @@
 		"i18n": "node build/tools/i18n/generate-pot.js"
 	},
 	"dependencies": {<% if(jquery !== false) { %>
-		"jquery": "^3.3.1",<% } %>
-		"normalize.css": "^8.0.1",
+    "jquery": "^3.3.1",<% } %> <% if(tailwind !== false) { %>
+    "tailwindcss": "^1.1.2",<% } %>
 		"object-fit-images": "^3.2.4"
 	},
 	"devDependencies": {

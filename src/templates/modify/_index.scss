@@ -21,11 +21,12 @@
 // Placeholder imports.
 @import './resources/placeholders/**/*.scss';
 
-// Vendor imports
-@import '~normalize.css/normalize.css';
-
 // Base imports.
-@import './base/**/*.scss';
+@import './base/**/*.scss';<% if(tailwind !== false) { %>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+<% } %>
 
 // Utilities imports.
 @import './utilities/**/*.scss';
