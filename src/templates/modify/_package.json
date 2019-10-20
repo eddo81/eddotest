@@ -22,7 +22,8 @@
 	},
 	"dependencies": {<% if(jquery !== false) { %>
     "jquery": "^3.3.1",<% } %> <% if(tailwind !== false) { %>
-    "tailwindcss": "^1.1.2",<% } %>
+    "tailwindcss": "^1.1.2",<% } %> <% if(vue !== false) { %>
+    "vue": "^2.6.10",<% } %>
 		"object-fit-images": "^3.2.4"
 	},
 	"devDependencies": {
@@ -59,7 +60,11 @@
     "postcss-safe-parser": "^4.0.1",
     "css-loader": "^2.1.1",
 		"sass": "^1.20.1",
-    "sass-loader": "^7.1.0",<% } %>
+    "sass-loader": "^7.1.0",<% } %> <% if(vue !== false && scss !== false) { %>
+    "sass-resources-loader": "^2.0.1",
+    "vue-style-loader": "^4.1.2",<% } %> <% if(vue !== false) { %>
+    "vue-loader": "^15.7.1",
+    "vue-template-compiler": "^2.6.10",<% } %>
     "rimraf": "^2.6.3",
 		"terser-webpack-plugin": "^1.2.3",
 		"url-loader": "^1.1.2",

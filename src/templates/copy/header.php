@@ -30,4 +30,4 @@
 		</noscript>
 		<!--[if lte IE 9]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.'</p><![endif]-->
 		<?php render_template( 'template-parts/partials/navbar' ); ?>
-		<main role="main">
+		<main role="main" id="app">

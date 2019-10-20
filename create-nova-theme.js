@@ -207,6 +207,7 @@ const run = async () => {
     theme.phpcs = answers.features.includes("phpcs");
     theme.scss = answers.features.includes("scss");
     theme.jquery = answers.dependencies.includes("jquery");
+    theme.vue = answers.dependencies.includes("vue");
     theme.tailwind = answers.dependencies.includes("tailwind");
 
     // Globally save the package (because it's also our folder name)
@@ -331,6 +332,12 @@ const run = async () => {
         theme
       );
 
+      copyTpl(
+        `./${theme.folderName}/temp/src/templates/modify/_main.js`,
+        `./${theme.folderName}/build/scripts/index.js`,
+        theme
+      );
+
       if (theme.tailwind !== false) {
         copyTpl(
           `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
@@ -365,6 +372,13 @@ const run = async () => {
           `./${theme.folderName}/temp/src/templates/modify/_index.scss`,
           `./${theme.folderName}/build/scss/index.scss`,
           theme
+        );
+      }
+
+      if (theme.vue !== false) {
+        fs.copySync(
+          `./${theme.folderName}/temp/src/templates/modify/_vue`,
+          `./${theme.folderName}/build/scripts/vue`
         );
       }
 

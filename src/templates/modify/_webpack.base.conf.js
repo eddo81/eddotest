@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SortAssetsPlugin = require('./plugins/sort-assets-plugin');<% if(scss !== false) { %>
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Sass = require('sass');<% } %>
+const Sass = require('sass');<% } %> <% if(vue !== false) { %>
+const VueLoaderPlugin = require("vue-loader/lib/plugin");<% } %>
 
 let baseConfig = {
 	mode: JSON.parse(_CONFIG.env.mode),
@@ -24,8 +25,11 @@ let baseConfig = {
 	},
 
 	resolve: {
-		extensions: [<% if(scss !== false) { %>'.css','.scss',<% } %>'.js','.json'],
-		alias: {
+		extensions: [<% if(scss !== false) { %>'.css','.scss',<% } %>'.js',<% if(vue !== false) { %>'.vue',<% } %> '.json'],
+		alias: {<% if(vue !== false) { %>
+      vue$: _CONFIG.env.debug
+      ? "vue/dist/vue.runtime.js"
+      : "vue/dist/vue.runtime.min.js",<% } %>
 			assets: _CONFIG.resolve(_CONFIG.directories.entry.build)
 		}
 	},
@@ -46,7 +50,12 @@ let baseConfig = {
 				loader: 'import-glob',
 				enforce: 'pre',
 				include: [_CONFIG.resolve(_CONFIG.directories.entry.build)]
-			},
+      },
+      <% if(scss !== false) { %>
+      {
+				test: _CONFIG.extensions.vue,
+				loader: "vue-loader"
+			},<% } %>
 
 			{
 				test: _CONFIG.extensions.js,
@@ -86,14 +95,18 @@ let baseConfig = {
 				test: new RegExp(
 					`${_CONFIG.extensions.css}|${_CONFIG.extensions.postcss}`
 				),
-				use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
+				use: [
+          <% if(vue !== false) { %>_CONFIG.env.debug ? "vue-style-loader" : MiniCssExtractPlugin.loader<% } else { %>MiniCssExtractPlugin.loader<% } %>, 
+          'css-loader', 
+          'postcss-loader'
+        ]
 			},
 
 			{
 				test: _CONFIG.extensions.scss,
 				use: [
 					{
-						loader: MiniCssExtractPlugin.loader
+						loader: <% if(vue !== false) { %>_CONFIG.env.debug ? "vue-style-loader" : MiniCssExtractPlugin.loader<% } else { %>MiniCssExtractPlugin.loader<% } %>
 					},
 					{
 						loader: 'css-loader'
@@ -106,7 +119,16 @@ let baseConfig = {
 						options: {
 							implementation: Sass
 						}
-					}
+          }<% if(vue !== false) { %>,
+          {
+						loader: "sass-resources-loader",
+						options: {
+							sourceMap: true,
+							resources: _CONFIG.resolve(
+								`${_CONFIG.directories.entry.scss}resources/variables/_variables.scss`
+							)
+						}
+					}<% } %>
 				]
 			}<% } %>
 		]
@@ -119,7 +141,9 @@ let baseConfig = {
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': { NODE_ENV: _CONFIG.env.mode }
-		}),
+    }),
+    <% if(vue !== false) { %>
+    new VueLoaderPlugin(),<% } %>
 
 		new webpack.ProvidePlugin({<% if(jquery !== false) { %>
 			$: 'jquery',
