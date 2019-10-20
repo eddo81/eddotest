@@ -43,6 +43,13 @@ const preFlightChecklist = async () => {
     );
   }
 
+  // Check for existing theme folders with the same name
+  if (fs.existsSync(fullThemePath) === true) {
+    throw new Error(
+      `A folder with the name "${theme.folderName}" already exists at this location. Please select a different name for your theme or delete the current "${theme.folderName}" folder.`
+    );
+  }
+
   // WARNING - Check if composer is installed.
   await exec("composer --version")
     .then(() => {
