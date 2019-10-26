@@ -92,13 +92,17 @@ let baseConfig = {
 			},<% if(scss !== false) { %>
 
 			{
-				test: new RegExp(
-					`${_CONFIG.extensions.css}|${_CONFIG.extensions.postcss}`
-				),
+				test: _CONFIG.extensions.css,
 				use: [
-          <% if(vue !== false) { %>_CONFIG.env.debug ? "vue-style-loader" : MiniCssExtractPlugin.loader<% } else { %>MiniCssExtractPlugin.loader<% } %>, 
-          'css-loader', 
-          'postcss-loader'
+					{
+						loader: <% if(vue !== false) { %>_CONFIG.env.debug ? "vue-style-loader" : MiniCssExtractPlugin.loader<% } else { %>MiniCssExtractPlugin.loader<% } %>
+					},
+					{
+						loader: 'css-loader'
+					},
+					{
+						loader: 'postcss-loader'
+					}
         ]
 			},
 
