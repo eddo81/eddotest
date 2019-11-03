@@ -8,8 +8,8 @@
  */
 
 @charset 'UTF-8';
-<% if(bulma !== false) { %> <%- /* Vendor import.*/ @import '~bulma/css/bulma.css'; %> <% } -%>
-<% if(cutestrap !== false) { %> <%- /* Vendor import.*/ @import '~cutestrap/css/dist/cutestrap.css'; %> <% } -%>
+<% if(bulma !== false) { %> <%- /* Vendor import.*/ @import '~bulma/css/bulma.css'; %> <% } %>
+<% if(cutestrap !== false) { %> <%- /* Vendor import.*/ @import '~cutestrap/css/dist/cutestrap.css'; %> <% } %>
 
 /* Base imports.*/
 <% if(tailwind !== false) { %>@tailwind base;<% } %>
