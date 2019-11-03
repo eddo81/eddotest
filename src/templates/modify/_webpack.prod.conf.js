@@ -1,56 +1,56 @@
-const _CONFIG = require('../config');
-const merge = require('webpack-merge');
-const baseWebpackConfig = require('./webpack.base.conf');
-const TerserPlugin = require('terser-webpack-plugin');<% if(scss !== false) { %>
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const safeParser = require('postcss-safe-parser');<% } %>
+const _CONFIG = require("../config");
+const merge = require("webpack-merge");
+const baseWebpackConfig = require("./webpack.base.conf");
+const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const safeParser = require("postcss-safe-parser");
 
 let webpackConfig = merge(baseWebpackConfig, {
-	devtool: 'source-map',
+  devtool: "source-map",
 
-	output: {
-		chunkFilename: `${_CONFIG.directories.output.js}[name].[chunkhash].js`
-	},
+  output: {
+    chunkFilename: `${_CONFIG.directories.output.js}[name].[chunkhash].js`
+  },
 
-	plugins: [],
+  plugins: [],
 
-	optimization: {
-		splitChunks: {
-			name: true,
-			cacheGroups: {
-				/*vendor: {
+  optimization: {
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        /*vendor: {
           name: 'vendors',
           test: /\.(js|es6)$/i,
           chunks: 'initial',
           enforce: true
         }*/
-			}
-		},
+      }
+    },
 
-		minimizer: [
-			new TerserPlugin({
-				cache: true,
-				parallel: true,
-				sourceMap: true,
-				terserOptions: {
-					output: { comments: false },
-					compress: { warnings: false, drop_console: true },
-					mangle: { reserved: ['$', 'exports', 'require'] }
-				}
-			})<% if(scss !== false) { %>,
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {
+          output: { comments: false },
+          compress: { warnings: false, drop_console: true },
+          mangle: { reserved: ["$", "exports", "require"] }
+        }
+      }),
 
-			new OptimizeCSSAssetsPlugin({
-				cssProcessorOptions: {
-					parser: safeParser,
-					discardComments: {
-						removeAll: true
-					}
-				}
-			})<% } %>
-		],
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          parser: safeParser,
+          discardComments: {
+            removeAll: true
+          }
+        }
+      })
+    ],
 
-		noEmitOnErrors: true
-	}
+    noEmitOnErrors: true
+  }
 });
 
 module.exports = webpackConfig;

@@ -10,7 +10,11 @@
 		"es6": true,
 		"amd": true<% if(jquery !== false) { %>,
 		"jquery": true<% } %>
-	},
+  },
+  "globals": {
+    "jQuery": "readonly",
+    "wp": "readonly"
+  },
 	"extends": ["eslint:recommended"],
 	"plugins": ["html"],
 	"settings": {

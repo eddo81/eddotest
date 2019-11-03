@@ -1,8 +1,8 @@
 const _CONFIG = require('../config');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const SortAssetsPlugin = require('./plugins/sort-assets-plugin');<% if(scss !== false) { %>
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SortAssetsPlugin = require('./plugins/sort-assets-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');<% if(scss !== false) { %>
 const Sass = require('sass');<% } %> <% if(vue !== false) { %>
 const VueLoaderPlugin = require("vue-loader/lib/plugin");<% } %>
 
@@ -11,8 +11,8 @@ let baseConfig = {
 
 	entry: {
 		theme: [
-			_CONFIG.resolve(`${_CONFIG.directories.entry.scripts}/`)<% if(scss !== false) { %>,
-			_CONFIG.resolve(`${_CONFIG.directories.entry.scss}/index.scss`)<% } %>
+			_CONFIG.resolve(`${_CONFIG.directories.entry.scripts}/`),
+			_CONFIG.resolve(`${_CONFIG.directories.entry.styles}/index.<%= styles %>`)
 		]
 	},
 
@@ -25,7 +25,7 @@ let baseConfig = {
 	},
 
 	resolve: {
-		extensions: [<% if(scss !== false) { %>'.css','.scss',<% } %>'.js',<% if(vue !== false) { %>'.vue',<% } %> '.json'],
+		extensions: ['.css',<% if(scss !== false) { %>'.scss',<% } %>'.js',<% if(vue !== false) { %>'.vue',<% } %> '.json'],
 		alias: {<% if(vue !== false) { %>
       vue$: _CONFIG.env.debug
       ? "vue/dist/vue.runtime.js"
@@ -51,7 +51,7 @@ let baseConfig = {
 				enforce: 'pre',
 				include: [_CONFIG.resolve(_CONFIG.directories.entry.build)]
       },
-      <% if(scss !== false) { %>
+      <% if(vue !== false) { %>
       {
 				test: _CONFIG.extensions.vue,
 				loader: "vue-loader"
@@ -89,7 +89,7 @@ let baseConfig = {
 					limit: 10000,
 					name: `${_CONFIG.directories.output.fonts}[name].[ext]`
 				}
-			},<% if(scss !== false) { %>
+			},
 
 			{
 				test: _CONFIG.extensions.css,
@@ -104,7 +104,7 @@ let baseConfig = {
 						loader: 'postcss-loader'
 					}
         ]
-			},
+			},<% if(scss !== false) { %>
 
 			{
 				test: _CONFIG.extensions.scss,
@@ -129,7 +129,7 @@ let baseConfig = {
 						options: {
 							sourceMap: true,
 							resources: _CONFIG.resolve(
-								`${_CONFIG.directories.entry.scss}resources/variables/_variables.scss`
+								`${_CONFIG.directories.entry.styles}resources/variables/_variables.scss`
 							)
 						}
 					}<% } %>
@@ -154,14 +154,14 @@ let baseConfig = {
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery',<% } %>
 			Popper: 'popper.js/dist/umd/popper.js'
-		}),<% if(scss !== false) { %>
+		}),
 
 		new MiniCssExtractPlugin({
 			filename: `${_CONFIG.directories.output.css}[name]${
 				_CONFIG.env.debug ? '' : '.[contenthash]'
 			}.css`,
 			chunkFilename: '[id].[contenthash].css'
-		}),<% } %>
+		}),
 
 		new CopyWebpackPlugin([
 			{

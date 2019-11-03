@@ -51,14 +51,19 @@
 		"eventsource-polyfill": "^0.9.6",
 		"file-loader": "^3.0.1",
 		"friendly-errors-webpack-plugin": "^1.7.0",
-    "import-glob": "^1.5.0",<% if(scss !== false) { %>
     "autoprefixer": "^9.5.1",
 		"mini-css-extract-plugin": "^0.6.0",
 		"optimize-css-assets-webpack-plugin": "^5.0.1",
 		"postcss-loader": "^3.0.0",
 		"postcss-object-fit-images": "^1.1.2",
     "postcss-safe-parser": "^4.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-calc": "^7.0.1",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "^4.1.2",
+    "postcss-current-selector": "^0.0.3",
     "css-loader": "^2.1.1",
+    "import-glob": "^1.5.0",<% if(scss !== false) { %>
 		"sass": "^1.20.1",
     "sass-loader": "^7.1.0",<% } %> <% if(vue !== false && scss !== false) { %>
     "sass-resources-loader": "^2.0.1",

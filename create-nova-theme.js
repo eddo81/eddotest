@@ -206,6 +206,7 @@ const run = async () => {
       : false;
     theme.phpcs = answers.features.includes("phpcs");
     theme.scss = answers.features.includes("scss");
+    theme.styles = theme.scss !== false ? "scss" : "css";
     theme.jquery = answers.dependencies.includes("jquery");
     theme.vue = answers.dependencies.includes("vue");
     theme.tailwind = answers.dependencies.includes("tailwind");
@@ -362,18 +363,16 @@ const run = async () => {
         );
       }
 
-      if (theme.scss !== false) {
-        fs.copySync(
-          `./${theme.folderName}/temp/src/templates/modify/_scss`,
-          `./${theme.folderName}/build/scss`
-        );
+      fs.copySync(
+        `./${theme.folderName}/temp/src/templates/modify/_${theme.styles}`,
+        `./${theme.folderName}/build/${theme.styles}`
+      );
 
-        copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_index.scss`,
-          `./${theme.folderName}/build/scss/index.scss`,
-          theme
-        );
-      }
+      copyTpl(
+        `./${theme.folderName}/temp/src/templates/modify/_index.${theme.styles}`,
+        `./${theme.folderName}/build/${theme.styles}/index.${theme.styles}`,
+        theme
+      );
 
       if (theme.vue !== false) {
         fs.copySync(

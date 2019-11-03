@@ -1,0 +1,22 @@
+/**
+ * theme.css
+ * ==========
+ *
+ * This file serves as the scss entry-point for the application
+ * and it should therefore only contain @import statements.
+ *
+ */
+
+@charset 'UTF-8';
+
+<% if(tailwind !== false) { %>
+// Base imports.
+@tailwind base;<% } %>
+
+<% if(tailwind !== false) { %>
+// Components imports.
+@tailwind components;<% } %>
+
+<% if(tailwind !== false) { %>
+// Utilities imports.
+@tailwind utilities;<% } %>
