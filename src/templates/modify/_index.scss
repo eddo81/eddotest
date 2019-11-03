@@ -20,14 +20,13 @@
 
 // Placeholder imports.
 @import './resources/placeholders/**/*.scss';
-
 <% if(bulma !== false) { %>
 /* Vendor import.*/
 @import '~bulma/css/bulma.css';
 <% } -%>
 <% if(cutestrap !== false) { %>
 /* Vendor import.*/
-@import '~cutestrap/css/dist/cutestrap.css';
+@import '~cutestrap/dist/css/cutestrap.css';
 <% } -%>
 
 // Base imports.

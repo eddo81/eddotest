@@ -10,11 +10,11 @@
 @charset 'UTF-8';
 <% if(bulma !== false) { %>
 /* Vendor import.*/
-@import '~bulma/css/bulma.css';
+@import 'bulma/css/bulma.css';
 <% } -%>
 <% if(cutestrap !== false) { %>
 /* Vendor import.*/
-@import '~cutestrap/css/dist/cutestrap.css';
+@import 'cutestrap/dist/css/cutestrap.css';
 <% } -%>
 
 /* Base imports.*/

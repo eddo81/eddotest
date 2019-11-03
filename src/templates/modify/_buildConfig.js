@@ -59,6 +59,7 @@ const _SERVER = new (function() {
 	this.public_path = `${_ENV.debug ? this.dev_url : ``}/wp-content/themes/${this.theme_dir_name}/${_DIRECTORIES.output.assets}`;
 })();
 <% } -%>
+
 const _CONFIG = {
 	env: _ENV,
 	directories: _DIRECTORIES,
