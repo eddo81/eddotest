@@ -349,14 +349,6 @@ const run = async () => {
         theme
       );
 
-      if (theme.tailwind !== false) {
-        copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
-          `./${theme.folderName}/build/styles/tailwind.js`,
-          theme
-        );
-      }
-
       if (theme.server !== false) {
         copyTpl(
           `./${theme.folderName}/temp/src/templates/modify/_serve.js`,
@@ -383,6 +375,14 @@ const run = async () => {
         `./${theme.folderName}/build/styles/index.${theme.styles}`,
         theme
       );
+
+      if (theme.tailwind !== false) {
+        copyTpl(
+          `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
+          `./${theme.folderName}/build/styles/tailwind.js`,
+          theme
+        );
+      }
 
       if (theme.vue !== false) {
         fs.copySync(
