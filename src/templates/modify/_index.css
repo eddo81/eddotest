@@ -17,13 +17,8 @@
 @import "~cutestrap/css/dist/cutestrap.css";
 <% } -%>
 
-/* Base imports.*/
-<% if(tailwind !== false) { %>@tailwind base;<% } -%>
-@import 'base/_base.css';
+/* Base imports.*/<% if(tailwind !== false) { %>@tailwind base;<% } %>@import 'base/_base.css';
 
-/* Components imports. */
-<% if(tailwind !== false) { %>@tailwind components;<% } -%>
+/* Components imports. */<% if(tailwind !== false) { %>@tailwind components;<% } %>
 
-/* Utilities imports. */
-<% if(tailwind !== false) { %>@tailwind utilities;<% } -%>
-@import 'utilities/_utilities.css';
+/* Utilities imports. */<% if(tailwind !== false) { %>@tailwind utilities;<% } %>@import 'utilities/_utilities.css';
