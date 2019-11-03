@@ -23,7 +23,7 @@
 	"dependencies": {<% if(jquery !== false) { %>
     "jquery": "^3.3.1",<% } %> <% if(tailwind !== false) { %>
     "tailwindcss": "^1.1.2",<% } %> <% if(cutestrap !== false) { %>
-    "cutestrap": "2.0.0-4",,<% } %> <% if(bulma !== false) { %>
+    "cutestrap": "2.0.0-4",<% } %> <% if(bulma !== false) { %>
     "bulma": "^0.8.0",<% } %> <% if(vue !== false) { %>
     "vue": "^2.6.10",<% } %>
 		"object-fit-images": "^3.2.4"
