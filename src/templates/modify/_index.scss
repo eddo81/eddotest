@@ -25,7 +25,7 @@
 <% if(tailwind !== false) { %>@tailwind base;<% } %>
 @import './base/**/*.scss';
 
-// Modules imports.
+// Components imports.
 <% if(tailwind !== false) { %>@tailwind components;<% } %>
 @import './components/**/*.scss';
 

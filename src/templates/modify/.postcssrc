@@ -1,9 +1,15 @@
 {
 	"plugins": {
-		"autoprefixer": {},
-    "postcss-preset-env": {},
+    "postcss-import": {
+      path: ["build/<%= styles %>"]
+    },
+    "postcss-nested": {},
+    "postcss-current-selector": {
+      "symbol": "&"
+    },
     "postcss-calc": {},
-    "postcss-import": {},
+    "postcss-preset-env": {},
+    "autoprefixer": {},
 		"postcss-object-fit-images": {}<% if(tailwind !== false) { %>,
     "tailwindcss": "./build/tools/config/tailwind.js"<% } %>
 	}
