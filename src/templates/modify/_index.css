@@ -7,7 +7,7 @@
  *
  */
 
-@charset 'UTF-8';<%= (bulma !== false) ? `\n\n/* Vendor import.*/\n@import 'bulma/css/bulma.css';` : undefined } %><%= (cutestrap !== false) ? ´\n\n/* Vendor import.*/\n@import 'cutestrap/css/dist/cutestrap.css';´ : undefined;} %>
+@charset 'UTF-8';<% if(bulma !== false) { %>\n\n/* Vendor import.*/\n@import '~bulma/css/bulma.css';<% } %><% if(cutestrap !== false) { %>\n\n/* Vendor import.*/\n@import '~cutestrap/css/dist/cutestrap.css';<% } %>
 
 /* Base imports.*/
 <% if(tailwind !== false) { %>@tailwind base;<% } %>
