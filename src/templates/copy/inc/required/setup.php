@@ -155,11 +155,4 @@ add_action('after_setup_theme', function () {
 	add_image_size( __( 'full-width', 'nova' ), 2560, 9999, false );
 	add_image_size( __( 'hero', 'nova' ), 1600, 500, true );
 
-	/**
-	 * Add FontAwesome SVG sprites.
-	 */
-	add_action( 'wp_footer', function() {
-		render_template('template-parts/partials/critical/svg-sprites');
-	});
-
 }, 20 );

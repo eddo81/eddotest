@@ -1,7 +1,7 @@
 {
 	"plugins": {
     "postcss-import": {
-      path: ["build/<%= styles %>"]
+      path: ["build/styles"]
     },
     "postcss-nested": {},
     "postcss-current-selector": {
