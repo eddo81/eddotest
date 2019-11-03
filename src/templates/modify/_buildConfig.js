@@ -28,7 +28,7 @@ const _DIRECTORIES = {
 		this.media = `${this.build}media/`;
 		this.fonts = `${this.build}fonts/`;
 		this.scripts = `${this.build}scripts/`;
-		this.styles = `${this.build}<%= styles %>/`;
+		this.styles = `${this.build}styles/`;
 		this.static = `${this.build}static/`;
 		this.icons = `${this.static}img/icons/`;
 	})(),

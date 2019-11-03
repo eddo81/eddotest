@@ -2,21 +2,20 @@
  * theme.css
  * ==========
  *
- * This file serves as the scss entry-point for the application
+ * This file serves as the css entry-point for the application
  * and it should therefore only contain @import statements.
  *
  */
 
-@charset 'UTF-8';
+@charset 'UTF-8';<% if(bulma !== false) { %>\n\n/* Vendor import.*/\n@import 'bulma/css/bulma.css';<% } %><% if(cutestrap !== false) { %>\n\n/* Vendor import.*/\n@import 'cutestrap/css/dist/cutestrap.css';<% } %>
 
-<% if(tailwind !== false) { %>
-// Base imports.
-@tailwind base;<% } %>
+/* Base imports.*/
+<% if(tailwind !== false) { %>@tailwind base;<% } %>
+@import 'base/_base.css';
 
-<% if(tailwind !== false) { %>
-// Components imports.
-@tailwind components;<% } %>
+/* Components imports. */
+<% if(tailwind !== false) { %>@tailwind components;<% } %>
 
-<% if(tailwind !== false) { %>
-// Utilities imports.
-@tailwind utilities;<% } %>
+/* Utilities imports. */
+<% if(tailwind !== false) { %>@tailwind utilities;<% } %>
+@import 'utilities/_utilities.css';

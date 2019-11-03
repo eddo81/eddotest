@@ -171,19 +171,27 @@ const run = async () => {
 
         {
           type: "multiselect",
-          name: "dependencies",
-          message: "Select front-end dependencies:",
+          name: "jslibs",
+          message: "Select javascript dependencies:",
           choices: (prev, values) => [
             { title: "jQuery", value: "jquery", selected: true },
-            { title: "Vue", value: "vue" },
-            {
-              title: "Tailwind CSS",
-              value: "tailwind",
-              disabled: !values.features.includes("scss")
-            }
+            { title: "Vue", value: "vue" }
           ],
           instructions: false,
           hint: "- Space to select. Return to submit."
+        },
+
+        {
+          type: "select",
+          name: "csslibs",
+          message: "Select a css library:",
+          choices: [
+            { title: "None", value: "none", selected: true },
+            { title: "Tailwind CSS", value: "tailwind" },
+            { title: "Cutestrap", value: "cutestrap" },
+            { title: "Bulma", value: "bulma" }
+          ],
+          initial: 1
         }
       ],
       { onCancel }
@@ -207,9 +215,11 @@ const run = async () => {
     theme.phpcs = answers.features.includes("phpcs");
     theme.scss = answers.features.includes("scss");
     theme.styles = theme.scss !== false ? "scss" : "css";
-    theme.jquery = answers.dependencies.includes("jquery");
-    theme.vue = answers.dependencies.includes("vue");
-    theme.tailwind = answers.dependencies.includes("tailwind");
+    theme.jquery = answers.jslibs.includes("jquery");
+    theme.vue = answers.jslibs.includes("vue");
+    theme.bulma = answers.csslibs === "bulma";
+    theme.cutestrap = answers.csslibs === "cutestrap";
+    theme.tailwind = answers.csslibs === "tailwind";
 
     // Globally save the package (because it's also our folder name)
     fullThemePath = path.join(process.cwd(), theme.folderName);
@@ -342,7 +352,7 @@ const run = async () => {
       if (theme.tailwind !== false) {
         copyTpl(
           `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
-          `./${theme.folderName}/build/tools/config/tailwind.js`,
+          `./${theme.folderName}/build/styles/tailwind.js`,
           theme
         );
       }
@@ -365,12 +375,12 @@ const run = async () => {
 
       fs.copySync(
         `./${theme.folderName}/temp/src/templates/modify/_${theme.styles}`,
-        `./${theme.folderName}/build/${theme.styles}`
+        `./${theme.folderName}/build/styles`
       );
 
       copyTpl(
         `./${theme.folderName}/temp/src/templates/modify/_index.${theme.styles}`,
-        `./${theme.folderName}/build/${theme.styles}/index.${theme.styles}`,
+        `./${theme.folderName}/build/styles/index.${theme.styles}`,
         theme
       );
 
