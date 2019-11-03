@@ -1,7 +1,9 @@
 const _RESOLVE = require('../utils/resolve');
 const _PKG = require(`../../../package.json`);
-const _EXTENSIONS = require('./extensions');<% if(server !== false) { %>
-const _PATH = require('path');<% } %>
+const _EXTENSIONS = require('./extensions');
+<% if(server !== false) { -%>
+const _PATH = require('path');
+<% } -%>
 const _ENV = new (function() {
 	this.debug =
 		(process.env.NODE_ENV || 'development').trim().toLowerCase() !==
@@ -44,8 +46,8 @@ const _DIRECTORIES = {
 		this.images = `img/`;
 		this.icons = `${this.images}icons/`;
 	})()
-};<% if(server !== false) { %>
-
+};
+<% if(server !== false) { -%>
 const _SERVER = new (function() {
 	this.theme_dir_name = _PATH.basename(
 		_PATH.dirname(_RESOLVE(_DIRECTORIES.entry.build))
@@ -55,15 +57,17 @@ const _SERVER = new (function() {
 	this.host = `http://localhost:${this.port}`;
 	this.dev_url = `<%= server %>`;
 	this.public_path = `${_ENV.debug ? this.dev_url : ``}/wp-content/themes/${this.theme_dir_name}/${_DIRECTORIES.output.assets}`;
-})();<% } %>
-
+})();
+<% } -%>
 const _CONFIG = {
 	env: _ENV,
 	directories: _DIRECTORIES,
 	filename: `webpack.${_ENV.debug ? 'dev' : 'prod'}.conf.js`,
 	extensions: _EXTENSIONS,
-  package: _PKG,<% if(server !== false) { %>
-  server: _SERVER,<% } %>
+  package: _PKG,
+  <% if(server !== false) { -%>
+  server: _SERVER,
+  <% } -%>
 	resolve: _RESOLVE
 };
 

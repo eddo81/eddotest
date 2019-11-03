@@ -19,16 +19,31 @@
 @import './resources/mixins/**/*.scss';
 
 // Placeholder imports.
-@import './resources/placeholders/**/*.scss';<% if(bulma !== false) { %>\n\n/* Vendor import.*/\n@import '~bulma/css/bulma.css';<% } %><% if(cutestrap !== false) { %>\n\n/* Vendor import.*/\n@import '~cutestrap/css/dist/cutestrap.css';<% } %>
+@import './resources/placeholders/**/*.scss';
+
+<% if(bulma !== false) { %>
+/* Vendor import.*/
+@import '~bulma/css/bulma.css';
+<% } -%>
+<% if(cutestrap !== false) { %>
+/* Vendor import.*/
+@import '~cutestrap/css/dist/cutestrap.css';
+<% } -%>
 
 // Base imports.
-<% if(tailwind !== false) { %>@tailwind base;<% } %>
+<% if(tailwind !== false) { -%>
+@tailwind base;
+<% } -%>
 @import './base/**/*.scss';
 
 // Components imports.
-<% if(tailwind !== false) { %>@tailwind components;<% } %>
+<% if(tailwind !== false) { -%>
+@tailwind components;
+<% } -%>
 @import './components/**/*.scss';
 
 // Utilities imports.
-<% if(tailwind !== false) { %>@tailwind utilities;<% } %>
+<% if(tailwind !== false) { -%>
+@tailwind utilities;
+<% } -%>
 @import './utilities/**/*.scss';

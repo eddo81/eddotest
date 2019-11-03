@@ -2,16 +2,19 @@
 import Navbar from './modules/navbar';
 import LoadModule from './modules';
 import CheckSelector from './utils/checkselector';
-import './modules/objectfit';<% if(vue !== false) { %>
+import './modules/objectfit';
+<% if(vue !== false) { -%>
 import Vue from "vue";
 import App from "./vue/App.vue";
 
-Vue.config.productionTip = false;<% } %>
+Vue.config.productionTip = false;
+<% } -%>
 
 window.addEventListener('load', () => {
 	Navbar();
 });
-<% if(vue !== false) { %>
+<% if(vue !== false) { -%>
 new Vue({
   render: h => h(App)
-}).$mount("#app");<% } %>
+}).$mount("#app");
+<% } -%>
