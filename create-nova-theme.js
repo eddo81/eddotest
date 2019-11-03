@@ -230,7 +230,7 @@ const run = async () => {
       "Theme version": args.verbose ? theme.version : undefined,
       "Theme description": args.verbose ? theme.description : undefined,
       "Project features": answers.features,
-      "Front-end dependencies": answers.dependencies
+      "Front-end dependencies": answers.jslibs.concat([answers.csslibs])
     };
 
     // Display summery
