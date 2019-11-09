@@ -11,7 +11,7 @@ const write = require("./src/utils/write.js");
 const format = require("./src/utils/format.js");
 const copyTpl = require("./src/utils/copyTemplateFile.js");
 const argv = require("yargs").argv;
-const getDir = require("./src/utils/getDirectories.js");
+const glob = require("glob");
 
 let args = {
   verbose: argv.verbose || argv.v ? true : false,
@@ -309,14 +309,16 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
-      let dirs = getDir(`./${theme.folderName}/temp/src/templates/copy`);
-
-      console.log(dirs);
-
       fs.copySync(
         `./${theme.folderName}/temp/src/templates/copy`,
         `./${theme.folderName}`
       );
+
+      glob.sync(`./${theme.folderName}/**/*.*`, function(er, files) {
+        files.forEach(templateFile => {
+          copyTpl(templateFile, templateFile, theme);
+        });
+      });
 
       copyTpl(
         `./${theme.folderName}/temp/src/templates/modify/_style.css`,
