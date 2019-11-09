@@ -321,38 +321,26 @@ const run = async () => {
       });
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_style.css`,
-        `./${theme.folderName}/style.css`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_functions.php`,
-        `./${theme.folderName}/functions.php`,
-        theme
-      );
-
-      copyTpl(
         `./${theme.folderName}/temp/src/templates/modify/_MIT.txt`,
         `./${theme.folderName}/LICENSE.txt`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/.eslintrc`,
-        `./${theme.folderName}/.eslintrc`,
+        `./${theme.folderName}/temp/src/templates/modify/_index.${theme.styles}`,
+        `./${theme.folderName}/build/styles/index.${theme.styles}`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/.postcssrc`,
-        `./${theme.folderName}/.postcssrc`,
+        `./${theme.folderName}/temp/src/templates/modify/_utilities.css`,
+        `./${theme.folderName}/build/styles/utilities/_utilities.${theme.styles}`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_main.js`,
-        `./${theme.folderName}/build/scripts/index.js`,
+        `./${theme.folderName}/temp/src/templates/modify/_base.css`,
+        `./${theme.folderName}/build/styles/base/_base.${theme.styles}`,
         theme
       );
 
@@ -372,16 +360,12 @@ const run = async () => {
         );
       }
 
-      fs.copySync(
-        `./${theme.folderName}/temp/src/templates/modify/_${theme.styles}`,
-        `./${theme.folderName}/build/styles`
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_index.${theme.styles}`,
-        `./${theme.folderName}/build/styles/index.${theme.styles}`,
-        theme
-      );
+      if (theme.scss !== false) {
+        fs.copySync(
+          `./${theme.folderName}/temp/src/templates/modify/_scss_resources`,
+          `./${theme.folderName}/build/styles`
+        );
+      }
 
       if (theme.tailwind !== false) {
         copyTpl(
@@ -397,56 +381,6 @@ const run = async () => {
           `./${theme.folderName}/build/scripts/vue`
         );
       }
-
-      if (args.git) {
-        copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_README.md`,
-          `./${theme.folderName}/README.md`,
-          theme
-        );
-      }
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_vsCodeSettings.json`,
-        `./${theme.folderName}/.vscode/settings.json`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_composer.json`,
-        `./${theme.folderName}/composer.json`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_package.json`,
-        `./${theme.folderName}/package.json`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_buildConfig.js`,
-        `./${theme.folderName}/build/tools/config/index.js`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_webpack.base.conf.js`,
-        `./${theme.folderName}/build/tools/webpack/webpack.base.conf.js`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_webpack.dev.conf.js`,
-        `./${theme.folderName}/build/tools/webpack/webpack.dev.conf.js`,
-        theme
-      );
-
-      copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_webpack.prod.conf.js`,
-        `./${theme.folderName}/build/tools/webpack/webpack.prod.conf.js`,
-        theme
-      );
     })
     .catch(exception => {
       spinnerCopy.fail();

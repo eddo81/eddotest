@@ -1,8 +1,8 @@
 /**
- * theme.scss
+ * theme.<%= theme.styles %>
  * ==========
  *
- * This file serves as the scss entry-point for the application
+ * This file serves as the <%= theme.styles %> entry-point for the application
  * and it should therefore only contain @import statements.
  *
  */
