@@ -314,10 +314,10 @@ const run = async () => {
         `./${theme.folderName}`
       );
 
-      glob.sync(`./${theme.folderName}/**/*.*`, function(er, files) {
-        files.forEach(templateFile => {
-          copyTpl(templateFile, templateFile, theme);
-        });
+      let files = glob.sync(`./${theme.folderName}/**/*.*`);
+
+      files.forEach(templateFile => {
+        copyTpl(templateFile, templateFile, theme);
       });
 
       copyTpl(
