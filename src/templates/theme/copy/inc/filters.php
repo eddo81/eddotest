@@ -2,14 +2,16 @@
 /**
  * Add filter code here.
  *
- * @package Nova
+ * @package <%= packageName %>
  * @author  "Daniel Andersson <daniel@bozzanova.se>"
  * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
  * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://developer.wordpress.org/reference/functions/add_filter/
- * @since   1.0.0
+ * @since   <%= version %>
  */
+
+namespace <%= packageName %>;
 
 if ( defined('ABSPATH') === false ) {
 	exit;
@@ -45,6 +47,7 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 	if ( is_admin() === true || in_array( $handle, $theme_scrips, true ) === false ) {
 		return $tag;
 	}
+
 	return str_replace( ' src', ' async="async" src', $tag );
 }, 90, 2 );
 
@@ -54,5 +57,6 @@ add_filter( 'style_loader_tag', function ( $html, $handle, $href ) {
 	if ( is_admin() === false && in_array( $handle, $theme_styles, true ) === false ) {
 		registry_get( 'asset_manager' )->set_resource_hint( 'preload', 'text/css', $href, 'style' );
 	}
+
 	return $html;
 }, 999, 3 );

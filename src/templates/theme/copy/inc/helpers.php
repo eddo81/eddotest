@@ -2,13 +2,15 @@
 /**
  * Theme helper functions.
  *
- * @package Nova
+ * @package <%= packageName %>
  * @author  "Daniel Andersson <daniel@bozzanova.se>"
  * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
  * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
- * @since   1.0.0
+ * @since   <%= version %>
  */
+
+namespace <%= packageName %>;
 
 if ( defined( 'ABSPATH' ) === false ) {
 	exit;

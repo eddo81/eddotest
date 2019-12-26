@@ -6,7 +6,7 @@
   Version:            <%= version %>
   Author:             Bozzanova
   Author URI:         https://www.bozzanova.se/
-  Text Domain:        nova
+  Text Domain:        <%= textDomain %>
 
   License:            MIT License
   License URI:        http://opensource.org/licenses/MIT

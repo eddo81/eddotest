@@ -2,14 +2,16 @@
 /**
  * This file handles the autoloading of theme dependencies via composer.
  *
- * @package Nova
+ * @package <%= packageName %>
  * @author  "Daniel Andersson <daniel@bozzanova.se>"
  * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
  * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://getcomposer.org/doc/
- * @since   1.0.0
+ * @since   <%= version %>
  */
+
+namespace <%= packageName %>;
 
 // Path to composer autoloader.
 $composer = THEME_ROOT_URI . '/vendor/autoload.php';
@@ -20,12 +22,12 @@ if ( class_exists( 'Nova\\Core\\Registry' ) === false ) {
 		nova_theme_error(
 			sprintf(
 				"<code>{$composer}</code><br><br>%1s <code>%2s</code> %3s",
-				__( 'Please run the', 'nova' ),
-				__( 'composer install', 'nova' ),
-				__( 'command from the theme root directory.', 'nova' )
+				__( 'Please run the', '<%= textDomain %>' ),
+				__( 'composer install', '<%= textDomain %>' ),
+				__( 'command from the theme root directory.', '<%= textDomain %>' )
 			),
-			__( 'Autoloader not found.', 'nova' ),
-			__( 'Dependency management error', 'nova' )
+			__( 'Autoloader not found.', '<%= textDomain %>' ),
+			__( 'Dependency management error', '<%= textDomain %>' )
 		);
 	}
 	include_once $composer;
@@ -45,7 +47,7 @@ if ( function_exists( 'registry_get' ) === false ) {
 		} catch ( Exception $e ) {
 			nova_theme_error(
 				$e->getMessage(),
-				__( 'Registry class missing', 'nova' )
+				__( 'Registry class missing', '<%= textDomain %>' )
 			);
 		}
 	}
@@ -66,7 +68,7 @@ if ( function_exists( 'registry_set' ) === false ) {
 		} catch ( Exception $e ) {
 			nova_theme_error(
 				$e->getMessage(),
-				__( 'Failed to store key in registry', 'nova' )
+				__( 'Failed to store key in registry', '<%= textDomain %>' )
 			);
 		}
 	}
@@ -81,11 +83,11 @@ if ( function_exists( 'registry_set' ) === false ) {
 
 array_map(
 	function ( $file ) {
-		$file = "./inc/required/{$file}.php";
+		$file = "./inc/{$file}.php";
 		if ( locate_template( $file, true, true ) === false ) {
 			nova_theme_error(
 				"<code>{$file}</code><br><br>",
-				__( 'File not found.', 'nova' )
+				__( 'File not found.', '<%= textDomain %>' )
 			);
 		}
 	},

@@ -206,7 +206,7 @@ const run = async () => {
     theme.packageName = format.underscore(theme.themeName);
     theme.prefix = format.prefix(theme.themeName);
     theme.namespace = format.capcase(theme.packageName);
-    theme.textdomain = format.dash(theme.themeName.toLowerCase());
+    theme.textDomain = format.dash(theme.themeName.toLowerCase());
     theme.version = answers.version ? answers.version : "1.0.0";
     theme.uri = answers.uri ? answers.uri : "";
     theme.description = answers.description ? answers.description : "";
@@ -318,7 +318,7 @@ const run = async () => {
 
       wpPot({
         destFile: `./${theme.folderName}/languages/${theme.packageName}.pot`,
-        domain: theme.textdomain,
+        domain: theme.textDomain,
         package: theme.packageName,
         src: `./${theme.folderName}/**/*.php`
       });

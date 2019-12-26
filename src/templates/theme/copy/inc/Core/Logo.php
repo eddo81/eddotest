@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Core;
+namespace <%= packageName %>\Core;
 
 /**
  * Class Logo
  *
- * @package App
+ * @package <%= packageName %>
  * @author "eddo81 <eduardo_jonnerstig@live.com>"
  * @license MIT https://opensource.org/licenses/MIT
- * @since   1.0.0
+ * @since   <%= version %>
  */
 class Logo {
 

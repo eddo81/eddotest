@@ -2,14 +2,16 @@
 /**
  * Setup theme.
  *
- * @package Nova
+ * @package <%= packageName %>
  * @author  "Daniel Andersson <daniel@bozzanova.se>"
  * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
  * @author  "Jon Täng <jon@bozzanova.se>"
  * @license MIT https://opensource.org/licenses/MIT
  * @link    https://developer.wordpress.org/reference/hooks/after_setup_theme/
- * @since   1.0.0
+ * @since   <%= version %>
  */
+
+namespace <%= packageName %>;
 
 if ( defined( 'ABSPATH' ) === false ) {
 	exit;
@@ -39,7 +41,7 @@ add_action('after_setup_theme', function () {
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/load_theme_textdomain/
 	 */
-	load_theme_textdomain('nova', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/');
+	load_theme_textdomain('<%= textDomain %>', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/');
 
 	/**
 	 * Enqueue theme scripts and styles domain.
@@ -102,7 +104,7 @@ add_action('after_setup_theme', function () {
 	 * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
 	 */
 	register_nav_menus([
-		'primary' => __( 'Primary Navigation', 'nova' )
+		'primary' => __( 'Primary Navigation', '<%= textDomain %>' )
 	]);
 
 	/**
@@ -152,7 +154,7 @@ add_action('after_setup_theme', function () {
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/add_image_size/
 	 */
-	add_image_size( __( 'full-width', 'nova' ), 2560, 9999, false );
-	add_image_size( __( 'hero', 'nova' ), 1600, 500, true );
+	add_image_size( __( 'full-width', '<%= textDomain %>' ), 2560, 9999, false );
+	add_image_size( __( 'hero', '<%= textDomain %>' ), 1600, 500, true );
 
 }, 20 );

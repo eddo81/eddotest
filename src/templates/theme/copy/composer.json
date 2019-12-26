@@ -3,10 +3,10 @@
   "type": "wordpress-theme",
   "license": "MIT",
   "description": "<%= description %>",
-  "keywords": ["wordpress"],
+  "keywords": ["wordpress, composer, webpack"],
   "autoload": {
     "psr-4": {
-      "App\\": ["inc"]
+      "<%= packageName %>\\": ["inc"]
     }
   },
   "config": {
