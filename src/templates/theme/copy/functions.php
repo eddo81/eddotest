@@ -26,7 +26,7 @@ define( 'THEME_STYLE_URI', THEME_ASSETS_URI . DIRECTORY_SEPARATOR . 'css' );
 // Disable theme editor in admin.
 define( 'DISALLOW_FILE_EDIT', true );
 
-if ( function_exists( '<%= prefix %>_theme_error' ) === false ) {
+if ( function_exists( 'theme_error' ) === false ) {
 	/**
 	 * Helper function for prettying up errors.
 	 *
@@ -35,7 +35,7 @@ if ( function_exists( '<%= prefix %>_theme_error' ) === false ) {
 	 * @param string $title The page title.
 	 * @param array  $options Optional arguments array.
 	 */
-	function <%= prefix %>_theme_error( $message, $heading = '', $title = '', $options = array() ) {
+	function theme_error( $message, $heading = '', $title = '', $options = array() ) {
 		$title   = $title ?: __( 'Theme error', '<%= textDomain %>' );
 		$heading = ( $heading ) ? $heading : $title;
 		$message = "<h1>{$heading}</h1><br><br>{$message}";
