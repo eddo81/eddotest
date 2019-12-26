@@ -12,6 +12,7 @@ const format = require("./src/utils/format.js");
 const copyTpl = require("./src/utils/copyTemplateFile.js");
 const argv = require("yargs").argv;
 const glob = require("glob");
+const wpPot = require('wp-pot');
 
 let args = {
   verbose: argv.verbose || argv.v ? true : false,
@@ -208,6 +209,7 @@ const run = async () => {
     theme.version = answers.version ? answers.version : "1.0.0";
     theme.uri = answers.uri ? answers.uri : "";
     theme.description = answers.description ? answers.description : "";
+    theme.textdomain = 'nova';
     theme.tags = answers.tags ? answers.tags : "";
     theme.year = new Date().getFullYear();
     theme.server = answers.features.includes("server")
@@ -313,6 +315,13 @@ const run = async () => {
         `./${theme.folderName}/temp/src/templates/copy`,
         `./${theme.folderName}`
       );
+
+      wpPot({
+        destFile: `./${theme.folderName}/languages/nova.pot`,
+        domain: theme.textdomain,
+        package: theme.packageName,
+        src: `./${theme.folderName}/**/*.php`
+      });
 
       let files = glob.sync(`./${theme.folderName}/**/*.*`);
 
