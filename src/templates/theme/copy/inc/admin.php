@@ -10,8 +10,6 @@
  * @since   <%= version %>
  */
 
-namespace <%= packageName %>;
-
 if ( defined('ABSPATH') === false ) {
 	exit;
 }

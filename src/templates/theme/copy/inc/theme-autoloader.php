@@ -11,8 +11,6 @@
  * @since   <%= version %>
  */
 
-namespace <%= packageName %>;
-
 // Path to composer autoloader.
 $composer = THEME_ROOT_URI . '/vendor/autoload.php';
 
