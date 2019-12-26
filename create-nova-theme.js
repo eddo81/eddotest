@@ -120,7 +120,7 @@ const run = async () => {
         {
           type: args.verbose === true ? "text" : null,
           name: "description",
-          message: "Enter a theme's description:"
+          message: "Enter the theme's description:"
         },
 
         {
@@ -137,7 +137,7 @@ const run = async () => {
         {
           type: args.verbose === true ? "list" : null,
           name: "tags",
-          message: "Enter them keywords/tags:",
+          message: "Enter theme keywords/tags:",
           initial: "",
           separator: ","
         },
@@ -206,10 +206,10 @@ const run = async () => {
     theme.packageName = format.underscore(theme.themeName);
     theme.prefix = format.prefix(theme.themeName);
     theme.namespace = format.capcase(theme.packageName);
+    theme.textdomain = format.dash(theme.themeName.toLowerCase());
     theme.version = answers.version ? answers.version : "1.0.0";
     theme.uri = answers.uri ? answers.uri : "";
     theme.description = answers.description ? answers.description : "";
-    theme.textdomain = 'nova';
     theme.tags = answers.tags ? answers.tags : "";
     theme.year = new Date().getFullYear();
     theme.server = answers.features.includes("server")
@@ -317,7 +317,7 @@ const run = async () => {
       );
 
       wpPot({
-        destFile: `./${theme.folderName}/languages/nova.pot`,
+        destFile: `./${theme.folderName}/languages/${theme.packageName}.pot`,
         domain: theme.textdomain,
         package: theme.packageName,
         src: `./${theme.folderName}/**/*.php`

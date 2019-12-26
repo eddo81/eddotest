@@ -6,7 +6,7 @@ function intro() {
   process.stdout.write("\u001b[2J\u001b[0;0H");
   console.log(chalk.cyan(figlet.textSync("Create Nova Theme ")));
   console.log(
-    " You're about to run the setup script for your theme in this directory:"
+    " You're about to run the setup script for your project in this directory:"
   );
   console.log(chalk.red(""));
   success(` ${process.cwd()} `);
@@ -15,7 +15,7 @@ function intro() {
 
 function outro(folderName, hasInstalled = false) {
   console.log("");
-  console.log(`Your theme is now ready!`);
+  console.log(`Your project is now ready!`);
   console.log("");
 
   if (hasInstalled === true) {
@@ -61,7 +61,7 @@ function success(msg) {
 
 function summary(summery) {
   success("");
-  success("The theme details are as follows:");
+  success("The project details are as follows:");
   Object.keys(summery).forEach(key => {
     if (summery[key]) {
       console.log(`${chalk(key)}: ${chalk.green(summery[key])}`);
