@@ -312,7 +312,7 @@ const run = async () => {
       counter += 1;
 
       fs.copySync(
-        `./${theme.folderName}/temp/src/templates/copy`,
+        `./${theme.folderName}/temp/src/templates/theme/copy`,
         `./${theme.folderName}`
       );
 
@@ -330,32 +330,32 @@ const run = async () => {
       });
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_MIT.txt`,
+        `./${theme.folderName}/temp/src/templates/theme/modify/_MIT.txt`,
         `./${theme.folderName}/LICENSE.txt`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_index.${theme.styles}`,
+        `./${theme.folderName}/temp/src/templates/theme/modify/_index.${theme.styles}`,
         `./${theme.folderName}/build/styles/index.${theme.styles}`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_utilities.css`,
+        `./${theme.folderName}/temp/src/templates/theme/modify/_utilities.css`,
         `./${theme.folderName}/build/styles/utilities/_utilities.${theme.styles}`,
         theme
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/modify/_base.css`,
+        `./${theme.folderName}/temp/src/templates/theme/modify/_base.css`,
         `./${theme.folderName}/build/styles/base/_base.${theme.styles}`,
         theme
       );
 
       if (theme.server !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_serve.js`,
+          `./${theme.folderName}/temp/src/templates/theme/modify/_serve.js`,
           `./${theme.folderName}/build/tools/serve.js`,
           theme
         );
@@ -363,7 +363,7 @@ const run = async () => {
 
       if (theme.phpcs !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_phpcs.xml`,
+          `./${theme.folderName}/temp/src/templates/theme/modify/_phpcs.xml`,
           `./${theme.folderName}/phpcs.xml`,
           theme
         );
@@ -371,14 +371,14 @@ const run = async () => {
 
       if (theme.scss !== false) {
         fs.copySync(
-          `./${theme.folderName}/temp/src/templates/modify/_scss_resources`,
+          `./${theme.folderName}/temp/src/templates/theme/modify/_scss_resources`,
           `./${theme.folderName}/build/styles`
         );
       }
 
       if (theme.tailwind !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/modify/_tailwind.js`,
+          `./${theme.folderName}/temp/src/templates/theme/modify/_tailwind.js`,
           `./${theme.folderName}/build/styles/tailwind.js`,
           theme
         );
@@ -386,7 +386,7 @@ const run = async () => {
 
       if (theme.vue !== false) {
         fs.copySync(
-          `./${theme.folderName}/temp/src/templates/modify/_vue`,
+          `./${theme.folderName}/temp/src/templates/theme/modify/_vue`,
           `./${theme.folderName}/build/scripts/vue`
         );
       }
