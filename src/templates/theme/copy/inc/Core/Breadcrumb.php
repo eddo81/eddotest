@@ -1,6 +1,6 @@
 <?php
 
-namespace <%= packageName %>\Core;
+namespace Foo\Core;
 
 /**
  * Class Breadcrumb.
