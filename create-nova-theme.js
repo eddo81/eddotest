@@ -311,10 +311,10 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
-      /*fs.copySync(
+      fs.copySync(
         `./${theme.folderName}/temp/src/templates/theme/copy`,
         `./${theme.folderName}`
-      );*/
+      );
 
       wpPot({
         destFile: `./${theme.folderName}/languages/${theme.packageName}.pot`,
