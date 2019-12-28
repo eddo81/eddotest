@@ -1,8 +1,7 @@
 <?php
 
-namespace Foo\Core;
-<%= year %>
-// namespace <%= packageName %>\Core;
+namespace <%= packageName %>\Core;
+
 /**
  * Class Breadcrumb.
  *
