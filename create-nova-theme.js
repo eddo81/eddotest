@@ -326,13 +326,13 @@ const run = async () => {
       let files = glob.sync(`./${theme.folderName}/**/*.*`);
 
       files.forEach(templateFile => {
-        let fromFile, toFile = templateFile;
+        let toFile = templateFile;
 
-        if (templateFile.endsWith('.php.txt')) {
+        if (toFile.endsWith('.php.txt')) {
           toFile = toFile.substring(0, toFile.length - 4);
         }
 
-        copyTpl(fromFile, toFile, theme);
+        copyTpl(templateFile, toFile, theme);
       });
 
       copyTpl(
