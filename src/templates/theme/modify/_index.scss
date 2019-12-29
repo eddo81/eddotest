@@ -18,8 +18,6 @@
 // Mixins imports.
 @import './resources/mixins/**/*.scss';
 
-// Placeholder imports.
-@import './resources/placeholders/**/*.scss';
 <% if(bulma !== false) { %>
 /* Vendor import.*/
 @import '~bulma/css/bulma.css';

@@ -372,7 +372,7 @@ const run = async () => {
       if (theme.scss !== false) {
         fs.copySync(
           `./${theme.folderName}/temp/src/templates/theme/modify/_scss_resources`,
-          `./${theme.folderName}/build/styles`
+          `./${theme.folderName}/build/styles/resources`
         );
       }
 
