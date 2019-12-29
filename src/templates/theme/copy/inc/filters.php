@@ -11,7 +11,7 @@
  * @since   <%= version %>
  */
 
-namespace THEME_NAMESPACE;
+namespace App;
 
 use function add_filter;
 use function is_admin;

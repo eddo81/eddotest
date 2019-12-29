@@ -11,6 +11,12 @@
  * @since   <%= version %>
  */
 
+namespace App;
+
+use function home_url;
+use function get_footer;
+use function get_header;
+
 get_header(); ?>
 
 <section id="post-404">

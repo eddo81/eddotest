@@ -11,6 +11,12 @@
  * @since   <%= version %>
  */
 
+namespace App;
+
+use function get_footer;
+use function get_header;
+use function get_search_query;
+
 get_header(); ?>
 
 	<section id="search">

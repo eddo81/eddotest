@@ -11,7 +11,9 @@
  * @since   <%= version %>
  */
 
-namespace THEME_NAMESPACE;
+namespace App;
+
+use function locate_template;
 
 // Path to composer autoloader.
 $composer = THEME_ROOT_URI . '/vendor/autoload.php';

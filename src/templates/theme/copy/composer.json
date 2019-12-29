@@ -6,7 +6,7 @@
   "keywords": ["wordpress, composer, webpack"],
   "autoload": {
     "psr-4": {
-      "<%= namespace %>\\": ["inc"]
+      "App\\": ["inc"]
     }
   },
   "config": {

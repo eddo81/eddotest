@@ -10,7 +10,7 @@
  * @since   <%= version %>
  */
 
-namespace THEME_NAMESPACE;
+namespace App;
 
 use function add_action;
 use function esc_html;

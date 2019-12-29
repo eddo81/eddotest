@@ -12,6 +12,11 @@
  * @link    https://developer.wordpress.org/themes/basics/template-files/#template-partials
  * @since   <%= version %>
  */
+
+namespace App;
+
+use function wp_footer;
+
 ?>
 
 	</main>

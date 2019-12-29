@@ -11,6 +11,11 @@
  * @since   <%= version %>
  */
 
+namespace App;
+
+use function get_footer;
+use function get_header;
+
 get_header();
 
 render_template('template-parts/partials/loop');

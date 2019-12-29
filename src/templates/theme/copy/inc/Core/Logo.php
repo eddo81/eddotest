@@ -1,6 +1,6 @@
 <?php
 
-namespace THEME_NAMESPACE\Core;
+namespace App\Core;
 
 /**
  * Class Logo

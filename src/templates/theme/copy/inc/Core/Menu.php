@@ -1,6 +1,6 @@
 <?php
 
-namespace THEME_NAMESPACE\Core;
+namespace App\Core;
 
 use function add_action;
 use function get_nav_menu_locations;

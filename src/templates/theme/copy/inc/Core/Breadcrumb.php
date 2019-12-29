@@ -1,6 +1,6 @@
 <?php
 
-namespace THEME_NAMESPACE\Core;
+namespace App\Core;
 
 use function esc_html;
 use function esc_url;

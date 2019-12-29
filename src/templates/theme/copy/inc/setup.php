@@ -11,7 +11,7 @@
  * @since   <%= version %>
  */
 
-namespace THEME_NAMESPACE;
+namespace App;
 
 if ( defined( 'ABSPATH' ) === false ) {
 	exit;
@@ -21,6 +21,13 @@ use Nova\Core\AssetManager;
 use Nova\Core\Template;
 use Nova\Optimization\ImageSizer;
 use Nova\Optimization\CleanWp;
+
+use function add_action;
+use function add_image_size;
+use function add_theme_support;
+use function is_admin;
+use function load_theme_textdomain;
+use function register_nav_menus;
 
 new CleanWp();
 new ImageSizer();
@@ -34,21 +41,21 @@ registry_set( 'template', new Template( THEME_ROOT_URI . '/' ) );
  *
  * @link https://developer.wordpress.org/reference/hooks/after_setup_theme/
  */
-add_action('after_setup_theme', function () {
+add_action( 'after_setup_theme', function () {
 
 	/**
 	 * Load theme text domain.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/load_theme_textdomain/
 	 */
-	load_theme_textdomain('<%= textDomain %>', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/');
+	load_theme_textdomain( '<%= textDomain %>', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/' );
 
 	/**
 	 * Enqueue theme scripts and styles domain.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/wp_enqueue_script/
 	 */
-	registry_get('asset_manager')->enqueue_theme_scripts_and_styles('theme');
+	registry_get( 'asset_manager' )->enqueue_theme_scripts_and_styles( 'theme' );
 
 	/**
 	 * Add inline script- and style-tags to document head.

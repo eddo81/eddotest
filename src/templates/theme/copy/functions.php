@@ -11,6 +11,8 @@
  * @since   <%= version %>
  */
 
+namespace App;
+
 use function get_bloginfo;
 use function get_template_directory;
 use function get_template_directory_uri;
@@ -19,7 +21,6 @@ use function wp_die;
 // Define theme wide control variables.
 define( 'MIN_PHP_VERSION', '<%= minPhpVersion %>' );
 define( 'MIN_WP_VERSION', '<%= minWpVersion %>' );
-define( 'THEME_NAMESPACE', '<%= namespace %>');
 define( 'THEME_NAME', '<%= themeName %>' );
 
 // Define theme wide paths.

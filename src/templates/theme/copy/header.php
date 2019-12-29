@@ -13,6 +13,16 @@
  * @link    https://developer.wordpress.org/themes/basics/template-files/#template-partials
  * @since   <%= version %>
  */
+
+namespace App;
+
+use function bloginfo;
+use function body_class;
+use function language_attributes;
+use function wp_body_open;
+use function wp_head;
+use function __;
+
 ?>
 
 <!DOCTYPE html>
