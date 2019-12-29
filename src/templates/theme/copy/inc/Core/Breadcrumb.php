@@ -1,6 +1,14 @@
 <?php
 
-namespace <%= packageName %>\Core;
+namespace THEME_NAMESPACE\Core;
+
+use function esc_html;
+use function esc_url;
+use function get_the_title;
+use function get_option;
+use function get_page_link;
+use function home_url;
+use function is_front_page;
 
 /**
  * Class Breadcrumb.
@@ -25,7 +33,7 @@ class Breadcrumb {
 	 */
 	public function get_navigation_scheme() : array {
 		global $post;
-		$front_page_id = get_option('page_on_front');
+		$front_page_id = get_option( 'page_on_front' );
 		$breadcrumbs   = [];
 
 		if ( is_front_page() ) {
@@ -53,7 +61,7 @@ class Breadcrumb {
 				}
 			} elseif ( $post->parent ) {
 				array_push( $breadcrumbs, [
-					'title'     => esc_html(get_the_title( $post->parent )),
+					'title'     => esc_html( get_the_title( $post->parent ) ),
 					'permalink' => get_page_link( $post->parent ),
 				] );
 			}

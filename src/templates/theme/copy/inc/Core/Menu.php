@@ -1,6 +1,17 @@
 <?php
 
-namespace Foo\Core;
+namespace THEME_NAMESPACE\Core;
+
+use function add_action;
+use function get_nav_menu_locations;
+use function get_term;
+use function get_the_id;
+use function get_the_title;
+use function get_post_meta;
+use function is_archive;
+use function post_type_archive_title;
+use function register_nav_menu;
+use function wp_get_nav_menu_items;
 
 /**
  * Class Menu
@@ -54,10 +65,10 @@ class Menu {
 	 */
 	public function get_menu_by_location( string $location_name, int $limit = 0 ) : array {
 		$menu_locations     = get_nav_menu_locations();
-		$array_menu         = array_key_exists($location_name, $menu_locations) ? wp_get_nav_menu_items(get_term( $menu_locations[ $location_name ], 'nav_menu')->name ) : null;
+		$array_menu         = array_key_exists($location_name, $menu_locations) ? wp_get_nav_menu_items( get_term( $menu_locations[ $location_name ], 'nav_menu')->name ) : null;
 		$menu               = [];
 		$sub_menu           = [];
-		$current_page_title = ( is_archive() ) ? strtolower( post_type_archive_title( '', false ) ) : strtolower(get_the_title() );
+		$current_page_title = ( is_archive() ) ? strtolower( post_type_archive_title( '', false ) ) : strtolower ( get_the_title() );
 
 		if ( is_array( $array_menu ) ) {
 			foreach ( $array_menu as $m ) {

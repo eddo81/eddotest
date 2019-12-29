@@ -10,6 +10,8 @@
  * @since   <%= version %>
  */
 
+namespace THEME_NAMESPACE;
+
 if ( defined('ABSPATH') === false ) {
 	exit;
 }

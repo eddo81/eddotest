@@ -11,13 +11,15 @@
  * @since   <%= version %>
  */
 
+namespace THEME_NAMESPACE;
+
 // Path to composer autoloader.
 $composer = THEME_ROOT_URI . '/vendor/autoload.php';
 
 // Ensure dependencies are loaded.
 if ( class_exists( 'Nova\\Core\\Registry' ) === false ) {
 	if ( file_exists( $composer ) === false ) {
-		nova_theme_error(
+		theme_error(
 			sprintf(
 				"<code>{$composer}</code><br><br>%1s <code>%2s</code> %3s",
 				__( 'Please run the', '<%= textDomain %>' ),
@@ -43,7 +45,7 @@ if ( function_exists( 'registry_get' ) === false ) {
 		try {
 			return Nova\Core\Registry::get( $key );
 		} catch ( Exception $e ) {
-			nova_theme_error(
+			theme_error(
 				$e->getMessage(),
 				__( 'Registry class missing', '<%= textDomain %>' )
 			);
@@ -64,7 +66,7 @@ if ( function_exists( 'registry_set' ) === false ) {
 		try {
 			Nova\Core\Registry::set( $key, $value );
 		} catch ( Exception $e ) {
-			nova_theme_error(
+			theme_error(
 				$e->getMessage(),
 				__( 'Failed to store key in registry', '<%= textDomain %>' )
 			);
@@ -83,7 +85,7 @@ array_map(
 	function ( $file ) {
 		$file = "./inc/{$file}.php";
 		if ( locate_template( $file, true, true ) === false ) {
-			nova_theme_error(
+			theme_error(
 				"<code>{$file}</code><br><br>",
 				__( 'File not found.', '<%= textDomain %>' )
 			);

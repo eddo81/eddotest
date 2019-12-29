@@ -11,9 +11,15 @@
  * @since   <%= version %>
  */
 
+use function get_bloginfo;
+use function get_template_directory;
+use function get_template_directory_uri;
+use function wp_die;
+
 // Define theme wide control variables.
 define( 'MIN_PHP_VERSION', '<%= minPhpVersion %>' );
 define( 'MIN_WP_VERSION', '<%= minWpVersion %>' );
+define( 'THEME_NAMESPACE', '<%= namespace %>');
 define( 'THEME_NAME', '<%= themeName %>' );
 
 // Define theme wide paths.
@@ -44,7 +50,7 @@ if ( function_exists( 'theme_error' ) === false ) {
 }
 
 // Theme compatibility check, bail early if requirements are not met.
-if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_compare( MIN_WP_VERSION, get_bloginfo( 'version'), '>=' ) === true ) {
+if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_compare( MIN_WP_VERSION, get_bloginfo( 'version' ), '>=' ) === true ) {
 	require THEME_ROOT_URI . '/inc/back-compat.php';
 	return;
 }

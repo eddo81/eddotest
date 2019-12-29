@@ -11,6 +11,11 @@
  * @since   <%= version %>
  */
 
+namespace THEME_NAMESPACE;
+
+use function add_filter;
+use function is_admin;
+
 if ( defined('ABSPATH') === false ) {
 	exit;
 }

@@ -10,6 +10,14 @@
  * @since   <%= version %>
  */
 
+namespace THEME_NAMESPACE;
+
+use function add_action;
+use function esc_html;
+use function get_bloginfo;
+use function is_admin;
+use function __;
+
 if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
@@ -91,7 +99,6 @@ function preview() {
 	}
 }
 add_action( 'template_redirect', 'preview' );
-
 
 /**
  * Deactivate current theme when requirements are not met, falls back to the default theme.
