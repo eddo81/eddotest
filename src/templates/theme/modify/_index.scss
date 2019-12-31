@@ -26,7 +26,6 @@
 /* Vendor import.*/
 @import '~cutestrap/dist/css/cutestrap.css';
 <% } -%>
-
 // Base imports.
 <% if(tailwind !== false) { -%>
 @tailwind base;
