@@ -311,9 +311,22 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
+      let files = glob.sync(`./${theme.folderName}/temp/src/templates/theme/copy/**/*.*`);
+      //let files = glob.sync(`./${theme.folderName}/**/*.*`);
+
+      files.forEach(templateFile => {
+        let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
+        copyTpl(templateFile, toFile, theme);
+      });
+
       fs.copySync(
         `./${theme.folderName}/temp/src/templates/theme/copy`,
-        `./${theme.folderName}`
+        `./${theme.folderName}`,
+        {
+          filter: n => {
+            return !n.endsWith('.ejs');
+          }
+        }
       );
 
       wpPot({
@@ -321,12 +334,6 @@ const run = async () => {
         domain: theme.textDomain,
         package: theme.packageName,
         src: `./${theme.folderName}/**/*.php`
-      });
-
-      let files = glob.sync(`./${theme.folderName}/**/*.*`);
-
-      files.forEach(templateFile => {
-        copyTpl(templateFile, templateFile, theme);
       });
 
       copyTpl(
