@@ -21,34 +21,36 @@ let args = {
   git: argv.git || argv.g ? true : false
 };
 
-let fullThemePath = "";
+let fullProjectPath = "";
 let counter = 1;
-let theme;
+let data;
 let summery;
 
 /**
  * Runs before the setup for some sanity checks. (Are we in the right folder + is Composer
  * installed and available as `composer` command)
  */
-const preFlightChecklist = async () => {
-  // Make sure the user has called the script from wp-content/themes folder.
-  if (path.basename(process.cwd()) !== "themes") {
+const preFlightChecklist = async (projectTypeIn) => {
+  // Make sure the user has called the script from wp-content/themes or wp-content/plugins folder.
+  let projectFolderName = `${data.projectType}s`;
+
+  if (path.basename(process.cwd()) !== projectFolderName) {
     throw new Error(
-      'Expected script to be called from WordPress\'s "themes" folder.'
+      `Expected script to be called from WordPress's "${projectFolderName}" folder.`
     );
   }
 
   // Make sure this is in fact a WordPress install
   if (path.basename(path.join(process.cwd(), "..")) !== "wp-content") {
     throw new Error(
-      'This doesn\'t seem to be a WordPress install. Please call the script from "wp-content/themes" folder.'
+      `This doesn't seem to be a WordPress install. Please call the script from "wp-content/${projectFolderName}" folder.`
     );
   }
 
-  // Check for existing theme folders with the same name
-  if (fs.existsSync(fullThemePath) === true) {
+  // Check for existing theme/plugin folders with the same name
+  if (fs.existsSync(fullProjectPath) === true) {
     throw new Error(
-      `A folder with the name "${theme.folderName}" already exists at this location. Please select a different name for your theme and try again.`
+      `A folder with the name "${data.folderName}" already exists at this location. Please select a different name for your theme and try again.`
     );
   }
 
@@ -81,11 +83,11 @@ const preFlightChecklist = async () => {
  * Performns a cleanup of temporary files.
  */
 const cleanup = async () => {
-  await fs.remove(path.join(fullThemePath, "temp"));
+  await fs.remove(path.join(fullProjectPath, "temp"));
 };
 
 const run = async () => {
-  theme = { args: args };
+  data = { args: args };
 
   let confirmed = false;
 
@@ -102,31 +104,42 @@ const run = async () => {
     const answers = await prompts(
       [
         {
+          type: "select",
+          name: "project",
+          message: "Select which type of project you'd like to create:",
+          choices: [
+            { title: "Theme", value: "theme" },
+            { title: "Plugin", value: "plugin" },
+          ],
+          initial: 1
+        },
+
+        {
           type: "text",
           name: "name",
-          message: "Please enter your theme name (shown in WordPress admin):",
+          message: (prev, values) => `Please enter your ${values.project} name (shown in WordPress admin):`,
           validate: value =>
             value.length < 2
-              ? `The theme name is required and must contain at least 2 characters.`
+              ? `The project name is required and must contain at least 2 characters.`
               : true
         },
 
         {
           type: args.verbose === true ? "text" : null,
           name: "uri",
-          message: "Enter the theme's URI:"
+          message: (prev, values) => `Enter the ${values.project}'s URI:`,
         },
 
         {
           type: args.verbose === true ? "text" : null,
           name: "description",
-          message: "Enter the theme's description:"
+          message: (prev, values) => `Enter the ${values.project}'s description:`,
         },
 
         {
           type: args.verbose === true ? "text" : null,
           name: "version",
-          message: "Enter the theme's version number:",
+          message: (prev, values) => `Enter the ${values.project}'s version number:`,
           initial: `1.0.0`,
           validate: value =>
             /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(value) === false
@@ -137,7 +150,7 @@ const run = async () => {
         {
           type: args.verbose === true ? "list" : null,
           name: "tags",
-          message: "Enter theme keywords/tags:",
+          message: (prev, values) => `Enter the ${values.project} keywords/tags:`,
           initial: "",
           separator: ","
         },
@@ -163,7 +176,7 @@ const run = async () => {
           type: prev => (prev.includes("server") === true ? "text" : null),
           name: "dev_url",
           message:
-            "Please enter a theme development url (e.g. dev.wordpress.com):",
+            "Please enter a development url (e.g. dev.wordpress.com):",
           initial: (prev, values) => `localhost/${format.dash(values.name)}/`,
           validate: value =>
             value.trim().length < 1
@@ -199,39 +212,42 @@ const run = async () => {
       { onCancel }
     );
 
-    theme.minWpVersion = "4.7.0";
-    theme.minPhpVersion = "7.1";
-    theme.themeName = answers.name;
-    theme.folderName = format.dash(theme.themeName);
-    theme.packageName = format.underscore(theme.themeName);
-    theme.prefix = format.prefix(theme.themeName);
-    theme.namespace = format.capcase(theme.packageName);
-    theme.textDomain = format.dash(theme.themeName.toLowerCase());
-    theme.version = answers.version ? answers.version : "1.0.0";
-    theme.uri = answers.uri ? answers.uri : "";
-    theme.description = answers.description ? answers.description : "";
-    theme.tags = answers.tags ? answers.tags : "";
-    theme.year = new Date().getFullYear();
-    theme.server = answers.features.includes("server")
+    data.minWpVersion = "4.7.0";
+    data.minPhpVersion = "7.1";
+    data.projectType = answers.project ? answers.project : "theme";
+    data.projectName = answers.name;
+    data.folderName = format.dash(data.projectName);
+    data.packageName = format.underscore(data.projectName);
+    data.prefix = format.prefix(data.projectName);
+    data.namespace = format.capcase(data.packageName);
+    data.textDomain = format.dash(data.projectName.toLowerCase());
+    data.version = answers.version ? answers.version : "1.0.0";
+    data.uri = answers.uri ? answers.uri : "";
+    data.description = answers.description ? answers.description : "";
+    data.tags = answers.tags ? answers.tags : "";
+    data.year = new Date().getFullYear();
+    data.licenseType = 'MIT';
+    data.licenseUrl = 'https://opensource.org/licenses/MIT';
+    data.server = answers.features.includes("server")
       ? answers.dev_url
       : false;
-    theme.phpcs = answers.features.includes("phpcs");
-    theme.scss = answers.features.includes("scss");
-    theme.styles = theme.scss !== false ? "scss" : "css";
-    theme.jquery = answers.jslibs.includes("jquery");
-    theme.vue = answers.jslibs.includes("vue");
-    theme.bulma = answers.csslibs === "bulma";
-    theme.cutestrap = answers.csslibs === "cutestrap";
-    theme.tailwind = answers.csslibs === "tailwind";
+    data.phpcs = answers.features.includes("phpcs");
+    data.scss = answers.features.includes("scss");
+    data.styles = data.scss !== false ? "scss" : "css";
+    data.jquery = answers.jslibs.includes("jquery");
+    data.vue = answers.jslibs.includes("vue");
+    data.bulma = answers.csslibs === "bulma";
+    data.cutestrap = answers.csslibs === "cutestrap";
+    data.tailwind = answers.csslibs === "tailwind";
 
     // Globally save the package (because it's also our folder name)
-    fullThemePath = path.join(process.cwd(), theme.folderName);
+    fullProjectPath = path.join(process.cwd(), data.folderName);
 
     summery = {
-      "Theme name": theme.themeName,
-      "Package name": theme.packageName,
-      "Theme version": args.verbose ? theme.version : undefined,
-      "Theme description": args.verbose ? theme.description : undefined,
+      "Project name": data.projectName,
+      "Package name": data.packageName,
+      "Project version": args.verbose ? data.version : undefined,
+      "Project description": args.verbose ? data.description : undefined,
       "Project features": answers.features,
       "Front-end dependencies": answers.jslibs.concat([answers.csslibs])
     };
@@ -271,7 +287,7 @@ const run = async () => {
     counter += 1;
   } else {
     const spinnerChecklist = ora(`${counter}. Pre-flight checklist`).start();
-    await preFlightChecklist()
+    await preFlightChecklist(data.projectType)
       .then(() => {
         spinnerChecklist.succeed();
         counter += 1;
@@ -289,8 +305,8 @@ const run = async () => {
 
   const gitUrl = `https://github.com/eddo81/create-nova-theme.git`;
 
-  const spinnerClone = ora(`${counter}. Cloning theme repo`).start();
-  await exec(`git clone ${gitUrl} ${theme.folderName}/temp`)
+  const spinnerClone = ora(`${counter}. Cloning ${data.projectType} repo`).start();
+  await exec(`git clone ${gitUrl} ${data.folderName}/temp`)
     .then(() => {
       spinnerClone.succeed();
       counter += 1;
@@ -306,22 +322,21 @@ const run = async () => {
   // -----------------------------
 
   const spinnerCopy = ora(`${counter}. Copying files from temp folder`).start();
-  await exec(`cd "${theme.folderName}"`)
+  await exec(`cd "${data.folderName}"`)
     .then(() => {
       spinnerCopy.succeed();
       counter += 1;
 
-      let files = glob.sync(`./${theme.folderName}/temp/src/templates/theme/copy/**/*.*`);
-      //let files = glob.sync(`./${theme.folderName}/**/*.*`);
+      let files = glob.sync(`./${data.folderName}/temp/src/templates/${data.projectType}/copy/**/*.*`);
 
       files.forEach(templateFile => {
         let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
-        copyTpl(templateFile, toFile, theme);
+        copyTpl(templateFile, toFile, data);
       });
 
       fs.copySync(
-        `./${theme.folderName}/temp/src/templates/theme/copy`,
-        `./${theme.folderName}`,
+        `./${data.folderName}/temp/src/templates/${data.projectType}/copy`,
+        `./${data.folderName}`,
         {
           filter: n => {
             return !n.endsWith('.ejs');
@@ -330,71 +345,71 @@ const run = async () => {
       );
 
       wpPot({
-        destFile: `./${theme.folderName}/languages/${theme.packageName}.pot`,
-        domain: theme.textDomain,
-        package: theme.packageName,
-        src: `./${theme.folderName}/**/*.php`
+        destFile: `./${data.folderName}/languages/${data.packageName}.pot`,
+        domain: data.textDomain,
+        package: data.packageName,
+        src: `./${data.folderName}/**/*.php`
       });
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/theme/modify/_MIT.txt`,
-        `./${theme.folderName}/LICENSE.txt`,
-        theme
+        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_MIT.txt`,
+        `./${data.folderName}/LICENSE.txt`,
+        data
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/theme/modify/_index.${theme.styles}`,
-        `./${theme.folderName}/build/styles/index.${theme.styles}`,
-        theme
+        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_index.${data.styles}`,
+        `./${data.folderName}/build/styles/index.${data.styles}`,
+        data
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/theme/modify/_utilities.css`,
-        `./${theme.folderName}/build/styles/utilities/_utilities.${theme.styles}`,
-        theme
+        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_utilities.css`,
+        `./${data.folderName}/build/styles/utilities/_utilities.${data.styles}`,
+        data
       );
 
       copyTpl(
-        `./${theme.folderName}/temp/src/templates/theme/modify/_base.css`,
-        `./${theme.folderName}/build/styles/base/_base.${theme.styles}`,
-        theme
+        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_base.css`,
+        `./${data.folderName}/build/styles/base/_base.${data.styles}`,
+        data
       );
 
-      if (theme.server !== false) {
+      if (data.server !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/theme/modify/_serve.js`,
-          `./${theme.folderName}/build/tools/serve.js`,
-          theme
+          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_serve.js`,
+          `./${data.folderName}/build/tools/serve.js`,
+          data
         );
       }
 
-      if (theme.phpcs !== false) {
+      if (data.phpcs !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/theme/modify/_phpcs.xml`,
-          `./${theme.folderName}/phpcs.xml`,
-          theme
+          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_phpcs.xml`,
+          `./${data.folderName}/phpcs.xml`,
+          data
         );
       }
 
-      if (theme.scss !== false) {
+      if (data.scss !== false) {
         fs.copySync(
-          `./${theme.folderName}/temp/src/templates/theme/modify/_scss_resources`,
-          `./${theme.folderName}/build/styles/resources`
+          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_scss_resources`,
+          `./${data.folderName}/build/styles/resources`
         );
       }
 
-      if (theme.tailwind !== false) {
+      if (data.tailwind !== false) {
         copyTpl(
-          `./${theme.folderName}/temp/src/templates/theme/modify/_tailwind.js`,
-          `./${theme.folderName}/build/styles/tailwind.js`,
-          theme
+          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_tailwind.js`,
+          `./${data.folderName}/build/styles/tailwind.js`,
+          data
         );
       }
 
-      if (theme.vue !== false) {
+      if (data.vue !== false) {
         fs.copySync(
-          `./${theme.folderName}/temp/src/templates/theme/modify/_vue`,
-          `./${theme.folderName}/build/scripts/vue`
+          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_vue`,
+          `./${data.folderName}/build/scripts/vue`
         );
       }
     })
@@ -429,7 +444,7 @@ const run = async () => {
       `${counter}. Installing Composer dependencies`
     ).start();
     await exec(
-      `cd "${fullThemePath}" && composer install --ignore-platform-reqs`
+      `cd "${fullProjectPath}" && composer install --ignore-platform-reqs`
     )
       .then(() => {
         spinnerComposer.succeed();
@@ -448,7 +463,7 @@ const run = async () => {
 
   if (args.install) {
     const spinnerNode = ora(`${counter}. Installing NPM dependencies`).start();
-    await exec(`cd "${fullThemePath}" && npm install`)
+    await exec(`cd "${fullProjectPath}" && npm install`)
       .then(() => {
         spinnerNode.succeed();
         counter += 1;
@@ -466,7 +481,7 @@ const run = async () => {
 
   if (args.git) {
     const spinnerInit = ora(`${counter}. Initializing git repo`).start();
-    await exec(`cd "${fullThemePath}" && git init`)
+    await exec(`cd "${fullProjectPath}" && git init`)
       .then(() => {
         spinnerInit.succeed();
         counter += 1;
@@ -481,7 +496,7 @@ const run = async () => {
   // -----------------------------
   //  7. Success
   // -----------------------------
-  write.outro(theme.folderName, args.install);
+  write.outro(data.folderName, args.install);
 };
 
 try {

@@ -1,4 +1,4 @@
-# <%= themeName %>
+# <%= projectName %>
 
 **Contributors:** (this should be a list of wordpress.org userid's)  
 **Requires at least:** WordPress <%= minWpVersion %>  
@@ -13,10 +13,10 @@
 
 ## Copyright
 
-<%= themeName %> WordPress Theme, Copyright <%= year %> Bozzanova
-<%= themeName %> is distributed under the terms of the MIT license
+<%= projectName %> WordPress <%= projectType %>, Copyright <%= year %> Bozzanova
+<%= projectName %> is distributed under the terms of the MIT license
 
-<%= themeName %> bundles the following third-party resources:
+<%= projectName %> bundles the following third-party resources:
 
 ## Changelog
 

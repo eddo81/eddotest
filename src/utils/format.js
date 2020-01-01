@@ -33,10 +33,10 @@ function cleanChars(string) {
 
 function prefix(string) {
   let prefix = "";
-  const themeNameWords = string.split(" ");
+  const projectNameWords = string.split(" ");
 
-  if (themeNameWords && themeNameWords.length >= 2) {
-    for (const word of themeNameWords) {
+  if (projectNameWords && projectNameWords.length >= 2) {
+    for (const word of projectNameWords) {
       prefix += word.charAt(0).toUpperCase();
     }
   }

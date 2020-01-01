@@ -1,0 +1,28 @@
+const _CONFIG = require('./build/tools/config');
+const purgecss = require('@fullhuman/postcss-purgecss');
+const autoprefixer = require('autoprefixer');
+const postcssimport = require('postcss-import');
+const postcssnested = require('postcss-nested');
+const postcsscurrentselector = require('postcss-current-selector');
+const postcsscalc = require('postcss-calc');
+const postcsspreset = require('postcss-preset-env');
+const objectfitimages = require('postcss-object-fit-images');<% if (tailwind !== false) { %>
+const tailwindcss = require('tailwindcss');<% } %>
+
+	module.exports = {
+	plugins: [
+		postcssimport({ path: ["build/styles"] }),
+		postcssnested,
+		postcsscurrentselector({ "symbol": "&" }),
+		(_CONFIG.env.debug) ? undefined : purgecss({
+			content: ['./**/*.json', './**/*.js', './**/*.php', './**/*.css'<% if(scss !== false) { %>, './**/*.scss' <% } %>],
+			whitelistPatternsChildren: [],
+			defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
+		}),
+		postcsscalc,
+		(_CONFIG.env.debug) ? undefined : autoprefixer,
+		postcsspreset,
+		objectfitimages,<% if (tailwind !== false) { %>
+		tailwindcss('./build/tools/config/tailwind.js'),<% } %>
+  ]
+}
