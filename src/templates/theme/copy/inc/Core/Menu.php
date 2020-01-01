@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Core;
-<%- version %>
+
 use function add_action;
 use function get_nav_menu_locations;
 use function get_term;
