@@ -43,11 +43,14 @@ if ( function_exists( 'registry_get' ) === false ) {
 	 */
 	function registry_get( string $key ) {
 		try {
-			return Nova\Core\Registry::get( $key );
-		} catch ( Exception $e ) {
+			if( class_exists( 'Nova\\Core\\Registry' ) === false ) {
+				throw new \Exception( __( 'Registry class missing', '<%= textDomain %>' ) );
+			}
+			return \Nova\Core\Registry::get( $key );
+		} catch ( \Exception $e ) {
 			theme_error(
 				$e->getMessage(),
-				__( 'Registry class missing', '<%= textDomain %>' )
+				__( 'Failed to retrieve key in registry', '<%= textDomain %>' )
 			);
 		}
 	}
@@ -64,8 +67,11 @@ if ( function_exists( 'registry_set' ) === false ) {
 	 */
 	function registry_set( string $key, $value ) : void {
 		try {
-			Nova\Core\Registry::set( $key, $value );
-		} catch ( Exception $e ) {
+			if( class_exists( 'Nova\\Core\\Registry' ) === false ) {
+				throw new \Exception( __( 'Registry class missing', '<%= textDomain %>' ) );
+			}
+			\Nova\Core\Registry::set( $key, $value );
+		} catch ( \Exception $e ) {
 			theme_error(
 				$e->getMessage(),
 				__( 'Failed to store key in registry', '<%= textDomain %>' )

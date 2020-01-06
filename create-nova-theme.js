@@ -124,7 +124,7 @@ const run = async () => {
             if (value === '') {
               return true;
             } else {
-              return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) ? `You have entered an invalid email address!` : true
+              return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) === false) ? `You have entered an invalid email address!` : true
             }
           }
         },
@@ -137,7 +137,7 @@ const run = async () => {
             if (value === '') {
               return true;
             } else {
-              return validURL(value) ? `You have entered an invalid URL!` : true
+              return (validURL(value) === false) ? `You have entered an invalid URL!` : true
             }
           }
         },
@@ -160,7 +160,7 @@ const run = async () => {
             if (value === '') {
               return true;
             } else {
-              return validURL(value) ? `You have entered an invalid URI!` : true
+              return (validURL(value) === false) ? `You have entered an invalid URI!` : true
             }
           }
         },
