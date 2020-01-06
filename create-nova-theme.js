@@ -119,7 +119,7 @@ const run = async () => {
         {
           type: args.verbose === true ? "text" : null,
           name: "authorEmail",
-          message: `Please enter the author email (leave blank to skip):`,
+          message: `Please enter the author email:`,
           validate: (value) => {
             if (value === '') {
               return true;
@@ -132,7 +132,7 @@ const run = async () => {
         {
           type: args.verbose === true ? "text" : null,
           name: "authorUrl",
-          message: `Please enter the author url (leave blank to skip):`,
+          message: `Please enter the author url:`,
           validate: (value) => {
             if (value === '') {
               return true;
@@ -156,6 +156,13 @@ const run = async () => {
           type: args.verbose === true ? "text" : null,
           name: "uri",
           message: `Enter the ${projectType}'s URI:`,
+          validate: (value) => {
+            if (value === '') {
+              return true;
+            } else {
+              return validURL(value) ? `You have entered an invalid URI!` : true
+            }
+          }
         },
 
         {
@@ -191,21 +198,21 @@ const run = async () => {
             {
               title: "MIT",
               value: {
-                name: "MIT",
+                type: "MIT",
                 url: "https://opensource.org/licenses/MIT"
               }
             },
             {
               title: "Apache-2.0",
               value: {
-                name: "Apache-2.0",
+                type: "Apache-2.0",
                 url: "https://opensource.org/licenses/Apache-2.0"
               }
             },
             {
               title: "GPLv3",
               value: {
-                name: "GPLv3",
+                type: "GPLv3",
                 url: "https://opensource.org/licenses/GPL-3.0"
               }
             },
@@ -309,8 +316,9 @@ const run = async () => {
       "Package name": data.packageName,
       "Project version": args.verbose ? data.version : undefined,
       "Project description": args.verbose ? data.description : undefined,
+      "Project licence": data.license.type,
       "Project features": answers.features,
-      "Front-end dependencies": answers.jslibs.concat([answers.csslibs])
+      "Front-end dependencies": answers.jslibs.concat([answers.csslibs]),
     };
 
     // Display summery
