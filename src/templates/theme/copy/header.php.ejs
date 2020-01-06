@@ -16,6 +16,7 @@ namespace <%= namespace %>;
 
 use function bloginfo;
 use function body_class;
+use function do_action;
 use function language_attributes;
 use function wp_body_open;
 use function wp_head;
@@ -29,6 +30,7 @@ use function __;
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>document.querySelector("html").classList.remove("no-js");</script>
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
@@ -37,5 +39,5 @@ use function __;
 			<p><?= __( 'This page requires JavaScript, please enable it in your browser to access the content.', '<%= textDomain %>' ); ?></p>
 		</noscript>
 		<!--[if lte IE 9]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.'</p><![endif]-->
-		<?php render_template( 'template-parts/partials/navbar' ); ?>
+		<?php do_action( 'before_main' ); ?>
 		<main role="main" id="app">

@@ -13,12 +13,13 @@
 
 namespace <%= namespace %>;
 
+use function do_action;
 use function wp_footer;
 
 ?>
 
 	</main>
-		<?php render_template( 'template-parts/partials/site-footer' ); ?>
+		<?php do_action( 'after_main' ); ?>
 		<?php wp_footer(); ?>
 	</body>
 </html>

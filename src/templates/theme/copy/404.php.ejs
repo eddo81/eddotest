@@ -11,13 +11,8 @@
 
 namespace <%= namespace %>;
 
-get_header(); ?>
+get_header();
 
-<section id="post-404">
-	<h1><?= __('Page not found', '<%= textDomain %>'); ?></h1>
-	<p>
-		<a href="<?= home_url(); ?>"><?= __('Return home?', '<%= textDomain %>'); ?></a>
-	</p>
-</section>
+do_action( '404' );
 
-<?php get_footer();
+get_footer();

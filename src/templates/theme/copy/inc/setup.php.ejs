@@ -59,9 +59,7 @@ add_action( 'after_setup_theme', function () {
 	 * Add inline script- and style-tags to document head.
 	 */
 	if ( is_admin() === false ) {
-		add_action( 'wp_head', function() {
-			render_template( 'template-parts/partials/critical/inline-scripts' );
-		});
+		add_action( 'wp_head', function() {});
 	}
 
 	/**
