@@ -9,6 +9,7 @@ const prompts = require("prompts");
 const { exec } = require("promisify-child-process");
 const write = require("./src/utils/write.js");
 const format = require("./src/utils/format.js");
+const validURL = require("./src/utils/vaildURL.js");
 const copyTpl = require("./src/utils/copyTemplateFile.js");
 const argv = require("yargs").argv;
 const glob = require("glob");
@@ -18,21 +19,27 @@ let args = {
   verbose: argv.verbose || argv.v ? true : false,
   skip: argv.skip || argv.s ? true : false,
   install: argv.install || argv.i ? true : false,
-  git: argv.git || argv.g ? true : false
+  git: argv.git || argv.g ? true : false,
+  plugin: argv.plugin || argv.p ? true : false
 };
 
 let fullProjectPath = "";
+let projectType = (args.plugin) ? 'plugin' : 'theme';
 let counter = 1;
 let data;
 let summery;
+let defaultLicense = {
+  type: 'MIT',
+  url: 'https://opensource.org/licenses/MIT'
+};
 
 /**
  * Runs before the setup for some sanity checks. (Are we in the right folder + is Composer
  * installed and available as `composer` command)
  */
-const preFlightChecklist = async (projectTypeIn) => {
+const preFlightChecklist = async () => {
   // Make sure the user has called the script from wp-content/themes or wp-content/plugins folder.
-  let projectFolderName = `${data.projectType}s`;
+  let projectFolderName = `${projectType}s`;
 
   if (path.basename(process.cwd()) !== projectFolderName) {
     throw new Error(
@@ -104,20 +111,41 @@ const run = async () => {
     const answers = await prompts(
       [
         {
-          type: "select",
-          name: "project",
-          message: "Select which type of project you'd like to create:",
-          choices: [
-            { title: "Theme", value: "theme" },
-            { title: "Plugin", value: "plugin" },
-          ],
-          initial: 1
+          type: args.verbose === true ? "text" : null,
+          name: "authorName",
+          message: `Please enter the name of the ${projectType} author:`,
+        },
+
+        {
+          type: args.verbose === true ? "text" : null,
+          name: "authorEmail",
+          message: `Please enter the author email (leave blank to skip):`,
+          validate: (value) => {
+            if (value === '') {
+              return true;
+            } else {
+              return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) ? `You have entered an invalid email address!` : true
+            }
+          }
+        },
+
+        {
+          type: args.verbose === true ? "text" : null,
+          name: "authorUrl",
+          message: `Please enter the author url (leave blank to skip):`,
+          validate: (value) => {
+            if (value === '') {
+              return true;
+            } else {
+              return validURL(value) ? `You have entered an invalid URL!` : true
+            }
+          }
         },
 
         {
           type: "text",
           name: "name",
-          message: (prev, values) => `Please enter your ${values.project} name (shown in WordPress admin):`,
+          message: `Please enter your ${projectType} name (shown in WordPress admin):`,
           validate: value =>
             value.length < 2
               ? `The project name is required and must contain at least 2 characters.`
@@ -127,19 +155,19 @@ const run = async () => {
         {
           type: args.verbose === true ? "text" : null,
           name: "uri",
-          message: (prev, values) => `Enter the ${values.project}'s URI:`,
+          message: `Enter the ${projectType}'s URI:`,
         },
 
         {
           type: args.verbose === true ? "text" : null,
           name: "description",
-          message: (prev, values) => `Enter the ${values.project}'s description:`,
+          message: `Enter the ${projectType}'s description:`,
         },
 
         {
           type: args.verbose === true ? "text" : null,
           name: "version",
-          message: (prev, values) => `Enter the ${values.project}'s version number:`,
+          message: `Enter the ${projectType}'s version number:`,
           initial: `1.0.0`,
           validate: value =>
             /^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(value) === false
@@ -150,9 +178,39 @@ const run = async () => {
         {
           type: args.verbose === true ? "list" : null,
           name: "tags",
-          message: (prev, values) => `Enter the ${values.project} keywords/tags:`,
+          message: `Enter the ${projectType} keywords/tags:`,
           initial: "",
           separator: ","
+        },
+
+        {
+          type: args.verbose === true ? "select" : null,
+          name: "license",
+          message: `Select which type of license you would like to use for this ${projectType}:`,
+          choices: [
+            {
+              title: "MIT",
+              value: {
+                name: "MIT",
+                url: "https://opensource.org/licenses/MIT"
+              }
+            },
+            {
+              title: "Apache-2.0",
+              value: {
+                name: "Apache-2.0",
+                url: "https://opensource.org/licenses/Apache-2.0"
+              }
+            },
+            {
+              title: "GPLv3",
+              value: {
+                name: "GPLv3",
+                url: "https://opensource.org/licenses/GPL-3.0"
+              }
+            },
+          ],
+          initial: 1
         },
 
         {
@@ -214,7 +272,13 @@ const run = async () => {
 
     data.minWpVersion = "4.7.0";
     data.minPhpVersion = "7.1";
-    data.projectType = answers.project ? answers.project : "theme";
+    data.projectType = projectType;
+    data.author = {
+      name: answers.authorName ? answers.authorName : '',
+      email: answers.authorEmail ? answers.authorEmail : '',
+      url: answers.authorUrl ? answers.authorUrl : '',
+      full: answers.authorName ? `${answers.authorName}${answers.authorEmail ? ' <' + answers.authorEmail + '>' : ''}${answers.authorUrl ? ' (' + answers.authorUrl + ')' : ''}` : ''
+    };
     data.projectName = answers.name;
     data.folderName = format.dash(data.projectName);
     data.packageName = format.underscore(data.projectName);
@@ -226,11 +290,8 @@ const run = async () => {
     data.description = answers.description ? answers.description : "";
     data.tags = answers.tags ? answers.tags : "";
     data.year = new Date().getFullYear();
-    data.licenseType = 'MIT';
-    data.licenseUrl = 'https://opensource.org/licenses/MIT';
-    data.server = answers.features.includes("server")
-      ? answers.dev_url
-      : false;
+    data.license = answers.license ? answers.license : defaultLicense;
+    data.server = answers.features.includes("server") ? answers.dev_url : false;
     data.phpcs = answers.features.includes("phpcs");
     data.scss = answers.features.includes("scss");
     data.styles = data.scss !== false ? "scss" : "css";
@@ -287,7 +348,7 @@ const run = async () => {
     counter += 1;
   } else {
     const spinnerChecklist = ora(`${counter}. Pre-flight checklist`).start();
-    await preFlightChecklist(data.projectType)
+    await preFlightChecklist()
       .then(() => {
         spinnerChecklist.succeed();
         counter += 1;
@@ -305,7 +366,7 @@ const run = async () => {
 
   const gitUrl = `https://github.com/eddo81/create-nova-theme.git`;
 
-  const spinnerClone = ora(`${counter}. Cloning ${data.projectType} repo`).start();
+  const spinnerClone = ora(`${counter}. Cloning ${projectType} repo`).start();
   await exec(`git clone ${gitUrl} ${data.folderName}/temp`)
     .then(() => {
       spinnerClone.succeed();
@@ -327,7 +388,7 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
-      let files = glob.sync(`./${data.folderName}/temp/src/templates/${data.projectType}/copy/**/*.*`);
+      let files = glob.sync(`./${data.folderName}/temp/src/templates/${projectType}/copy/**/*.*`);
 
       files.forEach(templateFile => {
         let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
@@ -335,7 +396,7 @@ const run = async () => {
       });
 
       fs.copySync(
-        `./${data.folderName}/temp/src/templates/${data.projectType}/copy`,
+        `./${data.folderName}/temp/src/templates/${projectType}/copy`,
         `./${data.folderName}`,
         {
           filter: n => {
@@ -352,32 +413,32 @@ const run = async () => {
       });
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_MIT.txt`,
+        `./${data.folderName}/temp/src/templates/${projectType}/modify/licenses/_${data.license.type}.txt`,
         `./${data.folderName}/LICENSE.txt`,
         data
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_index.${data.styles}`,
+        `./${data.folderName}/temp/src/templates/${projectType}/modify/_index.${data.styles}`,
         `./${data.folderName}/build/styles/index.${data.styles}`,
         data
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_utilities.css`,
+        `./${data.folderName}/temp/src/templates/${projectType}/modify/_utilities.css`,
         `./${data.folderName}/build/styles/utilities/_utilities.${data.styles}`,
         data
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_base.css`,
+        `./${data.folderName}/temp/src/templates/${projectType}/modify/_base.css`,
         `./${data.folderName}/build/styles/base/_base.${data.styles}`,
         data
       );
 
       if (data.server !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_serve.js`,
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_serve.js`,
           `./${data.folderName}/build/tools/serve.js`,
           data
         );
@@ -385,7 +446,7 @@ const run = async () => {
 
       if (data.phpcs !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_phpcs.xml`,
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_phpcs.xml`,
           `./${data.folderName}/phpcs.xml`,
           data
         );
@@ -393,14 +454,14 @@ const run = async () => {
 
       if (data.scss !== false) {
         fs.copySync(
-          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_scss_resources`,
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_scss_resources`,
           `./${data.folderName}/build/styles/resources`
         );
       }
 
       if (data.tailwind !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_tailwind.js`,
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_tailwind.js`,
           `./${data.folderName}/build/styles/tailwind.js`,
           data
         );
@@ -408,7 +469,7 @@ const run = async () => {
 
       if (data.vue !== false) {
         fs.copySync(
-          `./${data.folderName}/temp/src/templates/${data.projectType}/modify/_vue`,
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_vue`,
           `./${data.folderName}/build/scripts/vue`
         );
       }

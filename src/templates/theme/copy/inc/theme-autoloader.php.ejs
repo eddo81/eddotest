@@ -2,16 +2,14 @@
 /**
  * This file handles the autoloading of theme dependencies via composer.
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @link    https://getcomposer.org/doc/
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
+namespace <%= namespace %>;
 
 use function locate_template;
 

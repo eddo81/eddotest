@@ -2,16 +2,14 @@
 /**
  * Setup theme.
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @link    https://developer.wordpress.org/reference/hooks/after_setup_theme/
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
+namespace <%= namespace %>;
 
 if ( defined( 'ABSPATH' ) === false ) {
 	exit;

@@ -2,20 +2,14 @@
 /**
  * The template for displaying 404 pages (not found).
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @link    https://codex.wordpress.org/Creating_an_Error_404_Page
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
-
-use function home_url;
-use function get_footer;
-use function get_header;
+namespace <%= namespace %>;
 
 get_header(); ?>
 

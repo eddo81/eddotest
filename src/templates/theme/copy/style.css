@@ -4,10 +4,10 @@
   Description:        <%= description %>
   Tags:               <%= tags %>
   Version:            <%= version %>
-  Author:             Bozzanova
-  Author URI:         https://www.bozzanova.se/
+  Author:             <%= author.name %>
+  Author URI:         <%= author.url %>
   Text Domain:        <%= textDomain %>
 
-  License:            MIT License
-  License URI:        http://opensource.org/licenses/MIT
+  License:            <%= license.type %>
+  License URI:        <%= license.url %>
 */

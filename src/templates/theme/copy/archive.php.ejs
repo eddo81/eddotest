@@ -2,19 +2,14 @@
 /**
  * The template for displaying archive pages.
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @link    https://codex.wordpress.org/Template_Hierarchy
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
-
-use function get_footer;
-use function get_header;
+namespace <%= namespace %>;
 
 get_header();
 

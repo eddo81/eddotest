@@ -2,15 +2,13 @@
 /**
  * Backward-compatibility functions for when theme requirements are not met, this file must be parseable by PHP 5.2.
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
+namespace <%= namespace %>;
 
 use function add_action;
 use function esc_html;
@@ -33,17 +31,17 @@ function get_requirements_message() {
 
 	if ( $incorrect_wp_version && $incorrect_php_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: required PHP version number, 4: available WP version number, 5: available PHP version number */
-		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', '<%= textDomain %>' ), THEME_NAME, MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
+		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s and PHP version %3$s. You are running versions %4$s and %5$s respectively. Please update and try again.', '<%= textDomain %>' ), '<%= projectName %>', MIN_WP_VERSION, MIN_PHP_VERSION, get_bloginfo('version'), phpversion() );
 	}
 
 	if ( $incorrect_wp_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
-		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', '<%= textDomain %>' ), THEME_NAME, MIN_WP_VERSION, get_bloginfo('version') );
+		return sprintf( __( 'The theme "%1$s" requires at least WordPress version %2$s. You are running version %3$s. Please update and try again.', '<%= textDomain %>' ), '<%= projectName %>', MIN_WP_VERSION, get_bloginfo('version') );
 	}
 
 	if ( $incorrect_php_version ) {
 		/* translators: 1: theme name, 2: required WP version number, 3: available WP version number */
-		return sprintf( __( 'The theme "%1$s" requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', '<%= textDomain %>' ), THEME_NAME, MIN_PHP_VERSION, phpversion() );
+		return sprintf( __( 'The theme "%1$s" requires at least PHP version %2$s. You are running version %3$s. Please update and try again.', '<%= textDomain %>' ), '<%= projectName %>', MIN_PHP_VERSION, phpversion() );
 	}
 
 	return '';

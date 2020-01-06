@@ -18,7 +18,7 @@ use function wp_get_nav_menu_items;
  *
  * @package <%= packageName %>
  * @author "eddo81 <eduardo_jonnerstig@live.com>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @license <%= license.type %> <%= license.url %>
  * @since   <%= version %>
  */
 class Menu {

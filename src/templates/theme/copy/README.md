@@ -4,8 +4,8 @@
 **Requires at least:** WordPress <%= minWpVersion %>  
 **Requires PHP:** PHP <%= minPhpVersion %>
 
-**License:** MIT License  
-**License URI:** http://opensource.org/licenses/MIT  
+**License:** <%= license.type %> 
+**License URI:** <%= license.url %>  
 
 ## Description
 
@@ -13,8 +13,8 @@
 
 ## Copyright
 
-<%= projectName %> WordPress <%= projectType %>, Copyright <%= year %> Bozzanova
-<%= projectName %> is distributed under the terms of the MIT license
+<%= projectName %> WordPress <%= projectType %>, Copyright <%= year %> <%= author.name %>
+<%= projectName %> is distributed under the terms of the <%= license.type %> license
 
 <%= projectName %> bundles the following third-party resources:
 

@@ -2,15 +2,13 @@
 /**
  * Shims for recent WordPress functions.
  *
- * @package <%= packageName %>
- * @author  "Daniel Andersson <daniel@bozzanova.se>"
- * @author  "Eduardo Jönnerstig <eduardo@bozzanova.se>"
- * @author  "Jon Täng <jon@bozzanova.se>"
- * @license MIT https://opensource.org/licenses/MIT
+ * @package <%= packageName %> <% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
  * @since   <%= version %>
  */
 
- namespace <%= namespace %>;
+namespace <%= namespace %>;
 
 use function do_action;
 
