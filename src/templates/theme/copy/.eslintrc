@@ -8,8 +8,8 @@
 		"browser": true,
 		"node": true,
 		"es6": true,
-		"amd": true<% if(jquery !== false) { %>,
-		"jquery": true<% } %>
+		"amd": true,
+		"jquery": true
   },
   "globals": {
     "jQuery": "readonly",

@@ -23,6 +23,6 @@ const tailwindcss = require('tailwindcss');<% } %>
 		(_CONFIG.env.debug) ? undefined : autoprefixer,
 		postcsspreset,
 		objectfitimages,<% if (tailwind !== false) { %>
-		tailwindcss('./build/tools/config/tailwind.js'),<% } %>
+		tailwindcss('./build/styles/tailwind.js'),<% } %>
   ]
 }
