@@ -6,23 +6,23 @@ const postcssnested = require('postcss-nested');
 const postcsscurrentselector = require('postcss-current-selector');
 const postcsscalc = require('postcss-calc');
 const postcsspreset = require('postcss-preset-env');
-const objectfitimages = require('postcss-object-fit-images');<% if (tailwind !== false) { %>
-const tailwindcss = require('tailwindcss');<% } %>
+const objectfitimages = require('postcss-object-fit-images');
+const tailwindcss = require('tailwindcss');
 
-	module.exports = {
+module.exports = {
 	plugins: [
 		postcssimport({ path: ["build/styles"] }),
 		postcssnested,
-		postcsscurrentselector({ "symbol": "&" }),
+		postcsscurrentselector({ "symbol": "&" }),<% if (tailwind !== false) { %>
+		tailwindcss('./build/styles/tailwind.js'),<% } %>
 		(_CONFIG.env.debug) ? undefined : purgecss({
-			content: ['./**/*.json', './**/*.js', './**/*.php', './**/*.css'<% if(scss !== false) { %>, './**/*.scss' <% } %>],
+			content: ['./**/*.php', './**/*.json'<% if(scss !== false) { %>, './**/*.scss' <% } %>],
 			whitelistPatternsChildren: [],
 			defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
 		}),
 		postcsscalc,
 		(_CONFIG.env.debug) ? undefined : autoprefixer,
 		postcsspreset,
-		objectfitimages,<% if (tailwind !== false) { %>
-		tailwindcss('./build/styles/tailwind.js'),<% } %>
-  ]
+		objectfitimages
+	]
 }
