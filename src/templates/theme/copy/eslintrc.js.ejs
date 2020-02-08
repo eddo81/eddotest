@@ -1,4 +1,4 @@
-{
+module.exports = {
 	"root": true,
 	"parser": "babel-eslint",
 	"parserOptions": {
@@ -10,11 +10,11 @@
 		"es6": true,
 		"amd": true,
 		"jquery": true
-  },
-  "globals": {
-    "jQuery": "readonly",
-    "wp": "readonly"
-  },
+	},
+	"globals": {
+		"jQuery": "readonly",
+		"wp": "readonly"
+	},
 	"extends": ["eslint:recommended"],
 	"plugins": ["html"],
 	"settings": {
@@ -26,4 +26,4 @@
 		"no-console": "warn",
 		"no-unused-vars": "warn"
 	}
-}
+};
