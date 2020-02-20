@@ -6,8 +6,8 @@ const postcssnested = require('postcss-nested');
 const postcsscurrentselector = require('postcss-current-selector');
 const postcsscalc = require('postcss-calc');
 const postcsspreset = require('postcss-preset-env');
-const objectfitimages = require('postcss-object-fit-images');
-const tailwindcss = require('tailwindcss');
+const objectfitimages = require('postcss-object-fit-images');<% if (tailwind !== false) { %>
+const tailwindcss = require('tailwindcss');<% } %>
 
 module.exports = {
 	plugins: [
