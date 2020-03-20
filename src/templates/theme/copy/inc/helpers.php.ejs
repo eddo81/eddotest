@@ -14,33 +14,34 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
-if ( function_exists( 'get_template' ) === false ) {
-	/**
-	 * Returns the template file as a string. Data is bound to the template via the optional ***$vars*** array.
-	 * Each key of the associative ***$vars*** array will correspond to a variable that will be available in the template.
-	 *
-	 * @param string $template_path Path to the template file.
-	 * @param array  $vars Optional template variables.
-	 *
-	 * @return void
-	 */
-	function get_template( $template_path, array $vars = [] ) : void {
-		registry_get( 'template' )->get( $template_path, $vars );
-	}
-}
-
-if ( function_exists( 'render_template' ) === false ) {
+if ( function_exists( 'get_theme_template' ) === false ) {
 	/**
 	 * Like ***get_template_part()*** but lets you pass args to the template file.
-	 * Args are available in the template as regular variables named after their
-	 * corresponding key in the ***$vars*** array.
+	 * Args are available in the template as regular variables named after their corresponding key in the ***$vars*** array.
+	 * Returns the template file as a string.
 	 *
 	 * @param string $template_path Path to the template file.
 	 * @param array  $vars Optional template variables.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	function render_template( $template_path, array $vars = [] ) : void {
-		registry_get( 'template' )->render( $template_path, $vars );
+	function get_theme_template( $template_path, array $vars = [] ) : string {
+		$template_extension = '.php';
+		$template_path      = ( substr( $template_path, -4 ) !== $template_extension ) ? $template_path . $template_extension : $template_path;
+		$template_file      = locate_template( [$template_path], false, false );
+
+		if ( ! file_exists( $template_file ) ) {
+			return '';
+		}
+
+		ob_start();
+
+		if ( ! empty ($vars ) ) {
+			extract( $vars );
+		}
+
+		include $template_file;
+		$data = ob_get_clean();
+		return $data;
 	}
 }
