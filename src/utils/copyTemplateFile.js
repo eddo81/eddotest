@@ -2,9 +2,11 @@ const fs = require("fs");
 const ejs = require("ejs");
 const encoding = "utf-8";
 
-const copyTemplateFile = function(fromFile, toFile, data) {
+const copyTemplateFile = function (fromFile, toFile, data) {
   const template = fs.readFileSync(`${fromFile}`, encoding);
   const file = ejs.render(template, data);
+  console.log(fromFile);
+  console.log(file);
   fs.writeFileSync(`${toFile}`, file, encoding);
 };
 
