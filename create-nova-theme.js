@@ -492,7 +492,7 @@ const run = async () => {
   //  4. Cleanup
   // -----------------------------
 
-  /*const spinnerCleanup = ora(`${counter}. Cleaning project folder`).start();
+  const spinnerCleanup = ora(`${counter}. Cleaning project folder`).start();
   await cleanup()
     .then(() => {
       spinnerCleanup.succeed();
@@ -502,7 +502,7 @@ const run = async () => {
       spinnerCleanup.fail();
       write.error(exception);
       process.exit();
-    });*/
+    });
 
   // ---------------------------------
   //  5. Install Composer dependencies
