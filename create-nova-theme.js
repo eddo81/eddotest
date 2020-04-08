@@ -93,6 +93,15 @@ const cleanup = async () => {
   await fs.remove(path.join(fullProjectPath, "temp"));
 };
 
+const pot = async (data) => {
+  await wpPot({
+    destFile: `./${data.folderName}/languages/${data.packageName}.pot`,
+    domain: data.textDomain,
+    package: data.packageName,
+    src: `./${data.folderName}/**/*.php`
+  });
+}
+
 const run = async () => {
   data = { args: args };
 
@@ -413,13 +422,6 @@ const run = async () => {
         }
       );
 
-      wpPot({
-        destFile: `./${data.folderName}/languages/${data.packageName}.pot`,
-        domain: data.textDomain,
-        package: data.packageName,
-        src: `./${data.folderName}/**/*.php`
-      });
-
       copyTpl(
         `./${data.folderName}/temp/src/templates/${projectType}/modify/licenses/_${data.license.type}.txt`,
         `./${data.folderName}/LICENSE.txt`,
@@ -456,6 +458,14 @@ const run = async () => {
         copyTpl(
           `./${data.folderName}/temp/src/templates/${projectType}/modify/_phpcs.xml`,
           `./${data.folderName}/phpcs.xml`,
+          data
+        );
+      }
+
+      if (data.phpcs !== false) {
+        copyTpl(
+          `./${data.folderName}/temp/src/templates/${projectType}/modify/_settings.json`,
+          `./${data.folderName}/.vscode/settings.json`,
           data
         );
       }
@@ -505,7 +515,23 @@ const run = async () => {
     });
 
   // ---------------------------------
-  //  5. Install Composer dependencies
+  //  5. Create language file
+  // ---------------------------------
+
+  const spinnerPot = ora(`${counter}. Generating Pot file`).start();
+  await pot(data)
+    .then(() => {
+      spinnerPot.succeed();
+      counter += 1;
+    })
+    .catch(exception => {
+      spinnerPot.fail();
+      write.error(exception);
+      process.exit();
+    });
+
+  // ---------------------------------
+  //  6. Install Composer dependencies
   // ---------------------------------
 
   if (args.install) {
@@ -527,7 +553,7 @@ const run = async () => {
   }
 
   // -----------------------------
-  //  6. Install node dependencies
+  //  7. Install node dependencies
   // -----------------------------
 
   if (args.install) {
@@ -545,7 +571,7 @@ const run = async () => {
   }
 
   // -----------------------------
-  //  7. Init git repo
+  //  8. Init git repo
   // -----------------------------
 
   if (args.git) {
@@ -563,7 +589,7 @@ const run = async () => {
   }
 
   // -----------------------------
-  //  7. Success
+  //  9. Success
   // -----------------------------
   write.outro(data.folderName, args.install);
 };
