@@ -39,36 +39,42 @@
 
   <!-- Verify that the text_domain is set to the desired text-domain. Multiple valid text domains can be provided as a comma-delimited list. -->
   <rule ref="WordPress.WP.I18n">
-      <properties>
-          <property name="text_domain" type="array" value="<%= textDomain %>" />
-      </properties>
+    <properties>
+      <property name="text_domain" type="array" value="<%= textDomain %>" />
+    </properties>
   </rule>
 
 	<rule ref="WordPress.WP.AlternativeFunctions">
-        <properties>
-            <property name="exclude">
-                <element value="rand" />
-                <element value="file_get_contents" />
-                <element value="file_system_read" />
-            </property>
-        </properties>
-    </rule>
+    <properties>
+      <property name="exclude">
+        <element value="rand" />
+        <element value="file_get_contents" />
+        <element value="file_system_read" />
+      </property>
+    </properties>
+  </rule>
 
+	<!-- Allow short open tags -->
 	<rule ref="Generic.PHP.DisallowShortOpenTag">
 		<exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound" />
 	</rule>
 
-    <!-- Ban some functions -->
-    <rule ref="Generic.PHP.ForbiddenFunctions">
-        <properties>
-            <property name="forbiddenFunctions" type="array">
-                <element key="sizeof" value="count" />
-                <element key="delete" value="unset" />
-                <element key="print" value="echo" />
-                <element key="is_null" value="null" />
-                <element key="create_function" value="null" />
-            </property>
-        </properties>
-    </rule>
+	<!-- Allow short array syntax -->
+	<rule ref="Generic.Arrays.DisallowShortArraySyntax">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+	</rule>
+
+  <!-- Ban some functions -->
+  <rule ref="Generic.PHP.ForbiddenFunctions">
+    <properties>
+      <property name="forbiddenFunctions" type="array">
+        <element key="sizeof" value="count" />
+        <element key="delete" value="unset" />
+        <element key="print" value="echo" />
+        <element key="is_null" value="null" />
+        <element key="create_function" value="null" />
+      </property>
+    </properties>
+  </rule>
 
 </ruleset>
