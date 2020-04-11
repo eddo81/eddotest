@@ -23,7 +23,7 @@ module.exports = {
 	"rules": {
 		"arrow-parens": 0,
 		"generator-star-spacing": 0,
-		"no-console": "warn",
+		"no-console": process.env.NODE_ENV !== 'production' ? 0 : "warn",
 		"no-unused-vars": "warn"
 	}
 };

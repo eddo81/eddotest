@@ -9,13 +9,13 @@
  * @since   <%= version %>
  */
 
-namespace App;
+ namespace <%= namespace %>;
 
 use function get_footer;
 use function get_header;
 
 get_header();
 
-render_template('template-parts/partials/loop');
+echo get_template('template-parts/partials/loop');
 
 get_footer();
