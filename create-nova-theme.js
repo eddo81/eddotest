@@ -405,36 +405,26 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
-      let files = glob.sync(`./${data.folderName}/temp/src/templates/common/copy/**/*.*`);
-      files = files.concat(glob.sync(`./${data.folderName}/temp/src/templates/${projectType}/copy/**/*.*`));
+      let sources = ['common', projectType];
+      let files = glob.sync(`./${data.folderName}/temp/src/templates/${sources[0]}/copy/**/*.*`);
+      files = files.concat(glob.sync(`./${data.folderName}/temp/src/templates/${sources[1]}/copy/**/*.*`));
 
       files.forEach(templateFile => {
         let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
-        console.log(toFile);
         copyTpl(templateFile, toFile, data);
       });
 
-      // Copy common files
-      fs.copySync(
-        `./${data.folderName}/temp/src/templates/common/copy`,
-        `./${data.folderName}`,
-        {
-          filter: n => {
-            return !n.endsWith('.ejs');
+      sources.forEach((source) => {
+        fs.copySync(
+          `./${data.folderName}/temp/src/templates/${source}/copy`,
+          `./${data.folderName}`,
+          {
+            filter: n => {
+              return !n.endsWith('.ejs');
+            }
           }
-        }
-      );
-
-      // Copy theme or plugin files
-      fs.copySync(
-        `./${data.folderName}/temp/src/templates/${projectType}/copy`,
-        `./${data.folderName}`,
-        {
-          filter: n => {
-            return !n.endsWith('.ejs');
-          }
-        }
-      );
+        );
+      });
 
       copyTpl(
         `./${data.folderName}/temp/src/templates/${projectType}/modify/licenses/_${data.license.type}.txt`,
