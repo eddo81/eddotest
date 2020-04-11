@@ -405,9 +405,8 @@ const run = async () => {
       spinnerCopy.succeed();
       counter += 1;
 
-      let common = glob.sync(`./${data.folderName}/temp/src/templates/common/copy/**/*.*`);
-      let project = glob.sync(`./${data.folderName}/temp/src/templates/${projectType}/copy/**/*.*`);
-      let files = common.concat(project);
+      let files = glob.sync(`./${data.folderName}/temp/src/templates/common/copy/**/*.*`);
+      files = common.concat(glob.sync(`./${data.folderName}/temp/src/templates/${projectType}/copy/**/*.*`));
 
       files.forEach(templateFile => {
         let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
@@ -415,6 +414,18 @@ const run = async () => {
         copyTpl(templateFile, toFile, data);
       });
 
+      // Copy common files
+      fs.copySync(
+        `./${data.folderName}/temp/src/templates/common/copy`,
+        `./${data.folderName}`,
+        {
+          filter: n => {
+            return !n.endsWith('.ejs');
+          }
+        }
+      );
+
+      // Copy theme or plugin files
       fs.copySync(
         `./${data.folderName}/temp/src/templates/${projectType}/copy`,
         `./${data.folderName}`,
