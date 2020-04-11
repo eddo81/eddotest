@@ -409,10 +409,9 @@ const run = async () => {
       let project = glob.sync(`./${data.folderName}/temp/src/templates/${projectType}/copy/**/*.*`);
       let files = common.concat(project);
 
-      console.log(files);
-
       files.forEach(templateFile => {
         let toFile = (templateFile.endsWith('.ejs') === true) ? templateFile.substring(0, templateFile.length - 4) : templateFile;
+        console.log(toFile);
         copyTpl(templateFile, toFile, data);
       });
 
