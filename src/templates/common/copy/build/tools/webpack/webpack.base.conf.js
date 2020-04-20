@@ -28,8 +28,8 @@ resolve: {
 	extensions: ['.css',<% if (scss !== false) { %> '.scss',<% } %> '.js',<% if (vue !== false) { %> '.vue',<% } %> '.json'],
 	alias: {<% if (vue !== false) { %>
 		vue$: _CONFIG.env.debug
-			? "vue/dist/vue.runtime.js"
-			: "vue/dist/vue.runtime.min.js",<% } %>
+			? 'vue/dist/vue.esm.js'
+			: 'vue/dist/vue.esm.js',<% } %>
 				assets: _CONFIG.resolve(_CONFIG.directories.entry.build)
 	}
 },
@@ -144,7 +144,9 @@ externals: {<% if (jquery !== false) { %>
 
 plugins: [
 	new webpack.DefinePlugin({
-		'process.env': { NODE_ENV: _CONFIG.env.mode }
+		'process.env': { NODE_ENV: _CONFIG.env.mode } <% if(vue !== false) { -%>,
+	'Vue': ['vue/dist/vue.esm.js', 'default']
+	<% } %>
 	}),
     <% if (vue !== false) { %>
 	new VueLoaderPlugin(),<% } %>
