@@ -271,7 +271,7 @@ const run = async () => {
         },
 
         {
-          type: "select",
+          type: projectType === "theme" ? "select" : null,
           name: "csslibs",
           message: "Select a css library:",
           choices: [
@@ -433,20 +433,26 @@ const run = async () => {
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${projectType}/modify/_index.${data.styles}`,
+        `./${data.folderName}/temp/src/templates/common/modify/_index.${data.styles}`,
         `./${data.folderName}/build/styles/index.${data.styles}`,
         data
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${projectType}/modify/_utilities.css`,
+        `./${data.folderName}/temp/src/templates/common/modify/_utilities.css`,
         `./${data.folderName}/build/styles/utilities/_utilities.${data.styles}`,
         data
       );
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${projectType}/modify/_base.css`,
+        `./${data.folderName}/temp/src/templates/common/modify/_base.css`,
         `./${data.folderName}/build/styles/base/_base.${data.styles}`,
+        data
+      );
+
+      copyTpl(
+        `./${data.folderName}/temp/src/templates/common/modify/_functions.php.ejs`,
+        `./${data.folderName}/${(projectType === 'theme') ? 'functions' : data.folderName}.php`,
         data
       );
 
@@ -476,12 +482,12 @@ const run = async () => {
 
       if (data.scss !== false) {
         fs.copySync(
-          `./${data.folderName}/temp/src/templates/${projectType}/modify/_scss_resources`,
+          `./${data.folderName}/temp/src/templates/common/modify/_scss_resources`,
           `./${data.folderName}/build/styles/resources`
         );
       }
 
-      if (data.tailwind !== false) {
+      if (data.tailwind !== false && projectType === 'theme') {
         copyTpl(
           `./${data.folderName}/temp/src/templates/${projectType}/modify/_tailwind.js`,
           `./${data.folderName}/build/styles/tailwind.js`,
