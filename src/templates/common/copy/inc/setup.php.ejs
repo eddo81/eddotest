@@ -1,11 +1,11 @@
 <?php
 /**
- * Setup theme.
+ * Setup <%= projectType %>.
  *
  * @package <%= packageName %><% if(author.full !== '') { %>
  * @author  "<%= author.full %>"<% } %>
  * @license <%= license.type %> <%= license.url %>
- * @link    https://developer.wordpress.org/reference/hooks/after_setup_theme/
+ * @link    <% if(projectType === 'theme') { %>https://developer.wordpress.org/reference/hooks/after_setup_theme/<% } else { %>https://developer.wordpress.org/reference/hooks/init/<% } %>
  * @since   <%= version %>
  */
 
@@ -15,44 +15,44 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
-use Nova\Core\AssetManager;
-use Nova\Core\Template;
+use Nova\Core\AssetManager;<% if(projectType === 'theme') { %>
 use Nova\Optimization\ImageSizer;
-use Nova\Optimization\CleanWp;
+use Nova\Optimization\CleanWp;<% } %>
 
-use function add_action;
+use function add_action;<% if(projectType === 'theme') { %>
 use function add_image_size;
 use function add_theme_support;
 use function is_admin;
 use function load_theme_textdomain;
-use function register_nav_menus;
+use function register_nav_menus;<% } else { %>
+use function load_plugin_textdomain;<% } %>
 
-new CleanWp();
-new ImageSizer();
+<% if(projectType === 'theme') { %>new CleanWp();
+new ImageSizer();<% } %>
 
-// Register theme dependencies.
-registry_set( 'asset_manager', new AssetManager( THEME_ASSETS_URI . '/asset_manifest.json' ) );
+// Register <%= projectType %> dependencies.
+registry_set( 'asset_manager', new AssetManager( ROOT_URI . '/assets/asset_manifest.json' ) );
 
 /**
- * Theme setup
+ * Project setup
  *
- * @link https://developer.wordpress.org/reference/hooks/after_setup_theme/
+ * @link <% if(projectType === 'theme') { %>https://developer.wordpress.org/reference/hooks/after_setup_theme/<% } else { %>https://developer.wordpress.org/reference/hooks/init/<% } %>
  */
-add_action( 'after_setup_theme', function () {
+add_action( <% if(projectType === 'theme') { %>'after_setup_theme'<% } else { %>'init'<% } %>, function () {
 
 	/**
-	 * Load theme text domain.
+	 * Load <%= projectType %> text domain.
 	 *
-	 * @link https://developer.wordpress.org/reference/functions/load_theme_textdomain/
+	 * @link https://developer.wordpress.org/reference/functions/load_<%= projectType %>_textdomain/
 	 */
-	load_theme_textdomain( '<%= textDomain %>', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/' );
+	load_<%= projectType %>_textdomain( '<%= textDomain %>', ROOT_URI . DIRECTORY_SEPARATOR . 'languages/' );
 
 	/**
-	 * Enqueue theme scripts and styles.
+	 * Enqueue <%= projectType %> scripts and styles.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/wp_enqueue_script/
 	 */
-	registry_get( 'asset_manager' )->enqueue_theme_scripts_and_styles( 'theme' );
+	registry_get( 'asset_manager' )->enqueue_<%= projectType %>_scripts_and_styles( '<%= projectType %>' );<% if(projectType === 'theme') { %>
 
 	/**
 	 * Add inline script- and style-tags to document head.
@@ -157,6 +157,6 @@ add_action( 'after_setup_theme', function () {
 	 * @link https://developer.wordpress.org/reference/functions/add_image_size/
 	 */
 	add_image_size( __( 'full-width', '<%= textDomain %>' ), 2560, 9999, false );
-	add_image_size( __( 'hero', '<%= textDomain %>' ), 1600, 500, true );
+	add_image_size( __( 'hero', '<%= textDomain %>' ), 1600, 500, true );<% } %>
 
 }, 20 );

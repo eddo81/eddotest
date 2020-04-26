@@ -56,7 +56,7 @@ function render_compatibility_error( $options = array() ) {
 	$message = esc_html( get_requirements_message() );
 	$heading = __( 'Compatibility error', '<%= textDomain %>' );
 	$title   = $heading;
-	theme_error($message, $heading, $title, $options);
+	<%= projectType %>_error($message, $heading, $title, $options);
 }
 
 /**
@@ -110,7 +110,7 @@ function init_theme() {
 	} else {
 		$title   = __( 'Compatibility error', '<%= textDomain %>' );
 		$message = __( 'There is a compatibility issue which is preventing this page from rendering properly.', '<%= textDomain %>' );
-		theme_error( $message, $title );
+		<%= projectType %>_error( $message, $title );
 	}
 
 }

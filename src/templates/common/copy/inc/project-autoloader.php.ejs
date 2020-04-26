@@ -14,7 +14,7 @@ namespace <%= namespace %>;
 use function locate_template;
 
 // Path to composer autoloader.
-$composer = THEME_ROOT_URI . '/vendor/autoload.php';
+$composer = ROOT_URI . '/vendor/autoload.php';
 
 // Ensure dependencies are loaded.
 if ( class_exists( 'Nova\\Core\\Registry' ) === false ) {

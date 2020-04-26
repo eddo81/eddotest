@@ -1,6 +1,6 @@
 <?php
 /**
- * Theme helper functions.
+ * Global helper functions.
  *
  * @package <%= packageName %><% if(author.full !== '') { %>
  * @author  "<%= author.full %>"<% } %>
@@ -14,7 +14,7 @@ if ( defined( 'ABSPATH' ) === false ) {
 	exit;
 }
 
-if ( function_exists( 'get_theme_template' ) === false ) {
+<% if(projectType === 'theme') { %>if ( function_exists( 'get_theme_template' ) === false ) {
 	/**
 	 * Like ***get_template_part()*** but lets you pass args to the template file.
 	 * Args are available in the template as regular variables named after their corresponding key in the ***$vars*** array.
@@ -44,4 +44,4 @@ if ( function_exists( 'get_theme_template' ) === false ) {
 		$data = ob_get_clean();
 		return $data;
 	}
-}
+}<% } %>
