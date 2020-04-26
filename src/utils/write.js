@@ -4,7 +4,7 @@ const chalk = require("chalk");
 
 function intro() {
   process.stdout.write("\u001b[2J\u001b[0;0H");
-  console.log(chalk.cyan(figlet.textSync("Create Nova Theme ")));
+  console.log(chalk.cyan(figlet.textSync("Create Nova Project ")));
   console.log(
     " You're about to run the setup script for your project in this directory:"
   );

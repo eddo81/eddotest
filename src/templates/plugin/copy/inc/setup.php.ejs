@@ -1,0 +1,48 @@
+<?php
+/**
+ * Setup plugin.
+ *
+ * @package <%= packageName %><% if(author.full !== '') { %>
+ * @author  "<%= author.full %>"<% } %>
+ * @license <%= license.type %> <%= license.url %>
+ * @link    https://developer.wordpress.org/reference/hooks/init/
+ * @since   <%= version %>
+ */
+
+namespace <%= namespace %>;
+
+if ( defined( 'ABSPATH' ) === false ) {
+	exit;
+}
+
+use Nova\Core\AssetManager;
+
+use function add_action;
+use function is_admin;
+use function load_plugin_textdomain;
+
+// Register plugin dependencies.
+registry_set( 'asset_manager', new AssetManager( THEME_ASSETS_URI . '/asset_manifest.json' ) );
+
+/**
+ * Plugin init
+ *
+ * @link https://developer.wordpress.org/reference/hooks/after_setup_theme/
+ */
+add_action( 'init', function () {
+
+	/**
+	 * Load plugin text domain.
+	 *
+	 * @link https://developer.wordpress.org/reference/functions/load_plugin_textdomain/
+	 */
+	load_plugin_textdomain( '<%= textDomain %>', THEME_ROOT_URI . DIRECTORY_SEPARATOR . 'languages/' );
+
+	/**
+	 * Enqueue plugin scripts and styles.
+	 *
+	 * @link https://developer.wordpress.org/reference/functions/wp_enqueue_script/
+	 */
+	registry_get( 'asset_manager' )->enqueue_theme_scripts_and_styles( 'plugin' );
+
+}, 20 );

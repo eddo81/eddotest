@@ -427,7 +427,7 @@ const run = async () => {
       });
 
       copyTpl(
-        `./${data.folderName}/temp/src/templates/${projectType}/modify/licenses/_${data.license.type}.txt`,
+        `./${data.folderName}/temp/src/templates/common/modify/_licenses/_${data.license.type}.txt`,
         `./${data.folderName}/LICENSE.txt`,
         data
       );
@@ -452,7 +452,7 @@ const run = async () => {
 
       if (data.server !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${projectType}/modify/_serve.js`,
+          `./${data.folderName}/temp/src/templates/common/modify/_serve.js`,
           `./${data.folderName}/build/tools/serve.js`,
           data
         );
@@ -460,7 +460,7 @@ const run = async () => {
 
       if (data.phpcs !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${projectType}/modify/_phpcs.xml`,
+          `./${data.folderName}/temp/src/templates/common/modify/_phpcs.xml`,
           `./${data.folderName}/phpcs.xml`,
           data
         );
@@ -468,7 +468,7 @@ const run = async () => {
 
       if (data.phpcs !== false) {
         copyTpl(
-          `./${data.folderName}/temp/src/templates/${projectType}/modify/_settings.json`,
+          `./${data.folderName}/temp/src/templates/common/modify/_settings.json`,
           `./${data.folderName}/.vscode/settings.json`,
           data
         );
@@ -491,7 +491,7 @@ const run = async () => {
 
       if (data.vue !== false) {
         fs.copySync(
-          `./${data.folderName}/temp/src/templates/${projectType}/modify/_vue`,
+          `./${data.folderName}/temp/src/templates/common/modify/_vue`,
           `./${data.folderName}/build/scripts/vue`
         );
       }

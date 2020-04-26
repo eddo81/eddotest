@@ -15,6 +15,6 @@ window.addEventListener('load', () => {
 });
 <% if(vue !== false) { -%>
 new Vue({
-  render: h => h(App)
+
 }).$mount("#app");
 <% } -%>
