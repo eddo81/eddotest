@@ -1,6 +1,6 @@
 <?php
 /**
- * This file handles the autoloading of theme dependencies via composer.
+ * This file handles the autoloading of <%= projectType %> dependencies via composer.
  *
  * @package <%= packageName %><% if(author.full !== '') { %>
  * @author  "<%= author.full %>"<% } %>
@@ -19,7 +19,7 @@ $composer = THEME_ROOT_URI . '/vendor/autoload.php';
 // Ensure dependencies are loaded.
 if ( class_exists( 'Nova\\Core\\Registry' ) === false ) {
 	if ( file_exists( $composer ) === false ) {
-		theme_error(
+		<%= projectType %>_error(
 			sprintf(
 				"<code>{$composer}</code><br><br>%1s <code>%2s</code> %3s",
 				__( 'Please run the', '<%= textDomain %>' ),
@@ -48,7 +48,7 @@ if ( function_exists( 'registry_get' ) === false ) {
 			}
 			return \Nova\Core\Registry::get( $key );
 		} catch ( \Exception $e ) {
-			theme_error(
+			<%= projectType %>_error(
 				$e->getMessage(),
 				__( 'Failed to retrieve key in registry', '<%= textDomain %>' )
 			);
@@ -72,7 +72,7 @@ if ( function_exists( 'registry_set' ) === false ) {
 			}
 			\Nova\Core\Registry::set( $key, $value );
 		} catch ( \Exception $e ) {
-			theme_error(
+			<%= projectType %>_error(
 				$e->getMessage(),
 				__( 'Failed to store key in registry', '<%= textDomain %>' )
 			);
@@ -81,9 +81,9 @@ if ( function_exists( 'registry_set' ) === false ) {
 }
 
 /*
- * Theme required files.
+ * Required files.
  *
- * The mapped array determines the code library included in your theme.
+ * The mapped array determines the code library included in your <%= projectType %>.
  * Add or remove files to the array as needed.
  */
 
@@ -91,11 +91,11 @@ array_map(
 	function ( $file ) {
 		$file = "./inc/{$file}.php";
 		if ( locate_template( $file, true, true ) === false ) {
-			theme_error(
+			<%= projectType %>_error(
 				"<code>{$file}</code><br><br>",
 				__( 'File not found.', '<%= textDomain %>' )
 			);
 		}
 	},
-	['shims', 'helpers', 'setup', 'filters', 'admin']
+	<% if(projectType === 'theme') { %>['shims', 'helpers', 'setup', 'filters', 'admin']<% } else { %>['helpers', 'setup']<% } %>
 );
