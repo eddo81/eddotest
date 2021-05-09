@@ -5,19 +5,19 @@
  * @package <%= packageName %><% if(author.full !== '') { %>
  * @author  "<%= author.full %>"<% } %>
  * @license <%= license.type %> <%= license.url %>
- * @link    https://developer.wordpress.org/themes/basics/theme-functions/
+ * @link    <% if(projectType === 'theme') { %>https://developer.wordpress.org/themes/basics/theme-functions/<% } else { %>https://developer.wordpress.org/plugins/plugin-basics/<% } %>
  * @since   <%= version %>
  */
 
-// Define theme wide control variables.
+// Define '<%= projectType %> wide control variables.
 define( 'MIN_PHP_VERSION', '<%= minPhpVersion %>' );
 define( 'MIN_WP_VERSION', '<%= minWpVersion %>' );
 
 // Define <%= projectType %> wide paths.
-define( 'ROOT_URL', get_template_directory_uri() );
-define( 'ROOT_URI', get_template_directory() );
+define( 'ROOT_URL', <% if(projectType === 'theme') { %>get_template_directory_uri()<% } else { %>plugin_dir_url( __FILE__ )<% } %> );
+define( 'ROOT_URI', <% if(projectType === 'theme') { %>get_template_directory()<% } else { %>dirname( __FILE__ )<% } %> );<% if(projectType === 'theme') { %>
 
-<% if(projectType === 'theme') { %>// Disable theme editor in admin.
+// Disable theme editor in admin.
 define( 'DISALLOW_FILE_EDIT', true );<% } %>
 
 if ( function_exists( '<%= projectType %>_error' ) === false ) {
@@ -35,13 +35,13 @@ if ( function_exists( '<%= projectType %>_error' ) === false ) {
 		$message = "<h1>{$heading}</h1><br><br>{$message}";
 		wp_die( $message, $title, $options );
 	};
-}
+}<% if(projectType === 'theme') { %>
 
-<% if(projectType === 'theme') { %>// Theme compatibility check, bail early if requirements are not met.
+// Theme compatibility check, bail early if requirements are not met.
 if ( version_compare( MIN_PHP_VERSION, phpversion(), '>=' ) === true || version_compare( MIN_WP_VERSION, get_bloginfo( 'version' ), '>=' ) === true ) {
 	require ROOT_URI . '/inc/back-compat.php';
 	return;
-}<% } %>
-
+}
+<% } %>
 // Setup autoloader.
 require ROOT_URI . '/inc/project-autoloader.php';
